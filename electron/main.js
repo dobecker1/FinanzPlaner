@@ -3,7 +3,9 @@ exports.__esModule = true;
 var electron_1 = require("electron");
 var path = require("path");
 var electron_2 = require("electron");
+var child = require("child_process");
 var mainWindow;
+var serverProcess;
 function createWindow() {
     mainWindow = new electron_1.BrowserWindow({
         height: 800,
@@ -15,9 +17,21 @@ function createWindow() {
         mainWindow = null;
     });
 }
-electron_1.app.on("ready", createWindow);
+electron_1.app.on("ready", function () {
+    createWindow();
+    /**serverProcess = child.exec("java -jar C:/Users/dobe/Documents/Projects/FinanzPlaner/server/build/libs/gs-rest-service-0.1.0.jar",
+    function(error, stdout, stderr) {
+        console.log('stdout: ' + stdout);
+        console.log('stderr: ' + stderr);
+        if(error != null) {
+            console.log('exec error: ' + error);
+        }
+    });*/
+    serverProcess = child.spawn("java", ["-jar", "C:/Users/dobe/Documents/Projects/FinanzPlaner/server/build/libs/gs-rest-service-0.1.0.jar"]);
+});
 electron_1.app.on("window-all-closed", function () {
     if (process.platform !== "darwin") {
+        serverProcess.kill();
         electron_1.app.quit();
     }
 });

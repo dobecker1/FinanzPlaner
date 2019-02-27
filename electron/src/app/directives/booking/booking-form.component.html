@@ -1,0 +1,49 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Buchungssatz</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="booking-form-container">
+            <div class="block-form-container">
+                <mat-form-field>
+                    <input matInput [matDatepicker]="datePicker" placeholder="Datum auswählen">
+                    <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #datePicker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field class="leftMargin">
+                    <input matInput placeholder='Belegnummer'>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field>
+                    <textarea matInput placeholder="Textarea"></textarea>
+                </mat-form-field>
+            </div>
+            <div class="block-form-container">
+                <mat-form-field>
+                    <input matInput placeholder='Konto Soll'>
+                </mat-form-field>
+                <mat-form-field class="leftMargin">
+                    <input matInput placeholder='NBKonto Soll'>
+                </mat-form-field>
+            </div>
+            <div class="block-form-container">
+                <mat-form-field>
+                    <input matInput placeholder='Konto Haben'>
+                </mat-form-field>
+                <mat-form-field class="leftMargin">
+                    <input matInput placeholder='NBKonto Haben'>
+                </mat-form-field>
+            </div>
+            <div class="block-form-container">
+                <mat-form-field>
+                    <input matInput placeholder='Betrag'>
+                </mat-form-field>
+            </div>
+        </div>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button color="primary">Buchen</button>
+        <button mat-raised-button color="primary">Abbrechen</button>        
+    </mat-card-actions>
+</mat-card>

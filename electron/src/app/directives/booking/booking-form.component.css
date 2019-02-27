@@ -1,0 +1,12 @@
+.booking-form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.block-form-container {
+    text-align: left;
+}
+
+.leftMargin {
+    margin-left: 10px;
+}

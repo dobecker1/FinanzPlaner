@@ -23,12 +23,12 @@ function createWindow() {
 
 app.on("ready", () => {
     createWindow();
-    serverProcess = child.spawn("java", ["-jar", "C:/Users/dobe/Documents/Projects/FinanzPlaner/server/build/libs/gs-rest-service-0.1.0.jar"]);
+    //serverProcess = child.spawn("java", ["-jar", "C:/Users/dobe/Documents/Projects/FinanzPlaner/server/build/libs/gs-rest-service-0.1.0.jar"]);
 });
 
 app.on("window-all-closed", () => {
     if(process.platform !== "darwin") {
-        serverProcess.kill();
+      //  serverProcess.kill();
         app.quit();
     }
 });

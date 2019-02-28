@@ -1,4 +1,4 @@
-class Ledger {
+export class Ledger {
 
     private id: string;
     name: string;

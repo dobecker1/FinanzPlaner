@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card class="booking-form-card">
     <mat-card-header>
         <mat-card-title>Buchungssatz</mat-card-title>
     </mat-card-header>
@@ -14,17 +14,29 @@
                     <input matInput placeholder='Belegnummer'>
                 </mat-form-field>
             </div>
-            <div>
+            <div class="block-form-container">
                 <mat-form-field>
                     <textarea matInput placeholder="Textarea"></textarea>
                 </mat-form-field>
             </div>
             <div class="block-form-container">
                 <mat-form-field>
-                    <input matInput placeholder='Konto Soll'>
+                    <input matInput placeholder='Konto Soll' aria-label="Konto" [matAutocomplete]="auto" [formControl]="ledgerCtrl">
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let ledger of filteredLedgers | async" [value]="ledger.ledgerNumber">
+                            <span>{{ledger.ledgerNumber}}</span>
+                            <small class="leftMargin">{{ledger.name}}</small>
+                        </mat-option>
+                    </mat-autocomplete>
                 </mat-form-field>
                 <mat-form-field class="leftMargin">
-                    <input matInput placeholder='NBKonto Soll'>
+                    <input matInput placeholder='NBKonto Soll' [matAutocomplete]="autoNBSoll" [formControl]="ledgerCtrl">
+                    <mat-autocomplete #autoNBSoll="matAutocomplete">
+                        <mat-option *ngFor="let ledger of filteredLedgers | async" [value]="ledger.ledgerNumber">
+                            <span>{{ledger.ledgerNumber}}</span>
+                            <small class="leftMargin">{{ledger.name}}</small>
+                        </mat-option>
+                    </mat-autocomplete>
                 </mat-form-field>
             </div>
             <div class="block-form-container">
@@ -42,8 +54,8 @@
             </div>
         </div>
     </mat-card-content>
-    <mat-card-actions>
-        <button mat-raised-button color="primary">Buchen</button>
-        <button mat-raised-button color="primary">Abbrechen</button>        
+    <mat-card-actions class="booking-form-actions">
+        <button mat-raised-button color="primary" class="btn-booking-form">Buchen</button>
+        <button mat-raised-button color="primary" class="btn-booking-form">Abbrechen</button>        
     </mat-card-actions>
 </mat-card>

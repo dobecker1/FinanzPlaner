@@ -12,19 +12,30 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { BookingFormComponent } from './directives/booking/booking-form.component';
+import { NavigatorComponent } from './directives/navigation/navigator.component';
 
 import { LedgerService } from './services/ledger.service';
 
 import { NgxElectronModule } from 'ngx-electron';
 
+const appRoutes: Routes = [
+ // {path: 'booking', component: }
+]
+
 @NgModule({
   declarations: [
     AppComponent,
-    BookingFormComponent
+    BookingFormComponent,
+    NavigatorComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +48,12 @@ import { NgxElectronModule } from 'ngx-electron';
     MatInputModule,
     MatButtonModule,
     MatNativeDateModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatAutocompleteModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     LedgerService

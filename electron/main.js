@@ -7,8 +7,8 @@ var mainWindow;
 var serverProcess;
 function createWindow() {
     mainWindow = new electron_1.BrowserWindow({
-        height: 800,
-        width: 1000
+        height: 1200,
+        width: 1600
     });
     mainWindow.loadFile(path.join(__dirname, "dist/index.html"));
     mainWindow.webContents.openDevTools();

@@ -1,0 +1,14 @@
+<table mat-table [dataSource]="bookings" class="mat-elevation-z8">
+    <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Datum</th>
+        <td ma-cell *matCellDef="let booking">{{booking.date}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="shouldLedger">
+        <th mat-header-cell *matHeaderCellDef>Soll</th>
+        <td ma-cell *matCellDef="let booking">{{booking.ledgerShould.ledgerNumber}}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedBookingColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedBookingColumns;"></tr>
+</table>

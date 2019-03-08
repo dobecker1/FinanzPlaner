@@ -12,10 +12,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatTableModule } from '@angular/material/table';
 
 import { BookingFormComponent } from './booking-form/booking-form.component';
+import { BookingListComponent } from './booking-list/booking-list.component';
 
 import { LedgerService } from '../../services/ledger.service';
+import { BookingService } from '../../services/booking.service';
 
 
 
@@ -33,16 +36,20 @@ import { LedgerService } from '../../services/ledger.service';
         MatButtonModule,
         MatNativeDateModule,
         MatDatepickerModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        MatTableModule
     ],
     declarations: [
-        BookingFormComponent
+        BookingFormComponent,
+        BookingListComponent
     ],
     providers: [
-        LedgerService
+        LedgerService,
+        BookingService
     ],
     exports: [
-        BookingFormComponent
+        BookingFormComponent,
+        BookingListComponent
     ]
 })
 export class BookingModule {}

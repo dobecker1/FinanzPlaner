@@ -8,6 +8,7 @@ import { FileUploadModule } from "primeng/fileupload";
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
 
 import { RouterModule, Routes } from '@angular/router';
 
@@ -35,7 +36,8 @@ const appRoutes: Routes = [
     FileUploadModule,
     MatToolbarModule,
     MatSidenavModule,
-    BookingModule
+    BookingModule,
+    MatButtonModule
   ],
   providers: [
   ],

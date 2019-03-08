@@ -1,6 +1,6 @@
 export class Ledger {
 
-    private id: string;
+    private id: number;
     name: string;
     ledgerNumber: number;
     description: string;
@@ -13,7 +13,7 @@ export class Ledger {
         this.value = value;
     }
 
-    getId (): string {
+    getId (): number {
         return this.id;
     }
 }

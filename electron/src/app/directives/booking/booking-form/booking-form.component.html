@@ -6,31 +6,31 @@
         <div class="booking-form-container">
             <div class="block-form-container">
                 <mat-form-field>
-                    <input matInput [matDatepicker]="datePicker" placeholder="Datum auswählen">
+                    <input matInput [matDatepicker]="datePicker" placeholder="Datum auswählen" [(ngModel)]="date">
                     <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
                     <mat-datepicker #datePicker></mat-datepicker>
                 </mat-form-field>
-                <mat-form-field class="leftMargin">
-                    <input matInput placeholder='Belegnummer'>
+                <mat-form-field class="leftMargin" >
+                    <input matInput placeholder='Belegnummer' [(ngModel)]="referenceNumber">
                 </mat-form-field>
             </div>
             <div class="block-form-container">
                 <mat-form-field>
-                    <textarea matInput placeholder="Textarea"></textarea>
+                    <textarea matInput placeholder="Textarea" [(ngModel)]="bookingDescription"></textarea>
                 </mat-form-field>
             </div>
             <div class="block-form-container">
                 <mat-form-field>
-                    <input matInput placeholder='Konto Soll' aria-label="Konto" [matAutocomplete]="auto" [formControl]="ledgerCtrl">
-                    <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option *ngFor="let ledger of filteredLedgers | async" [value]="ledger.ledgerNumber">
+                    <input matInput placeholder='Konto Soll' aria-label="Konto" [matAutocomplete]="auto" [formControl]="ledgerShouldCtrl">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayLedger">
+                        <mat-option *ngFor="let ledger of filteredLedgers | async" [value]="ledger">
                             <span>{{ledger.ledgerNumber}}</span>
                             <small class="leftMargin">{{ledger.name}}</small>
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
                 <mat-form-field class="leftMargin">
-                    <input matInput placeholder='NBKonto Soll' [matAutocomplete]="autoNBSoll" [formControl]="ledgerCtrl">
+                    <input matInput placeholder='NBKonto Soll' [matAutocomplete]="autoNBSoll">
                     <mat-autocomplete #autoNBSoll="matAutocomplete">
                         <mat-option *ngFor="let ledger of filteredLedgers | async" [value]="ledger.ledgerNumber">
                             <span>{{ledger.ledgerNumber}}</span>
@@ -41,21 +41,27 @@
             </div>
             <div class="block-form-container">
                 <mat-form-field>
-                    <input matInput placeholder='Konto Haben'>
+                    <input matInput placeholder='Konto Haben' [matAutocomplete]="autoShould" [formControl]="ledgerHaveCtrl">
+                    <mat-autocomplete #autoShould="matAutocomplete" [displayWith]="displayLedger">
+                        <mat-option *ngFor="let ledger of filteredLedgers | async" [value]="ledger">
+                            <span>{{ledger.ledgerNumber}}</span>
+                            <small class="leftMargin">{{ledger.name}}</small>
+                        </mat-option>
+                    </mat-autocomplete>
                 </mat-form-field>
                 <mat-form-field class="leftMargin">
-                    <input matInput placeholder='NBKonto Haben'>
+                    <input matInput placeholder='NBKonto Haben' [(ngModel)]="subLedgerHave">
                 </mat-form-field>
             </div>
             <div class="block-form-container">
                 <mat-form-field>
-                    <input matInput placeholder='Betrag'>
+                    <input matInput placeholder='Betrag' [(ngModel)]="value">
                 </mat-form-field>
             </div>
         </div>
     </mat-card-content>
     <mat-card-actions class="booking-form-actions">
-        <button mat-raised-button color="primary" class="btn-booking-form">Buchen</button>
+        <button mat-raised-button color="primary" class="btn-booking-form" (click)="onSaveBookingClick()">Buchen</button>
         <button mat-raised-button color="primary" class="btn-booking-form">Abbrechen</button>        
     </mat-card-actions>
 </mat-card>

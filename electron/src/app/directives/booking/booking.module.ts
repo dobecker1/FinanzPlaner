@@ -20,6 +20,8 @@ import { BookingListComponent } from './booking-list/booking-list.component';
 import { LedgerService } from '../../services/ledger.service';
 import { BookingService } from '../../services/booking.service';
 
+import { LedgerElementNullPipe } from '../ledger/pipes/ledger-element-null.pipe';
+
 
 
 
@@ -38,18 +40,22 @@ import { BookingService } from '../../services/booking.service';
         MatDatepickerModule,
         MatAutocompleteModule,
         MatTableModule
+        
     ],
     declarations: [
         BookingFormComponent,
-        BookingListComponent
+        BookingListComponent,
+        LedgerElementNullPipe
     ],
     providers: [
         LedgerService,
-        BookingService
+        BookingService,
+        LedgerElementNullPipe
     ],
     exports: [
         BookingFormComponent,
-        BookingListComponent
+        BookingListComponent,
+        LedgerElementNullPipe
     ]
 })
 export class BookingModule {}

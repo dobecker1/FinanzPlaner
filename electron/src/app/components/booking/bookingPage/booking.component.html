@@ -1,0 +1,10 @@
+<mat-sidenav-container style="height: 100%; margin: 20px;">
+    <mat-sidenav mode="side" opened>
+        <booking-form (booked)="onBooked($event)"></booking-form>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="bookingList">
+      <booking-list></booking-list>
+      </div>
+    </mat-sidenav-content>
+</mat-sidenav-container> 

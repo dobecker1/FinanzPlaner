@@ -13,16 +13,16 @@ import { BookingsDataSource } from "../bookings-data-source";
 })
 export class BookingListComponent {
     
-  bookingDataSource: BookingsDataSource;
+  bookingDataSource: MatTableDataSource<Booking>;
   displayedBookingColumns: String[];
 
   constructor(private bookingService: BookingService, private ledgerElementNullPipe: LedgerElementNullPipe) {
-    this.bookingDataSource = new BookingsDataSource(this.bookingService);
-    this.bookingDataSource.loadBookings();
+    this.loadBookings();
     this.displayedBookingColumns = ['date', 'referenceNo', 'bookingDescription', 'shouldLedger', 'subShouldLedger', 'haveLedger', 'subHaveLedger', 'value'];
   }
 
-  refreshBookings() {
-    this.bookingDataSource.loadBookings();
+  loadBookings() {
+    this.bookingService.getAllBookings()
+    .subscribe(bookings => this.bookingDataSource = new MatTableDataSource(bookings));
   }
 }

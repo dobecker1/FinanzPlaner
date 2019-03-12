@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
+import { Booking } from './models/booking';
+import { BookingListComponent } from './components/booking/booking-list/booking-list.component';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +14,9 @@ export class AppComponent {
   uploadedFiles: any[] = [];
   uplFile: File;
 
+  @ViewChild(BookingListComponent)
+  private bookingList: BookingListComponent;
+
   constructor(private electronService: ElectronService) {}
 
   onUpload(event) {
@@ -20,5 +25,9 @@ export class AppComponent {
       console.log(this.uplFile);
       this.electronService.ipcRenderer.send('onUploadFile', this.uplFile.path);
     }
+  }
+
+  onBooked(booking: Booking) {
+    this.bookingList.loadBookings();
   }
 }

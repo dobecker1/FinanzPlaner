@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { LedgerService } from 'src/app/services/ledger.service';
 import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
@@ -28,6 +28,8 @@ export class BookingFormComponent {
   ledgerHave: Ledger;
   subLedgerHave: Ledger;
   value: number;
+
+  @Output() booked: EventEmitter<Booking> = new EventEmitter<Booking>();
 
   constructor(private ledgerService: LedgerService, private bookingService: BookingService) {
     this.ledgers = this.ledgerService.getAllLedgers();
@@ -77,10 +79,13 @@ export class BookingFormComponent {
     }
     booking.value = this.value;
     this.bookingService.saveBooking(booking);
+    this.booked.emit(booking);
   }
 
   displayLedger(ledger) {
     return ledger ? ledger.ledgerNumber : "";
   }
+
+
 
 }

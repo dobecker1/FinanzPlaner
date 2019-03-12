@@ -1,0 +1,12 @@
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+$finance-app-primary: mat-palette($mat-blue);
+$finance-app-accent: mat-palette($mat-light-blue);
+
+$finance-app-warn: mat-palette($mat-red);
+
+$finance-app-theme: mat-dark-theme($finance-app-primary, $finance-app-accent, $finance-app-warn);
+
+@include angular-material-theme($finance-app-theme);

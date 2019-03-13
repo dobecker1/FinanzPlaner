@@ -1,1 +1,8 @@
-<ledger-form></ledger-form>
+<mat-sidenav-container style="height: 100%; margin: 20px;">
+    <mat-sidenav mode="side" opened>
+        <ledger-form (ledgerCreated)="onLedgerCreated($event)"></ledger-form>
+    </mat-sidenav>
+    <mat-sidenav-container class="ledgerList">
+        <ledger-list></ledger-list>
+    </mat-sidenav-container>
+</mat-sidenav-container>

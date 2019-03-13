@@ -1,5 +1,7 @@
-import { Component } from "@angular/core";
+import { Component, Output, EventEmitter, ViewChild } from "@angular/core";
 import { Ledger } from "src/app/models/ledger";
+import { LedgerService } from "src/app/services/ledger.service";
+import { NgForm } from "@angular/forms";
 
 @Component({
     selector: 'ledger-form',
@@ -8,9 +10,21 @@ import { Ledger } from "src/app/models/ledger";
 })
 export class LedgerFormComponent {
     
-    ledger: Ledger = new Ledger("", 0, "", 0);
+    ledger: Ledger = new Ledger();
 
-    onSubmit() {
-        console.log("Submit Ledger");
+    @Output() ledgerCreated: EventEmitter<Ledger> = new EventEmitter<Ledger>();
+
+
+    constructor(private ledgerService: LedgerService) {}
+
+    onSubmit(ledgerForm: NgForm) {
+        let newLedger: Ledger = new Ledger();
+        newLedger.name = this.ledger.name;
+        newLedger.ledgerNumber = this.ledger.ledgerNumber;
+        newLedger.description = this.ledger.description;
+        newLedger.value = 0;
+        this.ledgerService.saveLedger(newLedger);
+        this.ledgerCreated.emit(newLedger);
+        ledgerForm.resetForm();
     }
 }

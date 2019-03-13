@@ -6,12 +6,7 @@ export class Ledger {
     description: string;
     value: number;
 
-    constructor(name: string, ledgerNumber: number, description:  string, value: number) {
-        this.name = name;
-        this.ledgerNumber = ledgerNumber;
-        this.description = description;
-        this.value = value;
-    }
+    constructor() {}
 
     getId (): number {
         return this.id;

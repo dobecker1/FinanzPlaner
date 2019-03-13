@@ -32,7 +32,8 @@ export class BookingFormComponent {
   @Output() booked: EventEmitter<Booking> = new EventEmitter<Booking>();
 
   constructor(private ledgerService: LedgerService, private bookingService: BookingService) {
-    this.ledgers = this.ledgerService.getAllLedgers();
+    this.ledgerService.getAllLedgers()
+    .subscribe(ledgers => this.ledgers = ledgers);
     this.filteredLedgers = this.ledgerShouldCtrl.valueChanges
     .pipe(
       startWith(''),

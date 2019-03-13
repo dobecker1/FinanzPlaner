@@ -9,7 +9,7 @@ import { Booking } from "src/app/models/booking";
 })
 export class BookingComponent {
 
-    @ViewChild(BookingListComponent)
+  @ViewChild(BookingListComponent)
   private bookingList: BookingListComponent;
 
   onBooked(booking: Booking) {

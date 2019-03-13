@@ -1,17 +1,20 @@
 import { Injectable } from "@angular/core";
 import { Ledger } from "../models/ledger";
 
+import { Observable, of } from 'rxjs';
+
 @Injectable()
 export class LedgerService {
 
-    saveLedger(ledger: Ledger): void {}
+    ledgers: Ledger[] = [];
+
+    saveLedger(ledger: Ledger): void {
+        this.ledgers.push(ledger);
+    }
 
     deleteLedger() {}
 
-    getAllLedgers(): Ledger[] {
-        let ledgers: Ledger[] = [];
-        ledgers.push(new Ledger("Gehalt SAG", 401, "Gehaltskonto", 2000));
-        ledgers.push(new Ledger("Diesel Corsa", 321, "Diesel Opel Corsa", 950));
-        return ledgers;
+    getAllLedgers(): Observable<Ledger[]> {
+        return of(this.ledgers);
     }
 }

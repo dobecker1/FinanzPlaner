@@ -27,5 +27,7 @@ targetCompatibility = 1.8
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.hibernate:hibernate-core:5.4.1.Final")
+    compile group: 'org.apache.derby', name: 'derby', version: '10.14.1.0'
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

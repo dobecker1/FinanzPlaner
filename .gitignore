@@ -4,3 +4,6 @@ server/build/
 server/out/
 server/.gradle/
 server/.idea/
+server/derby.log
+server/lib/
+server/finance/

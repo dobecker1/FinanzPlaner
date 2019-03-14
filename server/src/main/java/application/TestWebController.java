@@ -1,4 +1,4 @@
-package webservice;
+package application;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,6 +9,7 @@ public class TestWebController {
 
     @RequestMapping("/hello")
     public String test(@RequestParam(value="name", defaultValue="World" ) String name) {
+
         return "Hallo" + name;
     }
 }

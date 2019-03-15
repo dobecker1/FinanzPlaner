@@ -19,8 +19,8 @@ import { BookingFormComponent } from './booking-form/booking-form.component';
 import { BookingListComponent } from './booking-list/booking-list.component';
 import { BookingComponent } from './bookingPage/booking.component';
 
-import { LedgerService } from '../../services/ledger.service';
-import { BookingService } from '../../services/booking.service';
+import { LedgerService } from '../ledger/services/ledger.service';
+import { BookingService } from './services/booking.service';
 
 import { LedgerElementNullPipe } from '../ledger/pipes/ledger-element-null.pipe';
 

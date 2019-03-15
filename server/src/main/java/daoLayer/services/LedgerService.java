@@ -15,11 +15,16 @@ public class LedgerService {
         ledgerDao = new LedgerDao();
     }
 
-    public void saveLedger(Ledger ledger) {
-        this.ledgerDao.saveLedger(ledger);
+    public Ledger saveLedger(Ledger ledger) {
+        this.ledgerDao.write(ledger);
+        return this.ledgerDao.findLedgerByNumber(ledger.getLedgerNumber());
     }
 
     public List<Ledger> getAllLedgers() {
         return this.ledgerDao.findAllLedgers();
+    }
+
+    public Ledger getLedgerByNumber(int ledgerNumber) {
+        return this.ledgerDao.findLedgerByNumber(ledgerNumber);
     }
 }

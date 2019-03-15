@@ -17,9 +17,8 @@ public class LedgerWebController {
     }
 
     @PostMapping("/saveLedger")
-    public String saveLedger(@RequestBody Ledger ledger) {
-        this.ledgerService.saveLedger(ledger);
-        return "OK";
+    public Ledger saveLedger(@RequestBody Ledger ledger) {
+        return this.ledgerService.saveLedger(ledger);
     }
 
     @GetMapping("/getAllLedgers")

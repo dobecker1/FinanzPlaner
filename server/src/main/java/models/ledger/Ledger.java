@@ -1,10 +1,12 @@
 package models.ledger;
 
+import models.basic.BasicModel;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "LEDGER")
-public class Ledger {
+public class Ledger implements BasicModel {
 
     @Id @GeneratedValue
     @Column(name = "id")

@@ -12,11 +12,17 @@ public class LedgerDao extends BasicDao{
         super();
     }
 
-    public void saveLedger(Ledger ledger) {
+
+    public void write(Ledger ledger) {
+        super.write(ledger);
+    }
+
+    public Ledger findLedgerByNumber(int ledgerNumber) {
         Session session = this.sessionFactory.openSession();
-        session.beginTransaction();
-        session.save(ledger);
-        session.getTransaction().commit();
+        Query query = session.createQuery("from Ledger where ledgerNumber = :ledgerNumber");
+        query.setParameter("ledgerNumber", ledgerNumber);
+        Ledger ledger = (Ledger) query.getSingleResult();
+        return ledger;
     }
 
     public List<Ledger> findAllLedgers() {

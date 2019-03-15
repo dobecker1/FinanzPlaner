@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter, ViewChild } from "@angular/core";
 import { Ledger } from "src/app/models/ledger";
-import { LedgerService } from "src/app/services/ledger.service";
+import { LedgerService } from "src/app/components/ledger/services/ledger.service";
 import { NgForm } from "@angular/forms";
 
 @Component({

@@ -1,5 +1,5 @@
-import { Component, ViewChild, OnInit, AfterViewInit } from "@angular/core";
-import { LedgerService } from "src/app/services/ledger.service";
+import { Component, ViewChild, OnInit } from "@angular/core";
+import { LedgerService } from "src/app/components/ledger/services/ledger.service";
 import { MatTableDataSource, MatSort } from "@angular/material";
 import { Ledger } from "src/app/models/ledger";
 
@@ -8,7 +8,7 @@ import { Ledger } from "src/app/models/ledger";
     templateUrl: './ledger-list.component.html',
     styleUrls: ['./ledger-list.component.css']
 })
-export class LedgerListComponent implements OnInit, AfterViewInit{
+export class LedgerListComponent implements OnInit {
 
     ledgerTableSource: MatTableDataSource<Ledger>;
     displayedLedgerColumns: String[];
@@ -23,13 +23,12 @@ export class LedgerListComponent implements OnInit, AfterViewInit{
         this.loadLedgers();
     }
 
-    ngAfterViewInit() {
-        this.ledgerTableSource.sort = this.sort;
-    }
-
     loadLedgers() {
         this.ledgerService.getAllLedgers()
-        .subscribe(ledgers => this.ledgerTableSource = new MatTableDataSource(ledgers));
+        .subscribe(ledgers => {
+            this.ledgerTableSource = new MatTableDataSource(ledgers)
+            this.ledgerTableSource.sort = this.sort;
+        });
     }
 
     applyFilter(filterValue: string) {

@@ -1,9 +1,8 @@
-import { Component } from "@angular/core";
-import { BookingService } from "src/app/services/booking.service";
+import { Component, OnInit } from "@angular/core";
+import { BookingService } from "../services/booking.service";
 import { Booking } from "src/app/models/booking";
 import { MatTableDataSource } from "@angular/material";
 import { LedgerElementNullPipe } from "../../ledger/pipes/ledger-element-null.pipe";
-import { BookingsDataSource } from "../bookings-data-source";
 
 @Component({
   selector: 'booking-list',
@@ -11,12 +10,16 @@ import { BookingsDataSource } from "../bookings-data-source";
   styleUrls: ['./booking-list.component.css'],
   providers: [ LedgerElementNullPipe ]
 })
-export class BookingListComponent {
+export class BookingListComponent implements OnInit{
     
   bookingDataSource: MatTableDataSource<Booking>;
   displayedBookingColumns: String[];
 
   constructor(private bookingService: BookingService, private ledgerElementNullPipe: LedgerElementNullPipe) {
+    
+  }
+
+  ngOnInit() {
     this.loadBookings();
     this.displayedBookingColumns = ['date', 'referenceNo', 'bookingDescription', 'shouldLedger', 'subShouldLedger', 'haveLedger', 'subHaveLedger', 'value'];
   }

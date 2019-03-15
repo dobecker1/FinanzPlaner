@@ -18,5 +18,6 @@
     <property name="hbm2ddl.auto">update</property>
 
     <mapping class="models.ledger.Ledger" />
+    <mapping class="models.booking.Booking" />
   </session-factory>
 </hibernate-configuration>

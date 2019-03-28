@@ -1,6 +1,6 @@
 export class Ledger {
 
-    private id: number;
+    id: number;
     name: string;
     ledgerNumber: number;
     description: string;

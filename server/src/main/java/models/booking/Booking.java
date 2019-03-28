@@ -45,6 +45,9 @@ public class Booking implements BasicModel {
     @Column(name = "referencePath")
     private String referencePath;
 
+    @Column(name = "financialYear")
+    private String financialYear;
+
     public int getId() {
         return id;
     }
@@ -123,5 +126,13 @@ public class Booking implements BasicModel {
 
     public void setReferencePath(String referencePath) {
         this.referencePath = referencePath;
+    }
+
+    public String getFinancialYear() {
+        return financialYear;
+    }
+
+    public void setFinancialYear(String financialYear) {
+        this.financialYear = financialYear;
     }
 }

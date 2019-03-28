@@ -40,20 +40,21 @@ export class BookingFormComponent implements OnInit {
       this.filteredLedgers = this.ledgerShouldCtrl.valueChanges
     .pipe(
       startWith(''),
-      map(ledger => ledger ? this.filterLedgers(ledger) : this.ledgers.slice())
+      map(ledger => 
+        ledger ? this.filterLedgers(ledger) : this.ledgers.slice()
+      )
     );
-    this.filteredLedgers = this.ledgerHaveCtrl.valueChanges
-    .pipe(
-      startWith(''),
-      map(ledger => ledger ? this.filterLedgers(ledger) : this.ledgers.slice())
-    );
+    // this.filteredLedgers = this.ledgerHaveCtrl.valueChanges
+    // .pipe(
+    //   startWith(''),
+    //   map(ledger => ledger ? this.filterLedgers(ledger) : this.ledgers.slice())
+    // );
     });
   }
 
   private filterLedgers(value: string): Ledger[] {
     const filterValue = value.toString().toLowerCase();
-
-    return this.ledgers.filter(ledger => ledger.name.toLowerCase().indexOf(filterValue) === 0 || ledger.ledgerNumber.toString().startsWith(value));
+    return this.ledgers.filter(ledger => ledger.name.toLowerCase().includes(filterValue) || ledger.ledgerNumber.toString().startsWith(value));
   }
 
   private searchForLedger(ledgerNumber: number) : Ledger{

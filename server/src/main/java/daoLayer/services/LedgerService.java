@@ -20,11 +20,19 @@ public class LedgerService {
         return this.ledgerDao.findLedgerByNumber(ledger.getLedgerNumber());
     }
 
+    public void deleteLedger(int id) {
+        this.ledgerDao.deleteLedger(id);
+    }
+
     public List<Ledger> getAllLedgers() {
         return this.ledgerDao.findAllLedgers();
     }
 
     public Ledger getLedgerByNumber(int ledgerNumber) {
         return this.ledgerDao.findLedgerByNumber(ledgerNumber);
+    }
+
+    public void changeLedgerValue(Ledger ledger, double sum) {
+        this.ledgerDao.changeLedgerValue(ledger.getId(), sum);
     }
 }

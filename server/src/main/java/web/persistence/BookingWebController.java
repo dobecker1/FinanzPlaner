@@ -1,6 +1,7 @@
 package web.persistence;
 
 import daoLayer.services.BookingService;
+import daoLayer.services.LedgerService;
 import models.booking.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,10 +17,15 @@ public class BookingWebController {
     @Autowired
     BookingService bookingService;
 
+    @Autowired
+    LedgerService ledgerService;
+
     public BookingWebController()  {}
 
     @PostMapping("/saveBooking")
     public String saveBooking(@RequestBody Booking booking) {
+        this.ledgerService.changeLedgerValue(booking.getLedgerShould(), booking.getValue());
+        this.ledgerService.changeLedgerValue(booking.getLedgerHave(), -booking.getValue());
         this.bookingService.saveBooking(booking);
         return "OK";
     }

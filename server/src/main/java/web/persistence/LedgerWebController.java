@@ -25,4 +25,10 @@ public class LedgerWebController {
     public List<Ledger> getAllLedgers() {
         return this.ledgerService.getAllLedgers();
     }
+
+    @DeleteMapping("/deleteLedger")
+    public String deleteLedger(@RequestParam (value="id") int id) {
+        this.ledgerService.deleteLedger(id);
+        return "OK";
+    }
 }

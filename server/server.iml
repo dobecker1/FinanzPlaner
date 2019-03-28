@@ -17,7 +17,5 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: org.apache.derby:derby:10.14.1.0" level="project" />
-    <orderEntry type="library" name="Gradle: org.hibernate:hibernate-core:5.4.1.Final" level="project" />
   </component>
 </module>

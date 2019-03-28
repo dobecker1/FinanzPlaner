@@ -1,10 +1,52 @@
-<mat-sidenav-container style="height: 100%; margin: 20px;">
+<!-- <mat-sidenav-container style="height: 100%; margin: 20px;">
     <mat-sidenav mode="side" opened>
-        <booking-form (booked)="onBooked($event)"></booking-form>
+      <booking-form (booked)="onBooked($event)"></booking-form>
     </mat-sidenav>
     <mat-sidenav-content>
       <div class="bookingList">
       <booking-list></booking-list>
       </div>
     </mat-sidenav-content>
-</mat-sidenav-container> 
+</mat-sidenav-container>  -->
+<div  style="display: flex;">
+    <booking-form (booked)="onBooked($event)"></booking-form>
+    <!-- <div class="bookingList">
+        <booking-list></booking-list>
+    </div> -->
+    <div class="marginDiv">
+      <!-- <mat-card>
+        <mat-card-header>
+          <mat-card-title>Musterbuchungen März 2019</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p-chart type="doughnut" [data]="chartData"></p-chart>
+            <div class="circle">
+              <span>95</span>
+            </div>
+        </mat-card-content>
+      </mat-card>      -->
+
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Offene Monatliche Musterbuchungen März 19</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-progress-bar color="primary" value="75" style="height:20px;"></mat-progress-bar>
+            <div class="progressBarValue">75%</div>
+            <mat-action-list>
+              <button mat-list-item>Sky Abo</button>
+              <button mat-list-item>Handyvertrag</button>
+              <button mat-list-item>Gehalt</button>
+            </mat-action-list>
+        </mat-card-content>
+      </mat-card>   
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Ein- und Ausgaben 2019</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p-chart type="bar" [data]="barData"></p-chart>
+        </mat-card-content>
+      </mat-card>
+    </div>
+</div>

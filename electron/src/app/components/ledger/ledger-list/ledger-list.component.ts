@@ -16,7 +16,7 @@ export class LedgerListComponent implements OnInit {
     @ViewChild(MatSort) sort: MatSort;
 
     constructor(private ledgerService: LedgerService) {
-        this.displayedLedgerColumns = ['ledgerNumber', 'name', 'description', 'value']
+        this.displayedLedgerColumns = ['ledgerNumber', 'name', 'description', 'value', 'actions']
     }
 
     ngOnInit() {
@@ -31,7 +31,16 @@ export class LedgerListComponent implements OnInit {
         });
     }
 
+    addLedgerToList(ledger: Ledger) {
+        this.ledgerTableSource.data.push(ledger);
+    }
+
     applyFilter(filterValue: string) {
         this.ledgerTableSource.filter = filterValue.trim().toLowerCase();
+    }
+
+    deleteLedger(ledger: Ledger) {
+        this.ledgerService.deleteLedger(ledger.id);
+        this.loadLedgers();       
     }
 }

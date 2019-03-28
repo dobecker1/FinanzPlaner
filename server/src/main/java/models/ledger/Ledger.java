@@ -21,6 +21,9 @@ public class Ledger implements BasicModel {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "subLedger")
+    private boolean subLedger;
+
     @Column(name = "value")
     private double value;
 
@@ -62,5 +65,13 @@ public class Ledger implements BasicModel {
 
     public void setValue(double value) {
         this.value = value;
+    }
+
+    public boolean isSubLedger() {
+        return subLedger;
+    }
+
+    public void setSubLedger(boolean subLedger) {
+        this.subLedger = subLedger;
     }
 }

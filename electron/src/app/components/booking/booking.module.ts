@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+//Angular Material
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatCardModule } from "@angular/material/card";
 import { MatInputModule } from '@angular/material/input';
@@ -14,6 +15,13 @@ import { MatNativeDateModule } from '@angular/material';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTableModule } from '@angular/material/table';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatListModule } from '@angular/material/list';
+
+//PrimeNG
+import { ChartModule } from 'primeng/chart';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 import { BookingFormComponent } from './booking-form/booking-form.component';
 import { BookingListComponent } from './booking-list/booking-list.component';
@@ -42,7 +50,12 @@ import { LedgerElementNullPipe } from '../ledger/pipes/ledger-element-null.pipe'
         MatDatepickerModule,
         MatAutocompleteModule,
         MatSidenavModule,
-        MatTableModule
+        MatTableModule,
+        MatProgressSpinnerModule,
+        MatProgressBarModule,
+        MatListModule,
+        ChartModule,
+        ProgressBarModule
         
     ],
     declarations: [

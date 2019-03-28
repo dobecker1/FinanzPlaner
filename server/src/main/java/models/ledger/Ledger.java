@@ -2,76 +2,29 @@ package models.ledger;
 
 import models.basic.BasicModel;
 
-import javax.persistence.*;
+public interface Ledger extends BasicModel {
 
-@Entity
-@Table(name = "LEDGER")
-public class Ledger implements BasicModel {
+    public int getId();
 
-    @Id @GeneratedValue
-    @Column(name = "id")
-    private int id;
+    public void setId(int id);
 
-    @Column(name = "name")
-    private String name;
+    public String getName();
 
-    @Column(name = "ledgerNumber", unique = true)
-    private int ledgerNumber;
+    public void setName(String name);
 
-    @Column(name = "description")
-    private String description;
+    public int getLedgerNumber();
 
-    @Column(name = "subLedger")
-    private boolean subLedger;
+    public void setLedgerNumber(int ledgerNumber);
 
-    @Column(name = "value")
-    private double value;
+    public String getDescription();
 
-    public int getId() {
-        return id;
-    }
+    public void setDescription(String description);
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public double getValue();
 
-    public String getName() {
-        return name;
-    }
+    public void setValue(double value);
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public boolean isSubLedger();
 
-    public int getLedgerNumber() {
-        return ledgerNumber;
-    }
-
-    public void setLedgerNumber(int ledgerNumber) {
-        this.ledgerNumber = ledgerNumber;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public double getValue() {
-        return value;
-    }
-
-    public void setValue(double value) {
-        this.value = value;
-    }
-
-    public boolean isSubLedger() {
-        return subLedger;
-    }
-
-    public void setSubLedger(boolean subLedger) {
-        this.subLedger = subLedger;
-    }
+    public void setSubLedger(boolean subLedger);
 }

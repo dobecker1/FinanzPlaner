@@ -3,136 +3,51 @@ package models.booking;
 import models.basic.BasicModel;
 import models.ledger.Ledger;
 
-import javax.persistence.*;
 import java.util.Date;
 
-@Entity
-@Table(name = "BOOKING")
-public class Booking implements BasicModel {
+public interface Booking extends BasicModel {
 
-    @Id @GeneratedValue
-    @Column(name = "id")
-    private int id;
+    public int getId();
 
-    @Column(name = "date")
-    private Date date;
+    public void setId(int id);
 
-    @Column(name = "referenceNumber")
-    private String referenceNumber;
+    public Date getDate();
 
-    @Column(name = "bookingDescription")
-    private String bookingDescription;
+    public void setDate(Date date);
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ledgerShould")
-    private Ledger ledgerShould;
+    public String getReferenceNumber();
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ledgerHave")
-    private Ledger ledgerHave;
+    public void setReferenceNumber(String referenceNumber);
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "subLedgerShould")
-    private Ledger subLedgerShould;
+    public String getBookingDescription();
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "subLedgerHave")
-    private Ledger subLedgerHave;
+    public void setBookingDescription(String bookingDescription);
 
-    @Column(name = "value")
-    private double value;
+    public Ledger getLedgerShould();
 
-    @Column(name = "referencePath")
-    private String referencePath;
+    public void setLedgerShould(Ledger ledgerShould);
 
-    @Column(name = "financialYear")
-    private String financialYear;
+    public Ledger getLedgerHave();
 
-    public int getId() {
-        return id;
-    }
+    public void setLedgerHave(Ledger ledgerHave);
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public Ledger getSubLedgerShould();
 
-    public Date getDate() {
-        return date;
-    }
+    public void setSubLedgerShould(Ledger subLedgerShould);
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+    public Ledger getSubLedgerHave();
 
-    public String getReferenceNumber() {
-        return referenceNumber;
-    }
+    public void setSubLedgerHave(Ledger subLedgerHave);
 
-    public void setReferenceNumber(String referenceNumber) {
-        this.referenceNumber = referenceNumber;
-    }
+    public double getValue();
 
-    public String getBookingDescription() {
-        return bookingDescription;
-    }
+    public void setValue(double value);
 
-    public void setBookingDescription(String bookingDescription) {
-        this.bookingDescription = bookingDescription;
-    }
+    public String getReferencePath();
 
-    public Ledger getLedgerShould() {
-        return ledgerShould;
-    }
+    public void setReferencePath(String referencePath);
 
-    public void setLedgerShould(Ledger ledgerShould) {
-        this.ledgerShould = ledgerShould;
-    }
+    public String getFinancialYear();
 
-    public Ledger getLedgerHave() {
-        return ledgerHave;
-    }
-
-    public void setLedgerHave(Ledger ledgerHave) {
-        this.ledgerHave = ledgerHave;
-    }
-
-    public Ledger getSubLedgerShould() {
-        return subLedgerShould;
-    }
-
-    public void setSubLedgerShould(Ledger subLedgerShould) {
-        this.subLedgerShould = subLedgerShould;
-    }
-
-    public Ledger getSubLedgerHave() {
-        return subLedgerHave;
-    }
-
-    public void setSubLedgerHave(Ledger subLedgerHave) {
-        this.subLedgerHave = subLedgerHave;
-    }
-
-    public double getValue() {
-        return value;
-    }
-
-    public void setValue(double value) {
-        this.value = value;
-    }
-
-    public String getReferencePath() {
-        return referencePath;
-    }
-
-    public void setReferencePath(String referencePath) {
-        this.referencePath = referencePath;
-    }
-
-    public String getFinancialYear() {
-        return financialYear;
-    }
-
-    public void setFinancialYear(String financialYear) {
-        this.financialYear = financialYear;
-    }
+    public void setFinancialYear(String financialYear);
 }

@@ -2,6 +2,7 @@ package daoLayer.services;
 
 import daoLayer.dao.BookingDao;
 import models.booking.Booking;
+import models.booking.BookingImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

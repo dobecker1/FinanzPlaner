@@ -3,6 +3,7 @@ package web.persistence;
 import daoLayer.services.BookingService;
 import daoLayer.services.LedgerService;
 import models.booking.Booking;
+import models.booking.BookingImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

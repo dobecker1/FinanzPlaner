@@ -13,11 +13,11 @@
 
     <property name="dialect">org.hibernate.dialect.DerbyDialect</property>
 
-    <property name="show_sql">true</property>
+    <property name="show_sql">false</property>
 
     <property name="hbm2ddl.auto">update</property>
 
-    <mapping class="models.ledger.Ledger" />
-    <mapping class="models.booking.Booking" />
+    <mapping class="models.ledger.LedgerImpl" />
+    <mapping class="models.booking.BookingImpl" />
   </session-factory>
 </hibernate-configuration>

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-public class LedgerTest {
+public class LedgerDaoTest {
 
     private final LedgerDao ledgerDao = new LedgerDao();
     private Ledger ledger;

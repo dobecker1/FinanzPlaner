@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Date;
 
-public class BookingTest {
+public class BookingDaoTest {
 
     private final LedgerDao ledgerDao = new LedgerDao();
     private final BookingDao bookingDao = new BookingDao();

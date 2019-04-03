@@ -23,6 +23,10 @@ public class BookingDao extends BasicDao {
         super.delete(this.read(id));
     }
 
+    public void deleteBooking(Booking booking) {
+        super.delete(booking);
+    }
+
     public List<Booking> findAllBookings() {
         Session session = this.sessionFactory.openSession();
         session.beginTransaction();

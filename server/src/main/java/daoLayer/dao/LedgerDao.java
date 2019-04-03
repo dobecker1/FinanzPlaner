@@ -24,6 +24,10 @@ public class LedgerDao extends BasicDao{
         super.delete(ledger);
     }
 
+    public void deleteLedger(Ledger ledger) {
+        super.delete(ledger);
+    }
+
     public Ledger findLedgerByNumber(int ledgerNumber) {
         Session session = this.sessionFactory.openSession();
         session.beginTransaction();

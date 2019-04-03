@@ -19,5 +19,9 @@
 
     <mapping class="models.ledger.LedgerImpl" />
     <mapping class="models.booking.BookingImpl" />
+    <mapping class="models.category.CategoryImpl" />
+    <mapping class="models.patternBooking.impl.BookingInformationImpl" />
+    <mapping class="models.patternBooking.impl.BookingPatternImpl" />
+    <mapping class="models.patternBooking.impl.BookingPatternItemImpl"/>
   </session-factory>
 </hibernate-configuration>

@@ -45,6 +45,7 @@ public class BookingImpl implements Booking {
     }
 
     @Column(name = "date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     public Date getDate() {
         return date;
     }

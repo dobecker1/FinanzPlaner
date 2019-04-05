@@ -1,6 +1,6 @@
 package daoTests;
 
-import daoLayer.dao.CategoryDao;
+import daoLayer.sqlDao.CategoryDao;
 import factory.ModelFactory;
 import models.category.Category;
 import org.junit.jupiter.api.AfterEach;
@@ -22,16 +22,12 @@ public class CategoryDaoTest {
         this.category.setName("Test Kategorie");
     }
 
-    @AfterEach
-    void deleteCategory() {
-        this.categoryDao.deleteCategory(this.category);
-    }
-
     @Test
     void writeCategoryTest() {
         this.categoryDao.write(this.category);
-        Category savedCategory = this.categoryDao.read(this.category.getId());
+        Category savedCategory = this.categoryDao.findAllCategories().get(0);
         assertEquals(this.category.getName(), savedCategory.getName());
+        this.categoryDao.delete(savedCategory);
     }
 
     @Test
@@ -42,6 +38,8 @@ public class CategoryDaoTest {
         this.categoryDao.write(secondCategory);
         List<Category> categories = this.categoryDao.findAllCategories();
         assertEquals(2, categories.size());
-        this.categoryDao.deleteCategory(secondCategory);
+        for(Category category : categories) {
+            this.categoryDao.delete(category);
+        }
     }
 }

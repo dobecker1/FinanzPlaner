@@ -1,6 +1,6 @@
 package daoTests;
 
-import daoLayer.dao.LedgerDao;
+import daoLayer.sqlDao.LedgerDao;
 import factory.ModelFactory;
 import models.ledger.Ledger;
 
@@ -15,6 +15,7 @@ import java.util.List;
 
 public class LedgerDaoTest {
 
+    //private final LedgerDao ledgerDao = new LedgerDao();
     private final LedgerDao ledgerDao = new LedgerDao();
     private Ledger ledger;
 
@@ -25,22 +26,24 @@ public class LedgerDaoTest {
         this.ledger.setName("TestLedger");
         this.ledger.setDescription("Test Description");
         this.ledger.setValue(0);
+        this.ledger.setSubLedger(false);
     }
 
     @AfterEach
     void deleteLedger() {
-        Ledger savedLedger = this.ledgerDao.findLedgerByNumber(this.ledger.getLedgerNumber());
-        this.ledgerDao.deleteLedger(savedLedger.getId());
+        Ledger savedLedger = this.ledgerDao.findLedgerByLedgerNumber(this.ledger.getLedgerNumber());
+        this.ledgerDao.delete(savedLedger);
     }
 
     @Test
     void writeLedgerTest() {
         this.ledgerDao.write(ledger);
-        Ledger savedLedger = this.ledgerDao.findLedgerByNumber(123);
+        Ledger savedLedger = this.ledgerDao.findLedgerByLedgerNumber(123);
         assertEquals(ledger.getName(), savedLedger.getName());
         assertEquals(ledger.getLedgerNumber(), savedLedger.getLedgerNumber());
         assertEquals(ledger.getDescription(), savedLedger.getDescription());
-        assertEquals(ledger.getValue(), ledger.getValue());
+        assertEquals(ledger.getValue(), savedLedger.getValue());
+        assertEquals(ledger.isSubLedger(), savedLedger.isSubLedger());
     }
 
     @Test
@@ -54,7 +57,8 @@ public class LedgerDaoTest {
         this.ledgerDao.write(secondLedger);
         List<Ledger> ledgers = this.ledgerDao.findAllLedgers();
         assertEquals(2, ledgers.size());
-        this.ledgerDao.deleteLedger(secondLedger.getId());
+        Ledger savedLedger = this.ledgerDao.findLedgerByLedgerNumber(secondLedger.getLedgerNumber());
+        this.ledgerDao.delete(savedLedger);
    }
 
 }

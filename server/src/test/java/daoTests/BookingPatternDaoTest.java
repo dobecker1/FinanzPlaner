@@ -8,6 +8,7 @@ import models.ledger.Ledger;
 import models.patternBooking.interfaces.BookingInformation;
 import models.patternBooking.interfaces.BookingPattern;
 import models.patternBooking.interfaces.BookingPatternItem;
+import models.patternBooking.interfaces.InputField;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
@@ -43,7 +44,7 @@ public class BookingPatternDaoTest extends BasicDao {
     BookingPatternItem patternItem2;
 
 
-    @BeforeEach
+    /**@BeforeEach
     void createBookingPattern() {
         this.category = ModelFactory.getCategory();
         this.category.setName("Test Kategorie");
@@ -221,6 +222,6 @@ public class BookingPatternDaoTest extends BasicDao {
     @After
     void deletetDBDependencies() {
 
-    }
+    }**/
 
 }

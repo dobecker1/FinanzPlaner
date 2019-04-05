@@ -11,6 +11,6 @@ public interface BookingPatternItem extends BasicModel {
     public Booking getBooking();
     public void setBooking(Booking booking);
 
-    public String getPayload();
-    public void setPayload(String payload);
+    public BookingPatternPayload getPayload();
+    public void setPayload(BookingPatternPayload payload);
 }

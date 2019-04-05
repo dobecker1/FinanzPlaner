@@ -6,12 +6,8 @@ import models.category.Category;
 import models.category.CategoryImpl;
 import models.ledger.Ledger;
 import models.ledger.LedgerImpl;
-import models.patternBooking.impl.BookingPatternItemImpl;
-import models.patternBooking.interfaces.BookingInformation;
-import models.patternBooking.impl.BookingInformationImpl;
-import models.patternBooking.interfaces.BookingPattern;
-import models.patternBooking.impl.BookingPatternImpl;
-import models.patternBooking.interfaces.BookingPatternItem;
+import models.patternBooking.impl.*;
+import models.patternBooking.interfaces.*;
 
 public class ModelFactory {
 
@@ -37,5 +33,13 @@ public class ModelFactory {
 
     public static BookingPatternItem getBookingPatternItem() {
         return new BookingPatternItemImpl();
+    }
+
+    public static InputField getInputField() {
+        return new InputFieldImpl();
+    }
+
+    public static BookingPatternPayload getBookingPatternPayload() {
+        return new BookingPatternPayloadImpl();
     }
 }

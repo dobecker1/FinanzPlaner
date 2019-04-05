@@ -1,12 +1,16 @@
 package daoTests;
 
-import daoLayer.dao.BookingDao;
-import daoLayer.dao.LedgerDao;
+import daoLayer.sqlDao.BookingDao;
+import daoLayer.sqlDao.LedgerDao;
 import factory.ModelFactory;
 import models.booking.Booking;
 import models.ledger.Ledger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -14,8 +18,9 @@ import java.util.Date;
 
 public class BookingDaoTest {
 
-    private final LedgerDao ledgerDao = new LedgerDao();
-    private final BookingDao bookingDao = new BookingDao();
+    private LedgerDao ledgerDao = new LedgerDao();
+
+    private  BookingDao bookingDao = new BookingDao();
 
     private Booking booking;
     private Ledger ledgerShould;
@@ -40,8 +45,8 @@ public class BookingDaoTest {
         this.booking.setBookingDescription("Test Booking Description");
         this.booking.setDate(new Date());
         this.booking.setFinancialYear("2018");
-        this.booking.setLedgerHave(this.ledgerHave);
-        this.booking.setLedgerShould(this.ledgerShould);
+        //this.booking.setLedgerHave(this.ledgerHave);
+        //this.booking.setLedgerShould(this.ledgerShould);
         this.booking.setReferenceNumber("S01");
         this.booking.setValue(200);
     }
@@ -50,12 +55,17 @@ public class BookingDaoTest {
     void writeBookingTest() {
         this.ledgerDao.write(this.ledgerShould);
         this.ledgerDao.write(this.ledgerHave);
+        this.ledgerShould = this.ledgerDao.findLedgerByLedgerNumber(this.ledgerShould.getLedgerNumber());
+        this.ledgerHave = this.ledgerDao.findLedgerByLedgerNumber(this.ledgerHave.getLedgerNumber());
+        this.booking.setLedgerShould(this.ledgerShould);
+        this.booking.setLedgerHave(this.ledgerHave);
         this.bookingDao.write(booking);
-        Booking savedBooking = this.bookingDao.read(this.booking.getId());
+        Booking savedBooking = this.bookingDao.findAllBookings().get(0);
         assertEquals(this.booking.getBookingDescription(), savedBooking.getBookingDescription());
-        this.bookingDao.deleteBooking(this.booking.getId());
-        this.ledgerDao.deleteLedger(this.ledgerShould.getId());
-        this.ledgerDao.deleteLedger(this.ledgerHave.getId());
+        assertEquals(this.booking.getLedgerShould().getLedgerNumber(), savedBooking.getLedgerShould().getLedgerNumber());
+        this.bookingDao.delete(savedBooking);
+        this.ledgerDao.delete(this.ledgerShould);
+        this.ledgerDao.delete(this.ledgerHave);
     }
 
 }

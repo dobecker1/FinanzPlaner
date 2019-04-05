@@ -5,6 +5,7 @@ import models.category.CategoryImpl;
 import models.patternBooking.interfaces.BookingInformation;
 import models.patternBooking.interfaces.BookingPattern;
 import models.patternBooking.interfaces.BookingPatternItem;
+import models.patternBooking.interfaces.InputField;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -23,6 +24,7 @@ public class BookingPatternImpl implements BookingPattern {
     private BookingInformation bookingInformation;
     private Category category;
     private boolean pattern;
+    private List<InputField> inputFields;
     private List<BookingPatternItem> patternItems;
 
     @Override
@@ -103,6 +105,18 @@ public class BookingPatternImpl implements BookingPattern {
     @Override
     public void setPattern(boolean pattern) {
         this.pattern = pattern;
+    }
+
+    @Override
+    @OneToMany(fetch = FetchType.EAGER, targetEntity = InputFieldImpl.class)
+    @Column(name = "inputFields")
+    public List<InputField> getInputFields() {
+        return this.inputFields;
+    }
+
+    @Override
+    public void setInputFields(List<InputField> inputFields) {
+        this.inputFields = inputFields;
     }
 
     @Override

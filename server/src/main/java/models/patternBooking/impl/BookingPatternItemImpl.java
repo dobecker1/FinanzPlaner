@@ -3,6 +3,7 @@ package models.patternBooking.impl;
 import models.booking.Booking;
 import models.booking.BookingImpl;
 import models.patternBooking.interfaces.BookingPatternItem;
+import models.patternBooking.interfaces.BookingPatternPayload;
 
 import javax.persistence.*;
 
@@ -12,7 +13,7 @@ public class BookingPatternItemImpl implements BookingPatternItem {
 
     private int id;
     private Booking booking;
-    private String payload;
+    private BookingPatternPayload payload;
 
 
     @Override
@@ -40,13 +41,14 @@ public class BookingPatternItemImpl implements BookingPatternItem {
     }
 
     @Override
-    @Column(name = "payload")
-    public String getPayload() {
+    @OneToOne(fetch = FetchType.EAGER, targetEntity = BookingPatternPayloadImpl.class)
+    @JoinColumn(name = "payload")
+    public BookingPatternPayload getPayload() {
         return this.payload;
     }
 
     @Override
-    public void setPayload(String payload) {
+    public void setPayload(BookingPatternPayload payload) {
         this.payload = payload;
     }
 }

@@ -39,6 +39,9 @@ public interface BookingPattern extends BasicModel {
     public boolean isPattern();
     public void setPattern(boolean pattern);
 
+    public List<InputField> getInputFields();
+    public void setInputFields(List<InputField> inputFields);
+
     public List<BookingPatternItem> getBookingPatternItems();
     public void setBookingPatternItems(List<BookingPatternItem> patternItems);
 }

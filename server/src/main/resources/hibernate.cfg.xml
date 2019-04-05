@@ -9,7 +9,7 @@
     <property name="connection.username">user</property>
     <property name="connection.password">password</property>
 
-    <property name="connection.pool_size">1</property>
+    <!--<property name="connection.pool_size">1</property>-->
 
     <property name="dialect">org.hibernate.dialect.DerbyDialect</property>
 
@@ -22,6 +22,8 @@
     <mapping class="models.category.CategoryImpl" />
     <mapping class="models.patternBooking.impl.BookingInformationImpl" />
     <mapping class="models.patternBooking.impl.BookingPatternImpl" />
-    <mapping class="models.patternBooking.impl.BookingPatternItemImpl"/>
+    <mapping class="models.patternBooking.impl.BookingPatternItemImpl" />
+    <mapping class="models.patternBooking.impl.InputFieldImpl" />
+    <mapping class="models.patternBooking.impl.BookingPatternPayloadImpl" />
   </session-factory>
 </hibernate-configuration>

@@ -141,4 +141,91 @@ public class DaoController {
             e.printStackTrace();
         }
     }
+
+    public void createMapTable() {
+        Statement statement = null;
+        try {
+            statement = this.connection.createStatement();
+            String sql = "CREATE TABLE MAP (id INTEGER not NULL GENERATED ALWAYS AS IDENTITY, " +
+                    "type VARCHAR(255), " +
+                    "PRIMARY KEY (id))";
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createMapEntryTable() {
+        Statement statement = null;
+        try {
+            statement = this.connection.createStatement();
+            String sql = "CREATE TABLE MAPENTRY (id INTEGER not NULL GENERATED ALWAYS AS IDENTITY, " +
+                    "mapId INTEGER, " +
+                    "mapKey VARCHAR(255), " +
+                    "mapValue VARCHAR(255), " +
+                    "PRIMARY KEY (id))";
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createBookingPayloadTable() {
+        Statement statement = null;
+        try {
+            statement = this.connection.createStatement();
+            String sql = "CREATE TABLE BOOKING_PAYLOAD (id INTEGER not NULL GENERATED ALWAYS AS IDENTITY, " +
+                    "mapId INTEGER, " +
+                    "PRIMARY KEY (id))";
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createBookingPatternItemTable() {
+        Statement statement = null;
+        try {
+            statement = this.connection.createStatement();
+            String sql = "CREATE TABLE BOOKING_PATTERN_ITEM (id INTEGER not NULL GENERATED ALWAYS AS IDENTITY, " +
+                    "bookingId INTEGER, " +
+                    "payloadId INTEGER, " +
+                    "PRIMARY KEY (id))";
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createBookingPatternTable() {
+        Statement statement = null;
+        try {
+            statement = this.connection.createStatement();
+            String sql = "CREATE TABLE BOOKING_PATTERN (id INTEGER not NULL GENERATED ALWAYS AS IDENTITY, " +
+                    "name VARCHAR(255), " +
+                    "executionDate DATE, " +
+                    "executionDatePattern VARCHAR(255), " +
+                    "bookingInformationId INTEGER, " +
+                    "categoryId INTEGER, " +
+                    "pattern BOOLEAN, " +
+                    "PRIMARY KEY (id))";
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createBookingPatternInputFieldTable() {
+        Statement statement = null;
+        try {
+            statement = this.connection.createStatement();
+            String sql = "CREATE TABLE BOOKING_PATTERN_INPUT_FIELD (" +
+                    "bookingPattern INTEGER, " +
+                    "inputField INTEGER)";
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

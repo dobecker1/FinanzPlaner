@@ -5,10 +5,7 @@ import models.booking.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +15,13 @@ public class BookingDao extends BasicDao{
 
     private LedgerDao ledgerDao = new LedgerDao();
 
-    public void write(Booking booking) {
+    public int write(Booking booking) {
+        int bookingId = -1;
+
         try {
             PreparedStatement statement = super.controller.connection.prepareStatement
                     ("INSERT INTO BOOKING(DATE, REFERENCENUMBER, BOOKINGDESCRIPTION," +
-                            " LEDGERSHOULD, SUBLEDGERSHOULD, LEDGERHAVE, SUBLEDGERHAVE, VALUE, REFERENCEPATH, FINANCIALYEAR) VALUES(?,?,?,?,?,?,?,?,?,?)");
+                            " LEDGERSHOULD, SUBLEDGERSHOULD, LEDGERHAVE, SUBLEDGERHAVE, VALUE, REFERENCEPATH, FINANCIALYEAR) VALUES(?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             statement.setDate(1, new Date(booking.getDate().getTime()));
             statement.setString(2, booking.getReferenceNumber());
             statement.setString(3, booking.getBookingDescription());
@@ -41,13 +40,16 @@ public class BookingDao extends BasicDao{
             statement.setDouble(8, booking.getValue());
             statement.setString(9, booking.getReferencePath());
             statement.setString(10, booking.getFinancialYear());
-            statement.addBatch();
-            super.controller.connection.setAutoCommit(false);
-            statement.executeBatch();
-            super.controller.connection.setAutoCommit(true);
+            statement.executeUpdate();
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if(generatedKeys.next()) {
+                bookingId = generatedKeys.getInt(1);
+            }
+            generatedKeys.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return bookingId;
     }
 
     public Booking read(int id) {

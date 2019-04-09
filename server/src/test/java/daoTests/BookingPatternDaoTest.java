@@ -1,14 +1,14 @@
 package daoTests;
 
-import daoLayer.dao.*;
+import daoLayer.services.*;
+import daoLayer.sqlDao.*;
+import daoLayer.sqlDao.BookingPatternItemDao;
+import factory.DaoFactory;
 import factory.ModelFactory;
 import models.booking.Booking;
 import models.category.Category;
 import models.ledger.Ledger;
-import models.patternBooking.interfaces.BookingInformation;
-import models.patternBooking.interfaces.BookingPattern;
-import models.patternBooking.interfaces.BookingPatternItem;
-import models.patternBooking.interfaces.InputField;
+import models.patternBooking.interfaces.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
@@ -16,38 +16,40 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.ui.Model;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BookingPatternDaoTest extends BasicDao {
 
-    private final BookingInformationDao bookingInfoDao = new BookingInformationDao();
-    private final BookingPatternDao bookingPatternDao = new BookingPatternDao();
-    private final LedgerDao ledgerDao = new LedgerDao();
-    private final CategoryDao categoryDao = new CategoryDao();
-    private final BookingDao bookingDao = new BookingDao();
-    private BookingPattern bookingPattern;
-    private BookingInformation bookingInformation;
+    private BookingDaoService bookingDaoService = new BookingDaoService();
+    private BookingPatternPayloadDaoService patternPayloadDaoService = new BookingPatternPayloadDaoService();
+    private LedgerDaoService ledgerDaoService = new LedgerDaoService();
+    private CategoryDaoService categoryDaoService = new CategoryDaoService();
+    private BookingInformationDaoService bookingInformationDaoService = new BookingInformationDaoService();
+    private BookingPatternItemDaoService patternItemDaoService = new BookingPatternItemDaoService();
+    private InputFieldDaoService inputFieldDaoService = new InputFieldDaoService();
+
+    private BookingPatternDao patternDao = new BookingPatternDao();
+
     private Ledger ledgerShould;
     private Ledger ledgerHave;
     private Category category;
 
     private Booking booking;
-    private Booking booking1;
-    private Booking booking2;
+    private BookingPatternPayload patternPayload;
+    private BookingPatternItem patternItem;
+    private BookingInformation bookingInformation;
+    private InputField inputField;
+    private InputField inputField1;
 
-    BookingPatternItem patternItem;
-    BookingPatternItem patternItem1;
-    BookingPatternItem patternItem2;
 
-
-    /**@BeforeEach
-    void createBookingPattern() {
+    @BeforeEach
+    void createBookingPatternObjects() {
         this.category = ModelFactory.getCategory();
         this.category.setName("Test Kategorie");
+
+        this.category.setId(this.categoryDaoService.saveCategory(category));
 
         this.ledgerShould = ModelFactory.getLedger();
         this.ledgerHave = ModelFactory.getLedger();
@@ -62,166 +64,77 @@ public class BookingPatternDaoTest extends BasicDao {
         this.ledgerHave.setValue(10);
         this.ledgerHave.setLedgerNumber(456);
 
-        this.bookingInformation = ModelFactory.getBookingInformation();
-        this.bookingInformation.setBookingDescription("Test Description");
-        this.bookingInformation.setLedgerShould(this.ledgerShould);
-        this.bookingInformation.setLedgerHave(this.ledgerHave);
-        this.bookingInformation.setValue(29.99);
+        this.ledgerShould.setId(this.ledgerDaoService.saveLedger(this.ledgerShould));
+        this.ledgerHave.setId(this.ledgerDaoService.saveLedger(this.ledgerHave));
 
-        this.bookingPattern = ModelFactory.getBookingPattern();
-        this.bookingPattern.setBookingInformation(this.bookingInformation);
-        this.bookingPattern.setCategory(this.category);
-        this.bookingPattern.setExecutionDate(new Date());
-        this.bookingPattern.setName("Test Pattern");
-        this.bookingPattern.setExecutionDatePattern("30 Tage");
+        this.booking = ModelFactory.getBooking();
+        this.booking.setLedgerShould(this.ledgerShould);
+        this.booking.setLedgerHave(this.ledgerHave);
+        this.booking.setValue(200);
+        this.booking.setDate(new Date());
+        this.booking.setBookingDescription("Booking Description");
+        this.booking.setReferenceNumber("S03");
+        this.booking.setId(this.bookingDaoService.saveBooking(this.booking));
+
+        this.patternPayload = ModelFactory.getBookingPatternPayload();
+        Map<String, String> payload = new HashMap<>();
+        payload.put("inputName", "inputValue");
+        payload.put("inputDate", new Date().toString());
+        payload.put("inputNumber", "9");
+        this.patternPayload.setBookingPatternPayload(payload);
+        this.patternPayload.setId(this.patternPayloadDaoService.saveBookingPatternPayload(this.patternPayload));
+
+        this.bookingInformation = ModelFactory.getBookingInformation();
+        this.bookingInformation.setLedgerHave(this.ledgerHave);
+        this.bookingInformation.setLedgerShould(this.ledgerShould);
+        this.bookingInformation.setBookingDescription(this.booking.getBookingDescription());
+        this.bookingInformation.setValue(555.5);
+        this.bookingInformation.setId(this.bookingInformationDaoService.saveBookingInformation(this.bookingInformation));
+
+        this.inputField = ModelFactory.getInputField();
+        this.inputField.setName("input 1");
+        this.inputField.setInputFieldType(InputField.InputFieldType.TEXT);
+        this.inputField.setId(this.inputFieldDaoService.saveInputField(this.inputField));
+
+        this.inputField1 = ModelFactory.getInputField();
+        inputField1.setName("input 2");
+        inputField1.setInputFieldType(InputField.InputFieldType.TEXT);
+        this.inputField1.setId(this.inputFieldDaoService.saveInputField(this.inputField1));
     }
 
     @AfterEach
-    void deleteBookingPattern() {
-        this.bookingPatternDao.deleteBookingPattern(this.bookingPattern);
-        this.bookingInfoDao.deleteBookingInformation(this.bookingInformation);
-        this.categoryDao.deleteCategory(this.category);
-        this.ledgerDao.deleteLedger(this.ledgerShould);
-        this.ledgerDao.deleteLedger(this.ledgerHave);
+    void deleteBookingPatternObjects() {
+        this.bookingDaoService.deleteBooking(this.booking);
+        this.ledgerDaoService.deleteLedger(this.ledgerHave);
+        this.ledgerDaoService.deleteLedger(this.ledgerShould);
+        this.categoryDaoService.deleteCategory(this.category);
+        this.patternPayloadDaoService.deleteBookingPayload(this.patternPayload);
+        this.bookingInformationDaoService.deleteBookingInfo(this.bookingInformation);
+        this.inputFieldDaoService.deleteInputField(this.inputField);
+        this.inputFieldDaoService.deleteInputField(this.inputField1);
     }
 
     @Test
     void writeBookingPatternTest() {
-        this.categoryDao.write(this.category);
-        this.ledgerDao.write(this.ledgerHave);
-        this.ledgerDao.write(this.ledgerShould);
-        this.bookingInfoDao.write(this.bookingInformation);
-        this.bookingPatternDao.write(this.bookingPattern);
+        BookingPattern pattern = ModelFactory.getBookingPattern();
+        pattern.setBookingInformation(this.bookingInformation);
+        pattern.setCategory(this.category);
+        pattern.setExecutionDate(new Date());
+        pattern.setExecutionDatePattern("date pattern");
+        pattern.setName("testName");
+        pattern.setPattern(false);
+        List<InputField> inputFields = new ArrayList<>();
+        inputFields.add(this.inputField);
+        inputFields.add(this.inputField1);
+        pattern.setInputFields(inputFields);
 
-        BookingPattern pattern = this.bookingPatternDao.read(this.bookingPattern.getId());
-        assertEquals(this.bookingPattern.getName(), pattern.getName());
-        assertEquals(this.bookingPattern.getCategory().getId(), pattern.getCategory().getId());
-        assertEquals(this.bookingPattern.getBookingInformation().getLedgerShould().getLedgerNumber(), pattern.getBookingInformation().getLedgerShould().getLedgerNumber());
-        assertEquals(this.bookingPattern.getExecutionDatePattern(), pattern.getExecutionDatePattern());
+        int patternId = this.patternDao.write(pattern);
+        BookingPattern savedPattern = this.patternDao.findBookingPatternById(patternId);
+        assertEquals(pattern.getName(), savedPattern.getName());
+        assertEquals(pattern.getBookingInformation().getValue(), savedPattern.getBookingInformation().getValue());
+        assertEquals(pattern.getCategory().getName(), savedPattern.getCategory().getName());
+        assertEquals(pattern.getInputFields().size(), savedPattern.getInputFields().size());
+        assertEquals(pattern.getInputFields().get(0).getName(), savedPattern.getInputFields().get(0).getName());
+        this.patternDao.delete(savedPattern);
     }
-
-    @Test
-    void writeBookingPatternItemTest() {
-        this.ledgerDao.write(this.ledgerHave);
-        this.ledgerDao.write(this.ledgerShould);
-
-        Booking booking = ModelFactory.getBooking();
-        booking.setLedgerShould(this.ledgerShould);
-        booking.setLedgerHave(this.ledgerHave);
-        booking.setValue(200);
-        booking.setDate(new Date());
-        booking.setBookingDescription("Booking Description");
-        booking.setReferenceNumber("S03");
-        this.bookingDao.write(booking);
-
-        BookingPatternItem patternItem = ModelFactory.getBookingPatternItem();
-        patternItem.setBooking(booking);
-        patternItem.setPayload("{'inputs': ['TestField': 200, 'TestField2': 350]}");
-        this.bookingPatternDao.writeBookingPatternItem(patternItem);
-
-        BookingPatternItem savedPatternItem = this.bookingPatternDao.readBookingPatternItem(patternItem.getId());
-        assertEquals(patternItem.getBooking().getDate(), savedPatternItem.getBooking().getDate());
-        assertEquals(patternItem.getPayload(), savedPatternItem.getPayload());
-        assertEquals(patternItem.getBooking().getLedgerShould().getLedgerNumber(), savedPatternItem.getBooking().getLedgerShould().getLedgerNumber());
-        assertEquals(patternItem.getBooking().getReferenceNumber(), savedPatternItem.getBooking().getReferenceNumber());
-        this.bookingPatternDao.deletePatternItem(patternItem);
-        this.bookingDao.deleteBooking(booking);
-    }
-
-    @Test
-    void getAllPatternItemsTest() {
-        this.ledgerDao.write(this.ledgerHave);
-        this.ledgerDao.write(this.ledgerShould);
-
-        Booking booking = ModelFactory.getBooking();
-        booking.setLedgerShould(this.ledgerShould);
-        booking.setLedgerHave(this.ledgerHave);
-        booking.setValue(200);
-        booking.setDate(new Date());
-        booking.setBookingDescription("Booking Description");
-        booking.setReferenceNumber("S03");
-        this.bookingDao.write(booking);
-
-        BookingPatternItem patternItem = ModelFactory.getBookingPatternItem();
-        patternItem.setBooking(booking);
-        patternItem.setPayload("{'inputs': ['TestField': 200, 'TestField2': 350]}");
-        BookingPatternItem patternItem1 = ModelFactory.getBookingPatternItem();
-        patternItem1.setBooking(booking);
-        patternItem1.setPayload("binput");
-        BookingPatternItem patternItem2 = ModelFactory.getBookingPatternItem();
-        patternItem2.setBooking(booking);
-        patternItem2.setPayload("input 2");
-        this.bookingPatternDao.writeBookingPatternItem(patternItem);
-        this.bookingPatternDao.writeBookingPatternItem(patternItem1);
-        this.bookingPatternDao.writeBookingPatternItem(patternItem2);
-        List<BookingPatternItem> patternItems = this.bookingPatternDao.getAllPatternItems();
-        assertEquals(3, patternItems.size());
-        this.bookingPatternDao.deletePatternItem(patternItem);
-        this.bookingPatternDao.deletePatternItem(patternItem1);
-        this.bookingPatternDao.deletePatternItem(patternItem2);
-        this.bookingDao.deleteBooking(booking);
-    }
-
-    @Test
-    void getPatternItemsByStartEndDateTest() {
-        this.ledgerDao.write(this.ledgerHave);
-        this.ledgerDao.write(this.ledgerShould);
-
-        this.booking = ModelFactory.getBooking();
-        Calendar calendar = Calendar.getInstance();
-        booking.setLedgerShould(this.ledgerShould);
-        booking.setLedgerHave(this.ledgerHave);
-        booking.setValue(200);
-        calendar.set(2019, Calendar.APRIL, 3);
-        booking.setDate(calendar.getTime());
-        booking.setBookingDescription("Booking Description");
-        booking.setReferenceNumber("S03");
-        this.booking1 = ModelFactory.getBooking();
-        booking1.setLedgerShould(this.ledgerShould);
-        booking1.setLedgerHave(this.ledgerHave);
-        booking1.setValue(200);
-        calendar.set(2019, Calendar.APRIL, 10);
-        booking1.setDate(calendar.getTime());
-        booking1.setBookingDescription("Booking Description");
-        booking1.setReferenceNumber("S03");
-        this.booking2 = ModelFactory.getBooking();
-        booking2.setLedgerShould(this.ledgerShould);
-        booking2.setLedgerHave(this.ledgerHave);
-        booking2.setValue(200);
-        calendar.set(2019, Calendar.APRIL, 25);
-        booking2.setDate(calendar.getTime());
-        booking2.setBookingDescription("Booking Description");
-        booking2.setReferenceNumber("S03");
-        this.bookingDao.write(booking);
-        this.bookingDao.write(booking1);
-        this.bookingDao.write(booking2);
-
-        this.patternItem = ModelFactory.getBookingPatternItem();
-        patternItem.setBooking(booking);
-        patternItem.setPayload("{'inputs': ['TestField': 200, 'TestField2': 350]}");
-        this.patternItem1 = ModelFactory.getBookingPatternItem();
-        patternItem1.setBooking(booking1);
-        patternItem1.setPayload("binput");
-        this.patternItem2 = ModelFactory.getBookingPatternItem();
-        patternItem2.setBooking(booking2);
-        patternItem2.setPayload("input 2");
-        this.bookingPatternDao.writeBookingPatternItem(patternItem);
-        this.bookingPatternDao.writeBookingPatternItem(patternItem1);
-        this.bookingPatternDao.writeBookingPatternItem(patternItem2);
-        List<BookingPatternItem> patternItems = this.bookingPatternDao.
-                getPatternItemsByStartEndDate(patternItem.getBooking().getDate(), patternItem1.getBooking().getDate());
-        assertEquals(2, patternItems.size());
-        this.bookingPatternDao.deletePatternItem(patternItem);
-        this.bookingPatternDao.deletePatternItem(patternItem1);
-        this.bookingPatternDao.deletePatternItem(patternItem2);
-        this.bookingDao.deleteBooking(booking);
-        this.bookingDao.deleteBooking(booking1);
-        this.bookingDao.deleteBooking(booking2);
-    }
-
-    @After
-    void deletetDBDependencies() {
-
-    }**/
-
 }

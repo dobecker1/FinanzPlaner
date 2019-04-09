@@ -6,6 +6,7 @@ import models.patternBooking.interfaces.InputField;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,19 +15,24 @@ public class InputFieldDao extends BasicDao {
     private static  final String INPUT_FIELD_TABLE = "INPUT_FIELD";
 
 
-    public void write(InputField inputField) {
+    public int write(InputField inputField) {
+        int inputFieldId = -1;
+
         try {
             PreparedStatement statement = super.controller.connection.
-                    prepareStatement("INSERT INTO INPUT_FIELD(NAME, TYPE) VALUES(?,?)");
+                    prepareStatement("INSERT INTO INPUT_FIELD(NAME, TYPE) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, inputField.getName());
             statement.setString(2, inputField.getInputFieldType().toString());
-            statement.addBatch();
-            super.controller.connection.setAutoCommit(false);
-            statement.executeBatch();
-            super.controller.connection.setAutoCommit(true);
+            statement.executeUpdate();
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if(generatedKeys.next()) {
+                inputFieldId = generatedKeys.getInt(1);
+            }
+            generatedKeys.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return inputFieldId;
     }
 
     public InputField read(int id) {

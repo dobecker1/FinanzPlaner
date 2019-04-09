@@ -1,6 +1,6 @@
 package daoTests;
 
-import daoLayer.dao.BookingPatternPayloadDao;
+import daoLayer.sqlDao.BookingPatternPayloadDao;
 import factory.ModelFactory;
 import models.patternBooking.interfaces.BookingPatternPayload;
 import org.junit.jupiter.api.AfterEach;
@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class BookingPatternPayloadDaoTest {
 
@@ -30,19 +31,25 @@ public class BookingPatternPayloadDaoTest {
 
     @AfterEach
     void deletePatternPayload() {
-        this.patternPayloadDao.delete(this.patternPayload);
+
+    }
+
+    @Test
+    void writeBookingPatternPayloadMapTest() {
+        int mapId = this.patternPayloadDao.writeMapPayload(this.patternPayload.getBookingPatternPayload());
+        Map<String, String> map = this.patternPayloadDao.findMapById(mapId);
+        assertEquals(this.patternPayload.getBookingPatternPayload().size(), map.size());
+        this.patternPayloadDao.deleteMap(mapId);
     }
 
     @Test
     void writeBookingPatternPayloadTest() {
-        this.patternPayloadDao.write(this.patternPayload);
-        BookingPatternPayload savedPatternPayload = this.patternPayloadDao.read(this.patternPayload.getId());
-        savedPatternPayload.getBookingPatternPayload().size();
-        assertEquals(this.patternPayload.getBookingPatternPayload().get("inputName"),
-                savedPatternPayload.getBookingPatternPayload().get("inputName"));
-        assertEquals(this.patternPayload.getBookingPatternPayload().get("inputDate"),
-                savedPatternPayload.getBookingPatternPayload().get("inputDate"));
-        assertEquals(this.patternPayload.getBookingPatternPayload().get("inputNumber"),
-                savedPatternPayload.getBookingPatternPayload().get("inputNumber"));
+        int patternPayloadId = this.patternPayloadDao.write(this.patternPayload);
+        assertNotEquals(-1, patternPayloadId);
+        BookingPatternPayload savedPatternPayload = this.patternPayloadDao.read(patternPayloadId);
+        assertEquals(3, savedPatternPayload.getBookingPatternPayload().size());
+        assertEquals("inputValue", savedPatternPayload.getBookingPatternPayload().get("inputName"));
+        assertEquals("9", savedPatternPayload.getBookingPatternPayload().get("inputNumber"));
+        this.patternPayloadDao.delete(savedPatternPayload);
     }
 }

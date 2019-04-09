@@ -6,6 +6,7 @@ import models.category.Category;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,18 +14,23 @@ public class CategoryDao extends BasicDao {
 
     private static final String CATEGORY_TABLE = "CATEGORY";
 
-    public void write(Category category) {
+    public int write(Category category) {
+        int categoryId = -1;
+
         try {
             PreparedStatement statement = super.controller.connection.
-                    prepareStatement("INSERT INTO CATEGORY(NAME) VALUES(?)");
+                    prepareStatement("INSERT INTO CATEGORY(NAME) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, category.getName());
-            statement.addBatch();
-            super.controller.connection.setAutoCommit(false);
-            statement.executeBatch();
-            super.controller.connection.setAutoCommit(true);
+            statement.executeUpdate();
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if(generatedKeys.next()) {
+                categoryId = generatedKeys.getInt(1);
+            }
+            generatedKeys.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return categoryId;
     }
 
     public Category read(int id) {

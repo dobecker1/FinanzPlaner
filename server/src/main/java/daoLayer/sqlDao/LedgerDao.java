@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,22 +16,27 @@ public class LedgerDao extends BasicDao{
 
     public static final String LEDGER_TABLE = "LEDGER";
 
-    public void write(Ledger ledger) {
+    public int write(Ledger ledger) {
+        int ledgerId = -1;
+
         try {
             PreparedStatement statement = super.controller.connection.
-                    prepareStatement("INSERT INTO LEDGER(NAME, LEDGERNUMBER, DESCRIPTION, SUBLEDGER, VALUE) VALUES(?,?,?,?,?)");
+                    prepareStatement("INSERT INTO LEDGER(NAME, LEDGERNUMBER, DESCRIPTION, SUBLEDGER, VALUE) VALUES(?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, ledger.getName());
             statement.setInt(2, ledger.getLedgerNumber());
             statement.setString(3, ledger.getDescription());
             statement.setBoolean(4, ledger.isSubLedger());
             statement.setDouble(5, ledger.getValue());
-            statement.addBatch();
-            super.controller.connection.setAutoCommit(false);
-            statement.executeBatch();
-            super.controller.connection.setAutoCommit(true);
+            statement.executeUpdate();
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            if(generatedKeys.next()) {
+                ledgerId = generatedKeys.getInt(1);
+            }
+            generatedKeys.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return ledgerId;
     }
 
     public Ledger read(int id) {

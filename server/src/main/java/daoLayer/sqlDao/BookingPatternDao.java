@@ -1,13 +1,11 @@
 package daoLayer.sqlDao;
 
-import daoLayer.services.BookingPatternItemDaoService;
-import daoLayer.services.InputFieldDaoService;
-import daoLayer.services.LedgerDaoService;
+import daoLayer.services.daoServices.*;
 import factory.ModelFactory;
-import jdk.internal.util.xml.impl.Input;
 import models.category.Category;
 import models.patternBooking.interfaces.BookingInformation;
 import models.patternBooking.interfaces.BookingPattern;
+import models.patternBooking.interfaces.BookingPatternItem;
 import models.patternBooking.interfaces.InputField;
 
 import java.sql.*;
@@ -18,6 +16,8 @@ public class BookingPatternDao extends BasicDao {
 
     private BookingPatternItemDaoService patternItemDaoService = new BookingPatternItemDaoService();
     private InputFieldDaoService inputFieldDaoService = new InputFieldDaoService();
+    private BookingDaoService bookingDaoService = new BookingDaoService();
+    private BookingPatternPayloadDaoService payloadDaoService = new BookingPatternPayloadDaoService();
     private LedgerDaoService ledgerDaoService = new LedgerDaoService();
 
     private static final String BOOKING_PATTERN_TABLE = "BOOKING_PATTERN";
@@ -43,8 +43,15 @@ public class BookingPatternDao extends BasicDao {
             for(InputField inputField : bookingPattern.getInputFields()) {
                 statement = super.controller.connection
                         .prepareStatement("INSERT INTO BOOKING_PATTERN_INPUT_FIELD (BOOKINGPATTERN, INPUTFIELD) VALUES(?,?)");
-                statement.setInt(1, bookingPatternIdd);
+                statement.setInt(1, bookingPatternId);
                 statement.setInt(2, inputField.getId());
+                statement.executeUpdate();
+            }
+            for(BookingPatternItem patternItem : bookingPattern.getBookingPatternItems()) {
+                statement = super.controller.connection.
+                        prepareStatement("INSERT INTO BOOKING_PATTERN_BOOKING_ITEM (BOOKINGPATTERN, BOOKINGITEM) VALUES(?,?)");
+                statement.setInt(1, bookingPatternId);
+                statement.setInt(2, patternItem.getId());
                 statement.executeUpdate();
             }
         } catch (SQLException e) {
@@ -60,12 +67,16 @@ public class BookingPatternDao extends BasicDao {
                     prepareStatement("delete from BOOKING_PATTERN_INPUT_FIELD where BOOKINGPATTERN = ?");
             statement.setInt(1, bookingPattern.getId());
             statement.executeUpdate();
+            statement = super.controller.connection.
+                    prepareStatement("delete from BOOKING_PATTERN_BOOKING_ITEM where BOOKINGPATTERN = ?");
+            statement.setInt(1, bookingPattern.getId());
+            statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public BookingPattern findBookingPatternById(int id) {
+    public BookingPattern read(int id) {
         try {
             PreparedStatement statement = super.controller.connection.
                     prepareStatement("SELECT * FROM BOOKING_PATTERN BP INNER JOIN BOOKINGINFORMATION BI ON BOOKINGINFORMATIONID = BI.ID" +
@@ -102,6 +113,7 @@ public class BookingPatternDao extends BasicDao {
                 category.setName(result.getString(16));
                 pattern.setCategory(category);
                 pattern.setInputFields(this.findInputFieldsByPatternId(pattern.getId()));
+                pattern.setBookingPatternItems(this.findPatternItemsByPatternId(pattern.getId()));
                 return pattern;
             } else {
                 return null;
@@ -132,5 +144,27 @@ public class BookingPatternDao extends BasicDao {
             e.printStackTrace();
         }
         return inputFields;
+    }
+
+    private List<BookingPatternItem> findPatternItemsByPatternId(int id) {
+        List<BookingPatternItem> patternItems = new ArrayList<>();
+        try {
+            PreparedStatement statement = super.controller.connection.
+                    prepareStatement("select * from BOOKING_PATTERN_BOOKING_ITEM BPBI " +
+                            "inner join BOOKING_PATTERN_ITEM BPI ON BOOKINGITEM = BPI.ID " +
+                            "where BPBI.BOOKINGPATTERN = ?");
+            statement.setInt(1, id);
+            ResultSet result = statement.executeQuery();
+            while(result.next()) {
+                BookingPatternItem bookingPatternItem = ModelFactory.getBookingPatternItem();
+                bookingPatternItem.setId(result.getInt("id"));
+                bookingPatternItem.setBooking(this.bookingDaoService.findBookingById(result.getInt("bookingId")));
+                bookingPatternItem.setPayload(this.payloadDaoService.findPatternPayloadById(result.getInt("payloadId")));
+                patternItems.add(bookingPatternItem);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return patternItems;
     }
 }

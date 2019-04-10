@@ -1,4 +1,4 @@
-package daoLayer.services;
+package daoLayer.services.daoServices;
 
 import daoLayer.sqlDao.InputFieldDao;
 import factory.DaoFactory;

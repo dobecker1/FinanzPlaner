@@ -1,7 +1,7 @@
 package daoLayer.sqlDao;
 
-import daoLayer.services.BookingDaoService;
-import daoLayer.services.BookingPatternPayloadDaoService;
+import daoLayer.services.daoServices.BookingDaoService;
+import daoLayer.services.daoServices.BookingPatternPayloadDaoService;
 import factory.ModelFactory;
 import models.patternBooking.interfaces.BookingPatternItem;
 
@@ -9,7 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 
 public class BookingPatternItemDao extends BasicDao {
 

@@ -100,4 +100,54 @@ public class LedgerDao extends BasicDao{
             throw new RuntimeException("Fehler");
         }
     }
+
+    public List<Ledger> findLedgers() {
+        return this.findLedgersBySub(false);
+    }
+
+    public List<Ledger> findSubLedgers() {
+        return this.findLedgersBySub(true);
+    }
+
+    private List<Ledger> findLedgersBySub(boolean isSub) {
+        List<Ledger> ledgers = new ArrayList<>();
+        try {
+            PreparedStatement statement = super.controller.connection
+                    .prepareStatement("SELECT * FROM LEDGER WHERE SUBLEDGER = ?");
+            statement.setBoolean(1, isSub);
+            ResultSet result = statement.executeQuery();
+            while(result.next()) {
+                Ledger ledger = ModelFactory.getLedger();
+                ledger.setId(result.getInt("id"));
+                ledger.setLedgerNumber(result.getInt("ledgerNumber"));
+                ledger.setName(result.getString("name"));
+                ledger.setValue(result.getDouble("value"));
+                ledger.setDescription(result.getString("description"));
+                ledger.setSubLedger(result.getBoolean("subLedger"));
+                ledgers.add(ledger);
+            }
+            return ledgers;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Fehler");
+        }
+    }
+
+    public void updateLedger(Ledger ledger) {
+        try {
+            PreparedStatement statement = super.controller.connection.
+                    prepareStatement("UPDATE LEDGER " +
+                            "SET NAME = ?, LEDGERNUMBER = ?, VALUE = ?, DESCRIPTION = ?, SUBLEDGER = ? " +
+                            "WHERE ID = ?");
+            statement.setString(1, ledger.getName());
+            statement.setInt(2, ledger.getLedgerNumber());
+            statement.setDouble(3, ledger.getValue());
+            statement.setString(4, ledger.getDescription());
+            statement.setBoolean(5, ledger.isSubLedger());
+            statement.setInt(6, ledger.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

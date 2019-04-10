@@ -5,6 +5,7 @@ import factory.ModelFactory;
 import models.ledger.Ledger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.After;
 import org.junit.jupiter.api.AfterEach;
@@ -31,13 +32,13 @@ public class LedgerDaoTest {
 
     @AfterEach
     void deleteLedger() {
-        Ledger savedLedger = this.ledgerDao.findLedgerByLedgerNumber(this.ledger.getLedgerNumber());
+        Ledger savedLedger = this.ledgerDao.read(this.ledger.getId());
         this.ledgerDao.delete(savedLedger);
     }
 
     @Test
     void writeLedgerTest() {
-        this.ledgerDao.write(ledger);
+       this.ledger.setId(this.ledgerDao.write(this.ledger));
         Ledger savedLedger = this.ledgerDao.findLedgerByLedgerNumber(123);
         assertEquals(ledger.getName(), savedLedger.getName());
         assertEquals(ledger.getLedgerNumber(), savedLedger.getLedgerNumber());
@@ -48,7 +49,7 @@ public class LedgerDaoTest {
 
     @Test
     void findAllLedgersTest() {
-        this.ledgerDao.write(ledger);
+        this.ledger.setId(this.ledgerDao.write(ledger));
         Ledger secondLedger = ModelFactory.getLedger();
         secondLedger.setLedgerNumber(456);
         secondLedger.setName("SecondLedger");
@@ -59,6 +60,23 @@ public class LedgerDaoTest {
         assertEquals(2, ledgers.size());
         Ledger savedLedger = this.ledgerDao.findLedgerByLedgerNumber(secondLedger.getLedgerNumber());
         this.ledgerDao.delete(savedLedger);
+   }
+
+   @Test
+   void updateLedgerTest() {
+        this.ledger.setId(this.ledgerDao.write(this.ledger));
+        int number = this.ledger.getLedgerNumber();
+        String descr = this.ledger.getDescription();
+        double value = this.ledger.getValue();
+        this.ledger.setLedgerNumber(111);
+        this.ledger.setDescription("changed description");
+        this.ledger.setValue(value + 50);
+        this.ledgerDao.updateLedger(this.ledger);
+        Ledger savedLedger = this.ledgerDao.read(this.ledger.getId());
+        assertNotEquals(number, savedLedger.getLedgerNumber());
+        assertNotEquals(descr, savedLedger.getDescription());
+        assertNotEquals(value, savedLedger.getValue());
+        assertEquals(this.ledger.getName(), savedLedger.getName());
    }
 
 }

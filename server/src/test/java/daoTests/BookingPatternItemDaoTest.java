@@ -1,18 +1,15 @@
 package daoTests;
 
-import daoLayer.dao.*;
-import daoLayer.services.BookingDaoService;
-import daoLayer.services.BookingPatternPayloadDaoService;
-import daoLayer.services.CategoryDaoService;
-import daoLayer.services.LedgerDaoService;
+import daoLayer.services.daoServices.BookingDaoService;
+import daoLayer.services.daoServices.BookingPatternPayloadDaoService;
+import daoLayer.services.daoServices.CategoryDaoService;
+import daoLayer.services.daoServices.LedgerDaoService;
 import daoLayer.sqlDao.BookingPatternItemDao;
 import factory.DaoFactory;
 import factory.ModelFactory;
 import models.booking.Booking;
 import models.category.Category;
 import models.ledger.Ledger;
-import models.patternBooking.interfaces.BookingInformation;
-import models.patternBooking.interfaces.BookingPattern;
 import models.patternBooking.interfaces.BookingPatternItem;
 import models.patternBooking.interfaces.BookingPatternPayload;
 import org.junit.jupiter.api.AfterEach;

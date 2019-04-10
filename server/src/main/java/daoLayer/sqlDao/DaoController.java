@@ -50,6 +50,20 @@ public class DaoController {
         });
     }
 
+    public void initDatabse() {
+        this.createLedgerTable();
+        this.createBookingTable();
+        this.createCategoryTable();
+        this.createInputFieldTable();
+        this.createMapEntryTable();
+        this.createMapTable();
+        this.createBookingInfomrationTable();
+        this.createBookingPatternInputFieldTable();
+        this.createBookingPatternItemTable();
+        this.createBookingPayloadTable();
+        this.createBookingPatternTable();
+    }
+
     public void closeDBConnection() {
         try {
             connection.close();
@@ -222,6 +236,19 @@ public class DaoController {
             String sql = "CREATE TABLE BOOKING_PATTERN_INPUT_FIELD (" +
                     "bookingPattern INTEGER, " +
                     "inputField INTEGER)";
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createBookingPatternBookingItemTable() {
+        Statement statement = null;
+        try {
+            statement = this.connection.createStatement();
+            String sql = "CREATE TABLE BOOKING_PATTERN_BOOKING_ITEM (" +
+                    "bookingPattern INTEGER, " +
+                    "bookingItem INTEGER)";
             statement.executeUpdate(sql);
         } catch (SQLException e) {
             e.printStackTrace();

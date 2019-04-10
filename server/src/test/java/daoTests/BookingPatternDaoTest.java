@@ -1,20 +1,15 @@
 package daoTests;
 
-import daoLayer.services.*;
+import daoLayer.services.daoServices.*;
 import daoLayer.sqlDao.*;
-import daoLayer.sqlDao.BookingPatternItemDao;
-import factory.DaoFactory;
 import factory.ModelFactory;
 import models.booking.Booking;
 import models.category.Category;
 import models.ledger.Ledger;
 import models.patternBooking.interfaces.*;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.ui.Model;
 
 import java.util.*;
 
@@ -39,6 +34,7 @@ public class BookingPatternDaoTest extends BasicDao {
     private Booking booking;
     private BookingPatternPayload patternPayload;
     private BookingPatternItem patternItem;
+    private BookingPatternItem patternItem1;
     private BookingInformation bookingInformation;
     private InputField inputField;
     private InputField inputField1;
@@ -100,6 +96,17 @@ public class BookingPatternDaoTest extends BasicDao {
         inputField1.setName("input 2");
         inputField1.setInputFieldType(InputField.InputFieldType.TEXT);
         this.inputField1.setId(this.inputFieldDaoService.saveInputField(this.inputField1));
+
+        this.patternItem = ModelFactory.getBookingPatternItem();
+        this.patternItem.setPayload(this.patternPayload);
+        this.patternItem.setBooking(this.booking);
+        this.patternItem.setId(this.patternItemDaoService.savePatternItem(this.patternItem));
+
+        this.patternItem1 = ModelFactory.getBookingPatternItem();
+        this.patternItem1.setPayload(this.patternPayload);
+        this.patternItem1.setBooking(this.booking);
+        this.patternItem1.setId(this.patternItemDaoService.savePatternItem(this.patternItem1));
+
     }
 
     @AfterEach
@@ -112,6 +119,8 @@ public class BookingPatternDaoTest extends BasicDao {
         this.bookingInformationDaoService.deleteBookingInfo(this.bookingInformation);
         this.inputFieldDaoService.deleteInputField(this.inputField);
         this.inputFieldDaoService.deleteInputField(this.inputField1);
+        this.patternItemDaoService.deletePatternItem(this.patternItem);
+        this.patternItemDaoService.deletePatternItem(this.patternItem1);
     }
 
     @Test
@@ -127,14 +136,21 @@ public class BookingPatternDaoTest extends BasicDao {
         inputFields.add(this.inputField);
         inputFields.add(this.inputField1);
         pattern.setInputFields(inputFields);
+        List<BookingPatternItem> patternItems = new ArrayList<>();
+        patternItems.add(this.patternItem);
+        patternItems.add(this.patternItem1);
+        pattern.setBookingPatternItems(patternItems);
 
         int patternId = this.patternDao.write(pattern);
-        BookingPattern savedPattern = this.patternDao.findBookingPatternById(patternId);
+        BookingPattern savedPattern = this.patternDao.read(patternId);
         assertEquals(pattern.getName(), savedPattern.getName());
         assertEquals(pattern.getBookingInformation().getValue(), savedPattern.getBookingInformation().getValue());
         assertEquals(pattern.getCategory().getName(), savedPattern.getCategory().getName());
         assertEquals(pattern.getInputFields().size(), savedPattern.getInputFields().size());
         assertEquals(pattern.getInputFields().get(0).getName(), savedPattern.getInputFields().get(0).getName());
+        assertEquals(pattern.getBookingPatternItems().size(), savedPattern.getBookingPatternItems().size());
+        assertEquals(pattern.getBookingPatternItems().get(0).getBooking().getValue(), savedPattern.getBookingPatternItems().get(0).getBooking().getValue());
+        assertEquals(pattern.getBookingPatternItems().get(0).getPayload().getBookingPatternPayload().size(), savedPattern.getBookingPatternItems().get(0).getPayload().getBookingPatternPayload().size());
         this.patternDao.delete(savedPattern);
     }
 }

@@ -1,4 +1,4 @@
-package daoLayer.services;
+package daoLayer.services.daoServices;
 
 import daoLayer.sqlDao.BookingDao;
 import factory.DaoFactory;

@@ -1,7 +1,8 @@
 package daoLayer.services;
 
-import daoLayer.dao.LedgerDao;
+import daoLayer.services.daoServices.LedgerDaoService;
 import models.ledger.Ledger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,30 +10,39 @@ import java.util.List;
 @Service("ledgerService")
 public class LedgerService {
 
-    private LedgerDao ledgerDao;
-
-    public LedgerService() {
-        ledgerDao = new LedgerDao();
-    }
+    @Autowired
+    private LedgerDaoService ledgerDaoService;
 
     public Ledger saveLedger(Ledger ledger) {
-        this.ledgerDao.write(ledger);
-        return this.ledgerDao.findLedgerByNumber(ledger.getLedgerNumber());
+        return this.ledgerDaoService.findLedgerById(this.ledgerDaoService.saveLedger(ledger));
     }
 
     public void deleteLedger(int id) {
-        this.ledgerDao.deleteLedger(id);
+        this.ledgerDaoService.deleteLedger(id);
+    }
+
+    public void deleteLedger(Ledger ledger) {
+        this.ledgerDaoService.deleteLedger(ledger);
     }
 
     public List<Ledger> getAllLedgers() {
-        return this.ledgerDao.findAllLedgers();
+        return this.ledgerDaoService.findAllLedgers();
+    }
+
+    public List<Ledger> getLedgers() {
+        return this.ledgerDaoService.findLedgers();
+    }
+
+    public List<Ledger> getSubLedgers() {
+        return this.ledgerDaoService.findSubLedgers();
     }
 
     public Ledger getLedgerByNumber(int ledgerNumber) {
-        return this.ledgerDao.findLedgerByNumber(ledgerNumber);
+        return this.ledgerDaoService.findLedgerByLedgerNumber(ledgerNumber);
     }
 
     public void changeLedgerValue(Ledger ledger, double sum) {
-        this.ledgerDao.changeLedgerValue(ledger.getId(), sum);
+        ledger.setValue(ledger.getValue() + sum);
+        this.ledgerDaoService.updateLedger(ledger);
     }
 }

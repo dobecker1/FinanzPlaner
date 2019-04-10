@@ -31,4 +31,8 @@ public class DaoFactory {
     public static BookingInformationDao getBookingInformationDao() {
         return new BookingInformationDao();
     }
+
+    public static BookingPatternDao getBookingPatternDao() {
+        return new BookingPatternDao();
+    }
 }

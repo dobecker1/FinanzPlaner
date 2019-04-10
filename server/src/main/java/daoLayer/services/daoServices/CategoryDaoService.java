@@ -1,4 +1,4 @@
-package daoLayer.services;
+package daoLayer.services.daoServices;
 
 import daoLayer.sqlDao.CategoryDao;
 import factory.DaoFactory;

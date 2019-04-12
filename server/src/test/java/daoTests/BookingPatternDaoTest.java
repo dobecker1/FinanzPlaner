@@ -11,6 +11,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -67,7 +68,7 @@ public class BookingPatternDaoTest extends BasicDao {
         this.booking.setLedgerShould(this.ledgerShould);
         this.booking.setLedgerHave(this.ledgerHave);
         this.booking.setValue(200);
-        this.booking.setDate(new Date());
+        this.booking.setDate(LocalDate.now());
         this.booking.setBookingDescription("Booking Description");
         this.booking.setReferenceNumber("S03");
         this.booking.setId(this.bookingDaoService.saveBooking(this.booking));

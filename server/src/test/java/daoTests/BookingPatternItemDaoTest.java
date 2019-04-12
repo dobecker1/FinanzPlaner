@@ -16,6 +16,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -66,7 +67,7 @@ public class BookingPatternItemDaoTest {
     this.booking.setLedgerShould(this.ledgerShould);
     this.booking.setLedgerHave(this.ledgerHave);
     this.booking.setValue(200);
-    this.booking.setDate(new Date());
+    this.booking.setDate(LocalDate.now());
     this.booking.setBookingDescription("Booking Description");
     this.booking.setReferenceNumber("S03");
     this.booking.setId(this.bookingDaoService.saveBooking(this.booking));
@@ -97,12 +98,8 @@ public class BookingPatternItemDaoTest {
      int patternItemId = this.patternItemDao.write(patternItem);
 
      BookingPatternItem savedPatternItem = this.patternItemDao.read(patternItemId);
-     Calendar cal = Calendar.getInstance();
-     cal.setTime(patternItem.getBooking().getDate());
-     Calendar savedCal = Calendar.getInstance();
-     savedCal.setTime(savedPatternItem.getBooking().getDate());
-     assertEquals(cal.get(Calendar.DAY_OF_WEEK), savedCal.get(Calendar.DAY_OF_WEEK));
-     assertEquals(cal.get(Calendar.MONTH), savedCal.get(Calendar.MONTH));
+     assertEquals(patternItem.getBooking().getDate().getDayOfMonth(), savedPatternItem.getBooking().getDate().getDayOfMonth());
+     assertEquals(patternItem.getBooking().getDate().getMonth(), savedPatternItem.getBooking().getDate().getMonth());
      assertEquals(patternItem.getPayload().getBookingPatternPayload().size(), savedPatternItem.getPayload().getBookingPatternPayload().size());
      assertEquals(patternItem.getBooking().getLedgerShould().getLedgerNumber(), savedPatternItem.getBooking().getLedgerShould().getLedgerNumber());
      assertEquals(patternItem.getBooking().getReferenceNumber(), savedPatternItem.getBooking().getReferenceNumber());

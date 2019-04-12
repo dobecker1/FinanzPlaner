@@ -2,10 +2,10 @@ package daoLayer.sqlDao;
 
 import factory.ModelFactory;
 import models.booking.Booking;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class BookingDao extends BasicDao{
             PreparedStatement statement = super.controller.connection.prepareStatement
                     ("INSERT INTO BOOKING(DATE, REFERENCENUMBER, BOOKINGDESCRIPTION," +
                             " LEDGERSHOULD, SUBLEDGERSHOULD, LEDGERHAVE, SUBLEDGERHAVE, VALUE, REFERENCEPATH, FINANCIALYEAR) VALUES(?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
-            statement.setDate(1, new Date(booking.getDate().getTime()));
+            statement.setDate(1, Date.valueOf(booking.getDate()));
             statement.setString(2, booking.getReferenceNumber());
             statement.setString(3, booking.getBookingDescription());
             statement.setInt(4, booking.getLedgerShould().getId());
@@ -63,7 +63,7 @@ public class BookingDao extends BasicDao{
                 booking.setId(result.getInt("id"));
                 booking.setReferenceNumber(result.getString("referenceNumber"));
                 booking.setBookingDescription(result.getString("bookingDescription"));
-                booking.setDate(result.getDate("date"));
+                booking.setDate(result.getDate("date").toLocalDate());
                 booking.setValue(result.getDouble("value"));
                 booking.setFinancialYear(result.getString("financialYear"));
                 booking.setLedgerShould(this.ledgerDao.read(result.getInt("ledgerShould")));
@@ -102,7 +102,51 @@ public class BookingDao extends BasicDao{
                 booking.setId(result.getInt("id"));
                 booking.setReferenceNumber(result.getString("referenceNumber"));
                 booking.setBookingDescription(result.getString("bookingDescription"));
-                booking.setDate(result.getDate("date"));
+                booking.setDate(result.getDate("date").toLocalDate());
+                booking.setValue(result.getDouble("value"));
+                booking.setFinancialYear(result.getString("financialYear"));
+                booking.setLedgerShould(this.ledgerDao.read(result.getInt("ledgerShould")));
+                int subShouldID = result.getInt("subLedgerShould");
+                if(subShouldID > 0) {
+                    booking.setSubLedgerShould(this.ledgerDao.read(subShouldID));
+                }
+                booking.setLedgerHave(this.ledgerDao.read(result.getInt("ledgerHave")));
+                int subHaveID = result.getInt("subLedgerHave");
+                if(subHaveID > 0) {
+                    booking.setSubLedgerHave(this.ledgerDao.read(subHaveID));
+                }
+                bookings.add(booking);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Fehler");
+        }
+        return bookings;
+    }
+
+    public List<Booking> findBookingsByStartEndDate(LocalDate start, LocalDate end) {
+        try {
+            PreparedStatement statement = super.controller.connection.
+                    prepareStatement("SELECT * FROM BOOKING where DATE >= ? and DATE <= ?");
+            statement.setDate(1, Date.valueOf(start));
+            statement.setDate(2, Date.valueOf(end));
+            return this.findMultipleBookings(statement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Fehler");
+        }
+    }
+
+    private List<Booking> findMultipleBookings(PreparedStatement statement) {
+        List<Booking> bookings = new ArrayList<>();
+        try {
+            ResultSet result = statement.executeQuery();
+            while(result.next()) {
+                Booking booking = ModelFactory.getBooking();
+                booking.setId(result.getInt("id"));
+                booking.setReferenceNumber(result.getString("referenceNumber"));
+                booking.setBookingDescription(result.getString("bookingDescription"));
+                booking.setDate(result.getDate("date").toLocalDate());
                 booking.setValue(result.getDouble("value"));
                 booking.setFinancialYear(result.getString("financialYear"));
                 booking.setLedgerShould(this.ledgerDao.read(result.getInt("ledgerShould")));

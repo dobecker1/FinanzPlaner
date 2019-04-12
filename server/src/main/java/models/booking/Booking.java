@@ -3,7 +3,8 @@ package models.booking;
 import models.basic.BasicModel;
 import models.ledger.Ledger;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 public interface Booking extends BasicModel {
 
@@ -11,9 +12,9 @@ public interface Booking extends BasicModel {
 
     public void setId(int id);
 
-    public Date getDate();
+    public LocalDate getDate();
 
-    public void setDate(Date date);
+    public void setDate(LocalDate date);
 
     public String getReferenceNumber();
 

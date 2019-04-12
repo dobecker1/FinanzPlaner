@@ -5,8 +5,7 @@ import models.ledger.Ledger;
 import models.ledger.LedgerImpl;
 
 import javax.persistence.*;
-import java.awt.print.Book;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "BOOKING")
@@ -14,7 +13,7 @@ public class BookingImpl implements Booking {
 
     private int id;
 
-    private Date date;
+    private LocalDate date;
 
     private String referenceNumber;
 
@@ -46,11 +45,11 @@ public class BookingImpl implements Booking {
 
     @Column(name = "date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

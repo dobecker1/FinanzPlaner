@@ -3,7 +3,12 @@ package daoLayer.services.daoServices;
 import daoLayer.sqlDao.BookingDao;
 import factory.DaoFactory;
 import models.booking.Booking;
+import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
+
+@Service("bookingDaoService")
 public class BookingDaoService {
 
     private BookingDao bookingDao;
@@ -22,5 +27,9 @@ public class BookingDaoService {
 
     public Booking findBookingById(int id) {
         return this.bookingDao.read(id);
+    }
+
+    public List<Booking> findBookingsByStartEndDate(LocalDate start, LocalDate end) {
+        return  this.bookingDao.findBookingsByStartEndDate(start, end);
     }
 }

@@ -1,25 +1,34 @@
 package daoLayer.services;
 
-import daoLayer.dao.BookingDao;
+import daoLayer.services.daoServices.BookingDaoService;
 import models.booking.Booking;
-import models.booking.BookingImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service("bookingService")
 public class BookingService {
 
     @Autowired
-    private BookingDao bookingDao;
+    private BookingDaoService bookingDaoService;
 
-    public void saveBooking(Booking booking) {
-        this.bookingDao.write(booking);
+    public int saveBooking(Booking booking) {
+        return this.bookingDaoService.saveBooking(booking);
     }
 
-    public List<Booking> getAllBookings() {
-        return this.bookingDao.findAllBookings();
+    public void deleteBooking(Booking booking) {
+        this.bookingDaoService.deleteBooking(booking);
     }
+
+    public Booking getBookingById(int id) {
+        return this.bookingDaoService.findBookingById(id);
+    }
+
+    public List<Booking> findBookingsByStartEndDate(LocalDate start, LocalDate end) {
+        return this.bookingDaoService.findBookingsByStartEndDate(start, end);
+    }
+
 
 }

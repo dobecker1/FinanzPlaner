@@ -48,6 +48,10 @@ public class LedgerDao extends BasicDao{
         super.delete(ledger, LEDGER_TABLE);
     }
 
+    public void delete(int id) {
+        super.delete(id, LEDGER_TABLE);
+    }
+
     public Ledger findLedgerByLedgerNumber(int ledgerNumber) {
         String sql = "SELECT * FROM LEDGER WHERE ledgerNumber = ?";
         return this.findSingleLedger(sql, ledgerNumber);

@@ -20,4 +20,15 @@ public abstract class BasicDao {
         }
     }
 
+    protected void delete(int id, String table) {
+        try {
+            PreparedStatement statement = this.controller.connection.
+                    prepareStatement("DELETE FROM " + table + " WHERE id = ?");
+            statement.setInt(1, id);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

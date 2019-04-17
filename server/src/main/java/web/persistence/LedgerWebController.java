@@ -16,18 +16,18 @@ public class LedgerWebController {
     public LedgerWebController() {
     }
 
-    @PostMapping("/saveLedger")
+    @PostMapping("/ledgers")
     public Ledger saveLedger(@RequestBody Ledger ledger) {
         return this.ledgerService.saveLedger(ledger);
     }
 
-    @GetMapping("/getAllLedgers")
+    @GetMapping("/ledgers")
     public List<Ledger> getAllLedgers() {
         return this.ledgerService.getAllLedgers();
     }
 
-    @DeleteMapping("/deleteLedger")
-    public String deleteLedger(@RequestParam (value="id") int id) {
+    @DeleteMapping("/ledgers/{id}")
+    public String deleteLedger(@PathVariable int id) {
         this.ledgerService.deleteLedger(id);
         return "OK";
     }

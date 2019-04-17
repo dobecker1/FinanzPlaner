@@ -15,6 +15,8 @@ public class BookingDao extends BasicDao{
 
     private LedgerDao ledgerDao = new LedgerDao();
 
+    private static final String BOOKING_TABLE = "BOOKING";
+
     public int write(Booking booking) {
         int bookingId = -1;
 
@@ -81,14 +83,11 @@ public class BookingDao extends BasicDao{
     }
 
     public void delete(Booking booking) {
-        try {
-            PreparedStatement statement = super.controller.connection.
-                    prepareStatement("DELETE FROM BOOKING WHERE id = ?");
-            statement.setInt(1, booking.getId());
-            statement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        super.delete(booking, BOOKING_TABLE);
+    }
+
+    public void delete(int id) {
+        super.delete(id, BOOKING_TABLE);
     }
 
     public List<Booking> findAllBookings() {

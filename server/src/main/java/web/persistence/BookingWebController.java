@@ -5,11 +5,9 @@ import daoLayer.services.LedgerService;
 import models.booking.Booking;
 import models.booking.BookingImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,16 +22,25 @@ public class BookingWebController {
 
     public BookingWebController()  {}
 
-    @PostMapping("/saveBooking")
+    @PostMapping("/bookings")
     public String saveBooking(@RequestBody Booking booking) {
-        this.ledgerService.changeLedgerValue(booking.getLedgerShould(), booking.getValue());
-        this.ledgerService.changeLedgerValue(booking.getLedgerHave(), -booking.getValue());
-        this.bookingService.saveBooking(booking);
+        this.bookingService.book(booking);
         return "OK";
     }
 
-    @GetMapping("/getAllBookings")
+    @DeleteMapping("/bookings/{id}")
+    public String deleteBooking(@PathVariable int id) {
+        this.bookingService.deleteBooking(id);
+        return "OK";
+    }
+
+    @GetMapping("/bookings")
     public List<Booking> getAllBookings() {
         return new ArrayList<>();
+    }
+
+    @GetMapping("/getBookingsByStartEndDate/{start}/{end}")
+    public List<Booking> getBookingsByStartEndDate(@PathVariable LocalDate start, @PathVariable LocalDate end) {
+        return this.bookingService.findBookingsByStartEndDate(start, end);
     }
 }

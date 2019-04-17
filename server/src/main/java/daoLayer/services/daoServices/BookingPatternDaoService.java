@@ -3,7 +3,9 @@ package daoLayer.services.daoServices;
 import daoLayer.sqlDao.BookingPatternDao;
 import factory.DaoFactory;
 import models.patternBooking.interfaces.BookingPattern;
+import org.springframework.stereotype.Service;
 
+@Service("bookingPatternDaoService")
 public class BookingPatternDaoService {
 
     private BookingPatternDao patternDao;
@@ -18,6 +20,10 @@ public class BookingPatternDaoService {
 
     public void deleteBookingPattern(BookingPattern bookingPattern) {
         this.patternDao.delete(bookingPattern);
+    }
+
+    public void deleteBookingPattern(int id) {
+        this.patternDao.delete(id);
     }
 
     public BookingPattern findBookingPatternById(int id) {

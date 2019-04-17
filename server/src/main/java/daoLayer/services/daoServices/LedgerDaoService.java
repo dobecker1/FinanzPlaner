@@ -26,9 +26,7 @@ public class LedgerDaoService {
     }
 
     public void deleteLedger(int id) {
-        Ledger ledger = ModelFactory.getLedger();
-        ledger.setId(id);
-        this.ledgerDao.delete(ledger);
+        this.ledgerDao.delete(id);
     }
 
     public Ledger findLedgerById(int id) {

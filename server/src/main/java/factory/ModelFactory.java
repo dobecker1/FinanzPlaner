@@ -8,6 +8,7 @@ import models.ledger.Ledger;
 import models.ledger.LedgerImpl;
 import models.patternBooking.impl.*;
 import models.patternBooking.interfaces.*;
+import models.patternBooking.metaData.BookingPatternMetadata;
 
 public class ModelFactory {
 
@@ -29,6 +30,10 @@ public class ModelFactory {
 
     public static BookingPattern getBookingPattern() {
         return new BookingPatternImpl();
+    }
+
+    public static BookingPatternMetadata getBookingPatternMetadata() {
+        return new BookingPatternMetadata();
     }
 
     public static BookingPatternItem getBookingPatternItem() {

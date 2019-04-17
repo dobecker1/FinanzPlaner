@@ -7,6 +7,7 @@ import models.patternBooking.interfaces.BookingInformation;
 import models.patternBooking.interfaces.BookingPattern;
 import models.patternBooking.interfaces.BookingPatternItem;
 import models.patternBooking.interfaces.InputField;
+import models.patternBooking.metaData.BookingPatternMetadata;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -76,6 +77,22 @@ public class BookingPatternDao extends BasicDao {
         }
     }
 
+    public void delete(int id) {
+        super.delete(id, BOOKING_PATTERN_TABLE);
+        try {
+            PreparedStatement statement = super.controller.connection.
+                    prepareStatement("delete from BOOKING_PATTERN_INPUT_FIELD where BOOKINGPATTERN = ?");
+            statement.setInt(1, id);
+            statement.executeUpdate();
+            statement = super.controller.connection.
+                    prepareStatement("delete from BOOKING_PATTERN_BOOKING_ITEM where BOOKINGPATTERN = ?");
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public BookingPattern read(int id) {
         try {
             PreparedStatement statement = super.controller.connection.
@@ -124,6 +141,41 @@ public class BookingPatternDao extends BasicDao {
         }
     }
 
+    public List<BookingPatternMetadata> findAllBookingPatternMetadata() {
+
+        try {
+            PreparedStatement statement = super.controller.connection.
+                    prepareStatement("SELECT * FROM " + BOOKING_PATTERN_TABLE);
+            return this.executeBookingMetadataStatement(statement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Fehler");
+        }
+    }
+
+    private List<BookingPatternMetadata> executeBookingMetadataStatement(PreparedStatement statement) {
+        List<BookingPatternMetadata> bookingPatternMetadata = new ArrayList<>();
+        try {
+            ResultSet result = statement.executeQuery();
+            while(result.next()) {
+                BookingPatternMetadata patternMetadata = ModelFactory.getBookingPatternMetadata();
+                patternMetadata.setId(result.getInt("id"));
+                patternMetadata.setBookingInformation(result.getInt("bookinginformationId"));
+                patternMetadata.setCategory(result.getInt("categoryId"));
+                patternMetadata.setExecutionDate(result.getDate("executionDate"));
+                patternMetadata.setExecutionDatePattern(result.getString("executionDatePattern"));
+                patternMetadata.setName(result.getString("name"));
+                patternMetadata.setPattern(result.getBoolean("pattern"));
+
+                bookingPatternMetadata.add(patternMetadata);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bookingPatternMetadata;
+    }
+
+
     private List<InputField> findInputFieldsByPatternId(int id) {
         List<InputField> inputFields = new ArrayList<>();
         try {
@@ -167,4 +219,6 @@ public class BookingPatternDao extends BasicDao {
         }
         return patternItems;
     }
+
+
 }

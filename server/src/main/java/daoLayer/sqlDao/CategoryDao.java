@@ -58,6 +58,10 @@ public class CategoryDao extends BasicDao {
         super.delete(category, CATEGORY_TABLE);
     }
 
+    public void delete(int id) {
+        super.delete(id, CATEGORY_TABLE);
+    }
+
     public List<Category> findAllCategories() {
         List<Category> categories = new ArrayList<>();
         try {

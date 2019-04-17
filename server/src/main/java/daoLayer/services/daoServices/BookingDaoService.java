@@ -25,6 +25,10 @@ public class BookingDaoService {
         this.bookingDao.delete(booking);
     }
 
+    public void deleteBooking(int id) {
+        this.bookingDao.delete(id);
+    }
+
     public Booking findBookingById(int id) {
         return this.bookingDao.read(id);
     }

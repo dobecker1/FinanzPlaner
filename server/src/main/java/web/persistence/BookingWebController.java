@@ -4,6 +4,7 @@ import daoLayer.services.BookingService;
 import daoLayer.services.LedgerService;
 import models.booking.Booking;
 import models.booking.BookingImpl;
+import models.patternBooking.interfaces.BookingPatternItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

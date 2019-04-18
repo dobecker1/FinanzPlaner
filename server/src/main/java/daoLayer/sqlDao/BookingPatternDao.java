@@ -141,11 +141,60 @@ public class BookingPatternDao extends BasicDao {
         }
     }
 
+    public BookingPatternMetadata readMetadata(int id) {
+        try {
+            PreparedStatement statement = super.controller.connection.
+                    prepareStatement("SELECT * FROM " + BOOKING_PATTERN_TABLE + " WHERE ID = ?");
+            statement.setInt(1, id);
+            ResultSet result = statement.executeQuery();
+            if(result.next()) {
+                BookingPatternMetadata patternMetadata = ModelFactory.getBookingPatternMetadata();
+                patternMetadata.setId(result.getInt("id"));
+                patternMetadata.setPattern(result.getBoolean("pattern"));
+                patternMetadata.setName(result.getString("name"));
+                patternMetadata.setExecutionDatePattern(result.getString("executionDate"));
+                patternMetadata.setExecutionDate(result.getDate("executionDate"));
+                patternMetadata.setCategory(result.getInt("categoryId"));
+                patternMetadata.setBookingInformation(result.getInt("bookinginformationId"));
+                return patternMetadata;
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Fehler");
+        }
+    }
+
+    public void connectBookingPatternItemToPattern(int patternId, int patternItemId) {
+        try {
+            PreparedStatement statement = super.controller.connection.
+                    prepareStatement("INSERT INTO BOOKING_PATTERN_BOOKING_ITEM (BOOKINGPATTERN, BOOKINGITEM) VALUES(?,?)");
+            statement.setInt(1, patternId);
+            statement.setInt(2, patternItemId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public List<BookingPatternMetadata> findAllBookingPatternMetadata() {
 
         try {
             PreparedStatement statement = super.controller.connection.
                     prepareStatement("SELECT * FROM " + BOOKING_PATTERN_TABLE);
+            return this.executeBookingMetadataStatement(statement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Fehler");
+        }
+    }
+
+    public List<BookingPatternMetadata> findBookingPatternMetaByCategory(int categoryId) {
+        try {
+            PreparedStatement statement = super.controller.connection.
+                    prepareStatement("SELECT * FROM " + BOOKING_PATTERN_TABLE + " WHERE CATEGORYID = ?");
+            statement.setInt(1, categoryId);
             return this.executeBookingMetadataStatement(statement);
         } catch (SQLException e) {
             e.printStackTrace();

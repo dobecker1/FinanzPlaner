@@ -2,10 +2,6 @@ package models.patternBooking.impl;
 
 import models.patternBooking.interfaces.InputField;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "INPUT_FIELDS")
 public class InputFieldImpl implements InputField {
 
     private int id;
@@ -13,7 +9,6 @@ public class InputFieldImpl implements InputField {
     private InputFieldType type;
 
     @Override
-    @Column(nullable = false)
     public String getName() {
         return this.name;
     }
@@ -24,8 +19,6 @@ public class InputFieldImpl implements InputField {
     }
 
     @Override
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     public InputFieldType getInputFieldType() {
         return this.type;
     }
@@ -36,8 +29,6 @@ public class InputFieldImpl implements InputField {
     }
 
     @Override
-    @Id @GeneratedValue
-    @Column(name = "id")
     public int getId() {
         return id;
     }

@@ -1,14 +1,9 @@
 package models.booking;
 
-import models.basic.BasicModel;
 import models.ledger.Ledger;
-import models.ledger.LedgerImpl;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "BOOKING")
 public class BookingImpl implements Booking {
 
     private int id;
@@ -33,8 +28,6 @@ public class BookingImpl implements Booking {
 
     private String financialYear;
 
-    @Id @GeneratedValue
-    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -43,8 +36,6 @@ public class BookingImpl implements Booking {
         this.id = id;
     }
 
-    @Column(name = "date", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
     public LocalDate getDate() {
         return date;
     }
@@ -53,7 +44,6 @@ public class BookingImpl implements Booking {
         this.date = date;
     }
 
-    @Column(name = "referenceNumber", nullable = false)
     public String getReferenceNumber() {
         return referenceNumber;
     }
@@ -62,7 +52,6 @@ public class BookingImpl implements Booking {
         this.referenceNumber = referenceNumber;
     }
 
-    @Column(name = "bookingDescription")
     public String getBookingDescription() {
         return bookingDescription;
     }
@@ -71,8 +60,6 @@ public class BookingImpl implements Booking {
         this.bookingDescription = bookingDescription;
     }
 
-    @OneToOne(fetch = FetchType.EAGER, targetEntity = LedgerImpl.class)
-    @JoinColumn(name = "ledgerShould", nullable = false)
     public Ledger getLedgerShould() {
         return ledgerShould;
     }
@@ -81,8 +68,6 @@ public class BookingImpl implements Booking {
         this.ledgerShould = ledgerShould;
     }
 
-    @OneToOne(fetch = FetchType.EAGER, targetEntity = LedgerImpl.class)
-    @JoinColumn(name = "ledgerHave", nullable = false)
     public Ledger getLedgerHave() {
         return ledgerHave;
     }
@@ -91,8 +76,6 @@ public class BookingImpl implements Booking {
         this.ledgerHave = ledgerHave;
     }
 
-    @OneToOne(fetch = FetchType.EAGER, targetEntity = LedgerImpl.class)
-    @JoinColumn(name = "subLedgerShould")
     public Ledger getSubLedgerShould() {
         return subLedgerShould;
     }
@@ -101,8 +84,6 @@ public class BookingImpl implements Booking {
         this.subLedgerShould = subLedgerShould;
     }
 
-    @OneToOne(fetch = FetchType.EAGER, targetEntity = LedgerImpl.class)
-    @JoinColumn(name = "subLedgerHave")
     public Ledger getSubLedgerHave() {
         return subLedgerHave;
     }
@@ -111,7 +92,6 @@ public class BookingImpl implements Booking {
         this.subLedgerHave = subLedgerHave;
     }
 
-    @Column(name = "value", nullable = false)
     public double getValue() {
         return value;
     }
@@ -120,7 +100,6 @@ public class BookingImpl implements Booking {
         this.value = value;
     }
 
-    @Column(name = "referencePath", nullable = false)
     public String getReferencePath() {
         return referencePath;
     }
@@ -129,7 +108,6 @@ public class BookingImpl implements Booking {
         this.referencePath = referencePath;
     }
 
-    @Column(name = "financialYear")
     public String getFinancialYear() {
         return financialYear;
     }

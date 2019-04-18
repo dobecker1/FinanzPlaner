@@ -1,9 +1,5 @@
 package models.category;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "CATEGORY")
 public class CategoryImpl implements Category {
 
 
@@ -12,7 +8,6 @@ public class CategoryImpl implements Category {
     private String name;
 
     @Override
-    @Column(name = "name", nullable = false)
     public String getName() {
         return name;
     }
@@ -23,8 +18,6 @@ public class CategoryImpl implements Category {
     }
 
     @Override
-    @Id @GeneratedValue
-    @Column(name = "id")
     public int getId() {
         return id;
     }

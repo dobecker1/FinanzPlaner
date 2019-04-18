@@ -1,13 +1,8 @@
 package models.patternBooking.impl;
 
 import models.ledger.Ledger;
-import models.ledger.LedgerImpl;
 import models.patternBooking.interfaces.BookingInformation;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "BOOKING_INFORMATION")
 public class BookingInformationImpl implements BookingInformation {
 
     private int id;
@@ -21,8 +16,6 @@ public class BookingInformationImpl implements BookingInformation {
     private double value;
 
     @Override
-    @Id @GeneratedValue
-    @Column(name = "id")
     public int getId() {
         return this.id;
     }
@@ -33,8 +26,6 @@ public class BookingInformationImpl implements BookingInformation {
     }
 
     @Override
-    @OneToOne(fetch = FetchType.EAGER, targetEntity = LedgerImpl.class)
-    @JoinColumn(name = "ledgerShould", nullable = false)
     public Ledger getLedgerShould() {
         return this.ledgerShould;
     }
@@ -45,8 +36,6 @@ public class BookingInformationImpl implements BookingInformation {
     }
 
     @Override
-    @OneToOne(fetch = FetchType.EAGER, targetEntity = LedgerImpl.class)
-    @JoinColumn(name = "ledgerHave", nullable = false)
     public Ledger getLedgerHave() {
         return this.ledgerHave;
     }
@@ -57,8 +46,6 @@ public class BookingInformationImpl implements BookingInformation {
     }
 
     @Override
-    @OneToOne(fetch = FetchType.EAGER, targetEntity = LedgerImpl.class)
-    @JoinColumn(name = "subLedgerShould")
     public Ledger getSubLedgerShould() {
         return this.subLedgerShould;
     }
@@ -69,8 +56,6 @@ public class BookingInformationImpl implements BookingInformation {
     }
 
     @Override
-    @OneToOne(fetch = FetchType.EAGER, targetEntity = LedgerImpl.class)
-    @JoinColumn(name = "subLedgerHave")
     public Ledger getSubLedgerHave() {
         return this.subLedgerHave;
     }
@@ -81,7 +66,6 @@ public class BookingInformationImpl implements BookingInformation {
     }
 
     @Override
-    @Column(name = "bookingDescription")
     public String getBookingDescription() {
         return this.bookingDescription;
     }
@@ -92,7 +76,6 @@ public class BookingInformationImpl implements BookingInformation {
     }
 
     @Override
-    @Column(name = "value")
     public double getValue() {
         return this.value;
     }

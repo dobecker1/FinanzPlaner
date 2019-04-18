@@ -23,7 +23,10 @@ public class BookingPatternItemDao extends BasicDao {
             PreparedStatement statement = super.controller.connection.
                     prepareStatement("INSERT INTO BOOKING_PATTERN_ITEM(BOOKINGID, PAYLOADID) VALUES(?,?)", Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, patternItem.getBooking().getId());
-            statement.setInt(2, patternItem.getPayload().getId());
+            if(patternItem.getPayload() != null) {
+                statement.setInt(2, patternItem.getPayload().getId());
+            }
+            statement.setInt(2, -1);
             statement.executeUpdate();
             ResultSet generatedKeys = statement.getGeneratedKeys();
             if(generatedKeys.next()) {
@@ -50,7 +53,10 @@ public class BookingPatternItemDao extends BasicDao {
                 BookingPatternItem patternItem = ModelFactory.getBookingPatternItem();
                 patternItem.setId(result.getInt("id"));
                 patternItem.setBooking(this.bookingService.findBookingById(result.getInt("bookingId")));
-                patternItem.setPayload(this.patternPayloadDaoService.findPatternPayloadById(result.getInt("payloadId")));
+                int payloadId = result.getInt("payloadId");
+                if(payloadId > 0) {
+                    patternItem.setPayload(this.patternPayloadDaoService.findPatternPayloadById(payloadId));
+                }
                 return patternItem;
             } else  {
                 return null;

@@ -1,14 +1,10 @@
 package models.patternBooking.impl;
 
 import models.booking.Booking;
-import models.booking.BookingImpl;
 import models.patternBooking.interfaces.BookingPatternItem;
 import models.patternBooking.interfaces.BookingPatternPayload;
 
-import javax.persistence.*;
 
-@Entity
-@Table(name = "BOOKING_PATTERN_ITEM")
 public class BookingPatternItemImpl implements BookingPatternItem {
 
     private int id;
@@ -17,8 +13,6 @@ public class BookingPatternItemImpl implements BookingPatternItem {
 
 
     @Override
-    @Id @GeneratedValue
-    @Column(name = "id")
     public int getId() {
         return this.id;
     }
@@ -29,8 +23,6 @@ public class BookingPatternItemImpl implements BookingPatternItem {
     }
 
     @Override
-    @OneToOne(fetch = FetchType.EAGER, targetEntity = BookingImpl.class)
-    @JoinColumn(name = "booking", nullable = false)
     public Booking getBooking() {
         return this.booking;
     }
@@ -41,8 +33,6 @@ public class BookingPatternItemImpl implements BookingPatternItem {
     }
 
     @Override
-    @OneToOne(fetch = FetchType.EAGER, targetEntity = BookingPatternPayloadImpl.class)
-    @JoinColumn(name = "payload")
     public BookingPatternPayload getPayload() {
         return this.payload;
     }

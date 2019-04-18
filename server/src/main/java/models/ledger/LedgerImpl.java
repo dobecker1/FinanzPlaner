@@ -1,30 +1,17 @@
 package models.ledger;
 
-import models.basic.BasicModel;
-
-import javax.persistence.*;
-
-@Entity
-@Table(name = "LEDGER")
 public class LedgerImpl implements Ledger {
 
-    @Id @GeneratedValue
-    @Column(name = "id")
     private int id;
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "ledgerNumber", unique = true)
     private int ledgerNumber;
 
-    @Column(name = "description")
     private String description;
 
-    @Column(name = "subLedger")
     private boolean subLedger;
 
-    @Column(name = "value")
     private double value;
 
     public int getId() {

@@ -1,19 +1,14 @@
 package models.patternBooking.impl;
 
 import models.category.Category;
-import models.category.CategoryImpl;
 import models.patternBooking.interfaces.BookingInformation;
 import models.patternBooking.interfaces.BookingPattern;
 import models.patternBooking.interfaces.BookingPatternItem;
 import models.patternBooking.interfaces.InputField;
 
-import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-@Entity
-@Table(name = "PATTERN_BOOKING")
 public class BookingPatternImpl implements BookingPattern {
 
     private int id;
@@ -28,8 +23,6 @@ public class BookingPatternImpl implements BookingPattern {
     private List<BookingPatternItem> patternItems;
 
     @Override
-    @Id @GeneratedValue
-    @Column(name = "id")
     public int getId() {
         return this.id;
     }
@@ -40,7 +33,6 @@ public class BookingPatternImpl implements BookingPattern {
     }
 
     @Override
-    @Column(name = "name", nullable = false)
     public String getName() {
         return this.name;
     }
@@ -51,7 +43,6 @@ public class BookingPatternImpl implements BookingPattern {
     }
 
     @Override
-    @Column(name = "executionDate")
     public Date getExecutionDate() {
         return this.executionDate;
     }
@@ -62,7 +53,6 @@ public class BookingPatternImpl implements BookingPattern {
     }
 
     @Override
-    @Column(name = "executionDatePattern")
     public String getExecutionDatePattern() {
         return this.executionDatePattern;
     }
@@ -73,8 +63,6 @@ public class BookingPatternImpl implements BookingPattern {
     }
 
     @Override
-    @OneToOne(fetch = FetchType.EAGER, targetEntity = BookingInformationImpl.class)
-    @JoinColumn(name = "bookingInformation", nullable = false)
     public BookingInformation getBookingInformation() {
         return this.bookingInformation;
     }
@@ -85,8 +73,6 @@ public class BookingPatternImpl implements BookingPattern {
     }
 
     @Override
-    @OneToOne(fetch = FetchType.EAGER, targetEntity = CategoryImpl.class)
-    @JoinColumn(name = "category", nullable = false)
     public Category getCategory() {
         return this.category;
     }
@@ -97,7 +83,6 @@ public class BookingPatternImpl implements BookingPattern {
     }
 
     @Override
-    @Column(name = "pattern", nullable = false)
     public boolean isPattern() {
         return this.pattern;
     }
@@ -108,8 +93,6 @@ public class BookingPatternImpl implements BookingPattern {
     }
 
     @Override
-    @OneToMany(fetch = FetchType.EAGER, targetEntity = InputFieldImpl.class)
-    @Column(name = "inputFields")
     public List<InputField> getInputFields() {
         return this.inputFields;
     }
@@ -120,8 +103,6 @@ public class BookingPatternImpl implements BookingPattern {
     }
 
     @Override
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = BookingPatternItemImpl.class)
-    @Column(name = "patternItems", nullable = false)
     public List<BookingPatternItem> getBookingPatternItems() {
         return this.patternItems;
     }

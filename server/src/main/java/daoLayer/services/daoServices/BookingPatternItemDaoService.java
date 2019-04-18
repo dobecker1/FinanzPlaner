@@ -3,7 +3,9 @@ package daoLayer.services.daoServices;
 import daoLayer.sqlDao.BookingPatternItemDao;
 import factory.DaoFactory;
 import models.patternBooking.interfaces.BookingPatternItem;
+import org.springframework.stereotype.Service;
 
+@Service
 public class BookingPatternItemDaoService {
 
     private BookingPatternItemDao patternItemDao;

@@ -2,6 +2,7 @@ package daoLayer.services;
 
 import daoLayer.services.daoServices.BookingPatternDaoService;
 import models.patternBooking.interfaces.BookingPattern;
+import models.patternBooking.metaData.BookingPatternMetadata;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +26,20 @@ public class BookingPatternService {
         this.bookingPatternDaoService.deleteBookingPattern(id);
     }
 
+    public List<BookingPatternMetadata> findAllBookingMeta() {
+        return this.bookingPatternDaoService.findAllBookingMeta();
+    }
+
+    public List<BookingPatternMetadata> findBookingMetaByCategory(int categoryId) {
+        return this.bookingPatternDaoService.findBookingMetaByCategory(categoryId);
+    }
+
+    public BookingPatternMetadata findBookingMetadataById(int id) {
+        return this.bookingPatternDaoService.findBookingMetadataById(id);
+    }
+
+    public void connectPatternItemToPattern(int patternId, int patternItemId) {
+        this.bookingPatternDaoService.connectPatternItemToPattern(patternId, patternItemId);
+    }
 
 }

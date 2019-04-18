@@ -21,18 +21,18 @@ export class LedgerService {
     }
 
     saveLedger(ledger: Ledger): Observable<Ledger> {
-       return this.http.post<Ledger>("http://localhost:8080/saveLedger", ledger, {headers: this.httpOptions, observe: 'body', responseType: 'json'});
+       return this.http.post<Ledger>("http://localhost:8080/ledgers", ledger, {headers: this.httpOptions, observe: 'body', responseType: 'json'});
     }
 
     deleteLedger(id: number): void{
-        this.http.delete("http://localhost:8080/deleteLedger?id=" + id, {headers: this.httpOptions, responseType: 'text'})
+        this.http.delete("http://localhost:8080/ledgers/" + id, {headers: this.httpOptions, responseType: 'text'})
         .subscribe(response => {
             console.log(response);
         });
     }
 
     getAllLedgers(): Observable<Ledger[]> {
-        return this.http.get<Ledger[]>('http://localhost:8080/getAllLedgers');
+        return this.http.get<Ledger[]>('http://localhost:8080/ledgers');
     }
 
     private handleError(error: HttpErrorResponse) {

@@ -1,6 +1,9 @@
 package models.ledger;
 
+
 public class LedgerImpl implements Ledger {
+
+    public LedgerImpl() {}
 
     private int id;
 

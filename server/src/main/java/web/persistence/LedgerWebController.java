@@ -29,6 +29,7 @@ public class LedgerWebController {
     @DeleteMapping("/ledgers/{id}")
     public String deleteLedger(@PathVariable int id) {
         this.ledgerService.deleteLedger(id);
+        //TODO Return id or boolean to give response to delete
         return "OK";
     }
 }

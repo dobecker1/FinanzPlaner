@@ -1,7 +1,9 @@
 package models.ledger;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import models.basic.BasicModel;
 
+@JsonDeserialize(as=LedgerImpl.class)
 public interface Ledger extends BasicModel {
 
     public int getId();

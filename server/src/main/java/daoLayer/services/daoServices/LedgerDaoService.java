@@ -25,16 +25,16 @@ public class LedgerDaoService {
         this.ledgerDao.delete(ledger);
     }
 
-    public void deleteLedger(int id) {
-        this.ledgerDao.delete(id);
+    public boolean deleteLedger(int id) {
+        return this.ledgerDao.delete(id);
     }
 
     public Ledger findLedgerById(int id) {
         return this.ledgerDao.read(id);
     }
 
-    public void updateLedger(Ledger newLedger) {
-        this.ledgerDao.updateLedger(newLedger);
+    public boolean updateLedger(Ledger newLedger) {
+        return this.ledgerDao.updateLedger(newLedger);
     }
 
     public Ledger findLedgerByLedgerNumber(int ledgerNumber) {

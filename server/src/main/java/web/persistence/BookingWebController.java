@@ -30,9 +30,8 @@ public class BookingWebController {
     }
 
     @DeleteMapping("/bookings/{id}")
-    public String deleteBooking(@PathVariable int id) {
-        this.bookingService.deleteBooking(id);
-        return "OK";
+    public boolean deleteBooking(@PathVariable int id) {
+        return this.bookingService.deleteBooking(id);
     }
 
     @GetMapping("/bookings")

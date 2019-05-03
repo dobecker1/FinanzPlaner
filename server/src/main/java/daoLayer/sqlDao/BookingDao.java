@@ -86,8 +86,8 @@ public class BookingDao extends BasicDao{
         super.delete(booking, BOOKING_TABLE);
     }
 
-    public void delete(int id) {
-        super.delete(id, BOOKING_TABLE);
+    public boolean delete(int id) {
+        return super.delete(id, BOOKING_TABLE);
     }
 
     public List<Booking> findAllBookings() {

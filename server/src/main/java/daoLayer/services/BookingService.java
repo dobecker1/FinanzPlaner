@@ -1,5 +1,6 @@
 package daoLayer.services;
 
+import booking.BookingHelper;
 import daoLayer.services.daoServices.BookingDaoService;
 import models.booking.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,24 +16,32 @@ public class BookingService {
     private BookingDaoService bookingDaoService;
 
     @Autowired
-    private LedgerService ledgerService;
+    private BookingHelper bookingHelper;
 
     public int saveBooking(Booking booking) {
         return this.bookingDaoService.saveBooking(booking);
     }
 
+    public boolean updateBooking(Booking booking) {
+
+        if(bookingHelper.undoOldBooking(booking)) {
+            //TODO update Booking in Dao
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public int book(Booking booking) {
-        this.ledgerService.changeLedgerValue(booking.getLedgerShould(), booking.getValue());
-        this.ledgerService.changeLedgerValue(booking.getLedgerHave(), -booking.getValue());
-        return this.bookingDaoService.saveBooking(booking);
+        return this.bookingHelper.book(booking);
     }
 
     public void deleteBooking(Booking booking) {
         this.bookingDaoService.deleteBooking(booking);
     }
 
-    public void deleteBooking(int id) {
-        this.bookingDaoService.deleteBooking(id);
+    public boolean deleteBooking(int id) {
+        return this.bookingDaoService.deleteBooking(id);
     }
 
     public Booking getBookingById(int id) {

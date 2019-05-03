@@ -48,8 +48,8 @@ public class LedgerDao extends BasicDao{
         super.delete(ledger, LEDGER_TABLE);
     }
 
-    public void delete(int id) {
-        super.delete(id, LEDGER_TABLE);
+    public boolean delete(int id) {
+        return super.delete(id, LEDGER_TABLE);
     }
 
     public Ledger findLedgerByLedgerNumber(int ledgerNumber) {
@@ -137,7 +137,7 @@ public class LedgerDao extends BasicDao{
         }
     }
 
-    public void updateLedger(Ledger ledger) {
+    public boolean updateLedger(Ledger ledger) {
         try {
             PreparedStatement statement = super.controller.connection.
                     prepareStatement("UPDATE LEDGER " +
@@ -150,8 +150,10 @@ public class LedgerDao extends BasicDao{
             statement.setBoolean(5, ledger.isSubLedger());
             statement.setInt(6, ledger.getId());
             statement.executeUpdate();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 }

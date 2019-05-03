@@ -17,8 +17,12 @@ public class LedgerService {
         return this.ledgerDaoService.findLedgerById(this.ledgerDaoService.saveLedger(ledger));
     }
 
-    public void deleteLedger(int id) {
-        this.ledgerDaoService.deleteLedger(id);
+    public boolean updateLedger(Ledger ledger) {
+        return this.ledgerDaoService.updateLedger(ledger);
+    }
+
+    public boolean deleteLedger(int id) {
+        return this.ledgerDaoService.deleteLedger(id);
     }
 
     public void deleteLedger(Ledger ledger) {

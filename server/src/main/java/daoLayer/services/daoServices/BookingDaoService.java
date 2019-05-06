@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 
-@Service("bookingDaoService")
 public class BookingDaoService {
 
     private BookingDao bookingDao;
@@ -19,6 +18,10 @@ public class BookingDaoService {
 
     public int saveBooking(Booking booking) {
         return this.bookingDao.write(booking);
+    }
+
+    public boolean updateBooking(Booking booking) {
+        return this.bookingDao.updateBooking(booking);
     }
 
     public void deleteBooking(Booking booking) {

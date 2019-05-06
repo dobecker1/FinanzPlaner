@@ -1,20 +1,21 @@
 package daoLayer.services;
 
 import daoLayer.services.daoServices.LedgerDaoService;
+import factory.ServiceFactory;
 import models.ledger.Ledger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service("ledgerService")
 public class LedgerService {
 
-    @Autowired
     private LedgerDaoService ledgerDaoService;
 
-    public Ledger saveLedger(Ledger ledger) {
-        return this.ledgerDaoService.findLedgerById(this.ledgerDaoService.saveLedger(ledger));
+    public LedgerService() {
+        this.ledgerDaoService = ServiceFactory.getLedgerDaoService();
+    }
+
+    public int saveLedger(Ledger ledger) {
+        return this.ledgerDaoService.saveLedger(ledger);
     }
 
     public boolean updateLedger(Ledger ledger) {
@@ -43,6 +44,10 @@ public class LedgerService {
 
     public Ledger getLedgerByNumber(int ledgerNumber) {
         return this.ledgerDaoService.findLedgerByLedgerNumber(ledgerNumber);
+    }
+
+    public Ledger getLedgerById(int id) {
+        return this.ledgerDaoService.findLedgerById(id);
     }
 
     public void changeLedgerValue(Ledger ledger, double sum) {

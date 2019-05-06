@@ -2,10 +2,8 @@ package web.persistence;
 
 import daoLayer.services.BookingService;
 import daoLayer.services.LedgerService;
+import factory.ServiceFactory;
 import models.booking.Booking;
-import models.booking.BookingImpl;
-import models.patternBooking.interfaces.BookingPatternItem;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -15,18 +13,23 @@ import java.util.List;
 @RestController
 public class BookingWebController {
 
-    @Autowired
     BookingService bookingService;
-
-    @Autowired
     LedgerService ledgerService;
 
-    public BookingWebController()  {}
+    public BookingWebController()  {
+        this.bookingService = ServiceFactory.getBookingService();
+        this.ledgerService = ServiceFactory.getLedgerService();
+    }
 
     @PostMapping("/bookings")
     public String saveBooking(@RequestBody Booking booking) {
         this.bookingService.book(booking);
         return "OK";
+    }
+
+    @PutMapping("/bookings")
+    public boolean updateBooking(@RequestBody Booking booking) {
+        return this.bookingService.updateBooking(booking);
     }
 
     @DeleteMapping("/bookings/{id}")

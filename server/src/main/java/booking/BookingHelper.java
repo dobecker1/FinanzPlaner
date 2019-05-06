@@ -2,19 +2,18 @@ package booking;
 
 import daoLayer.services.BookingService;
 import daoLayer.services.LedgerService;
+import factory.ServiceFactory;
 import models.booking.Booking;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-@Component("bookingHelper")
 public class BookingHelper {
 
-    @Autowired
     private BookingService bookingService;
-
-    @Autowired
     private LedgerService ledgerService;
+
+    public BookingHelper(BookingService bookingService) {
+        this.bookingService = bookingService;
+        this.ledgerService = ServiceFactory.getLedgerService();
+    }
 
     public int book(Booking booking) {
         this.ledgerService.changeLedgerValue(booking.getLedgerShould(), booking.getValue());
@@ -22,13 +21,18 @@ public class BookingHelper {
         return this.bookingService.saveBooking(booking);
     }
 
-    public boolean undoOldBooking(Booking booking) {
+    public boolean updateLedgers(Booking booking) {
         Booking oldBooking = this.bookingService.getBookingById(booking.getId());
 
-        //only value changed
-        //clear old Ledger values
+        //undo changes on ledgers
         this.ledgerService.changeLedgerValue(oldBooking.getLedgerShould(), -oldBooking.getValue());
         this.ledgerService.changeLedgerValue(oldBooking.getLedgerHave(), oldBooking.getValue());
+        //TODO change subledger values
+
+
+        //refresh ledgers of new Booking
+        booking.setLedgerShould(this.ledgerService.getLedgerById(booking.getLedgerShould().getId()));
+        booking.setLedgerHave(this.ledgerService.getLedgerById(booking.getLedgerHave().getId()));
 
         //change Values of ledgers
         this.ledgerService.changeLedgerValue(booking.getLedgerShould(), booking.getValue());

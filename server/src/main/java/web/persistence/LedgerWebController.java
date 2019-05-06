@@ -1,6 +1,7 @@
 package web.persistence;
 
 import daoLayer.services.LedgerService;
+import factory.ServiceFactory;
 import models.ledger.Ledger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,14 +11,14 @@ import java.util.List;
 @RestController
 public class LedgerWebController {
 
-    @Autowired
     LedgerService ledgerService;
 
     public LedgerWebController() {
+        this.ledgerService = ServiceFactory.getLedgerService();
     }
 
     @PostMapping("/ledgers")
-    public Ledger saveLedger(@RequestBody Ledger ledger) {
+    public int saveLedger(@RequestBody Ledger ledger) {
         return this.ledgerService.saveLedger(ledger);
     }
 

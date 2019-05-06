@@ -93,6 +93,35 @@ public class BookingDaoTest {
         }
     }
 
+    @Test
+    void updateBookingTest() {
+        this.booking.setLedgerShould(this.ledgerShould);
+        this.booking.setLedgerHave(this.ledgerHave);
+        this.booking.setId(this.bookingDao.write(booking));
+        this.booking.setBookingDescription("Updated Descr");
+        this.booking.setReferenceNumber("Updated Ref");
+        this.booking.setValue(999);
+        this.booking.setFinancialYear("Updated Year");
+        this.booking.setReferencePath("Updated Path");
+        Ledger shouldLedgerNew = ModelFactory.getLedger();
+        shouldLedgerNew.setValue(555);
+        shouldLedgerNew.setName("New ledger");
+        shouldLedgerNew.setLedgerNumber(999);
+        shouldLedgerNew.setSubLedger(false);
+        shouldLedgerNew.setId(this.ledgerDaoService.saveLedger(shouldLedgerNew));
+        this.booking.setLedgerShould(shouldLedgerNew);
+        this.bookingDao.updateBooking(this.booking);
+        Booking updatedBooking = this.bookingDao.read(this.booking.getId());
+        assertEquals("Updated Descr", updatedBooking.getBookingDescription());
+        assertEquals("Updated Ref", updatedBooking.getReferenceNumber());
+        assertEquals(999, updatedBooking.getValue());
+        assertEquals("Updated Year", updatedBooking.getFinancialYear());
+        assertEquals("Updated Path", updatedBooking.getReferencePath());
+        assertEquals(999, updatedBooking.getLedgerShould().getLedgerNumber());
+        this.bookingDao.delete(this.booking);
+        this.ledgerDaoService.deleteLedger(shouldLedgerNew);
+    }
+
     private List<Booking> createBookingList() {
         List<Booking> bookings = new ArrayList<>();
 

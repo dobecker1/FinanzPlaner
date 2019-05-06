@@ -68,6 +68,7 @@ public class BookingDao extends BasicDao{
                 booking.setDate(result.getDate("date").toLocalDate());
                 booking.setValue(result.getDouble("value"));
                 booking.setFinancialYear(result.getString("financialYear"));
+                booking.setReferencePath(result.getString("referencePath"));
                 booking.setLedgerShould(this.ledgerDao.read(result.getInt("ledgerShould")));
                 booking.setSubLedgerShould(this.ledgerDao.read(result.getInt("subLedgerShould")));
                 booking.setLedgerHave(this.ledgerDao.read(result.getInt("ledgerHave")));
@@ -121,6 +122,39 @@ public class BookingDao extends BasicDao{
             throw new RuntimeException("Fehler");
         }
         return bookings;
+    }
+
+    public boolean updateBooking(Booking booking) {
+        try {
+            PreparedStatement statement = super.controller.connection.
+                    prepareStatement("UPDATE BOOKING " +
+                            "SET REFERENCENUMBER = ?, BOOKINGDESCRIPTION = ?, DATE = ?, VALUE = ?, FINANCIALYEAR = ?, REFERENCEPATH = ?, " +
+                            "LEDGERSHOULD = ?, SUBLEDGERSHOULD = ?, LEDGERHAVE = ?, SUBLEDGERHAVE = ? WHERE ID = ?");
+            statement.setString(1, booking.getReferenceNumber());
+            statement.setString(2, booking.getBookingDescription());
+            statement.setDate(3, Date.valueOf(booking.getDate()));
+            statement.setDouble(4, booking.getValue());
+            statement.setString(5, booking.getFinancialYear());
+            statement.setString(6, booking.getReferencePath());
+            statement.setInt(7, booking.getLedgerShould().getId());
+            if(booking.getSubLedgerShould() != null) {
+                statement.setInt(8, booking.getSubLedgerShould().getId());
+            } else {
+                statement.setInt(8, -1);
+            }
+            statement.setInt(9, booking.getLedgerHave().getId());
+            if(booking.getSubLedgerHave() != null) {
+                statement.setInt(10, booking.getSubLedgerHave().getId());
+            } else {
+                statement.setInt(10, -1);
+            }
+            statement.setInt(11, booking.getId());
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public List<Booking> findBookingsByStartEndDate(LocalDate start, LocalDate end) {

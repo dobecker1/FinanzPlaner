@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service("ledgerDaoService")
 public class LedgerDaoService {
 
     private LedgerDao ledgerDao;

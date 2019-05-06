@@ -2,21 +2,21 @@ package daoLayer.services;
 
 import booking.BookingHelper;
 import daoLayer.services.daoServices.BookingDaoService;
+import factory.ServiceFactory;
 import models.booking.Booking;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Service("bookingService")
 public class BookingService {
 
-    @Autowired
     private BookingDaoService bookingDaoService;
-
-    @Autowired
     private BookingHelper bookingHelper;
+
+    public BookingService() {
+        this.bookingDaoService = ServiceFactory.getBookingDaoService();
+        this.bookingHelper = new BookingHelper(this);
+    }
 
     public int saveBooking(Booking booking) {
         return this.bookingDaoService.saveBooking(booking);
@@ -24,9 +24,8 @@ public class BookingService {
 
     public boolean updateBooking(Booking booking) {
 
-        if(bookingHelper.undoOldBooking(booking)) {
-            //TODO update Booking in Dao
-            return true;
+        if(bookingHelper.updateLedgers(booking)) {
+            return this.bookingDaoService.updateBooking(booking);
         } else {
             return false;
         }

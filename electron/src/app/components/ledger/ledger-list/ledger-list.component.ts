@@ -40,7 +40,13 @@ export class LedgerListComponent implements OnInit {
     }
 
     deleteLedger(ledger: Ledger) {
-        this.ledgerService.deleteLedger(ledger.id);
-        this.loadLedgers();       
+        this.ledgerService.deleteLedger(ledger.id)
+        .subscribe(response => {
+            if(response) {
+                this.loadLedgers();
+            } else {
+                console.log("Error deleting ledger");
+            }
+        });
     }
 }

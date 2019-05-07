@@ -10,6 +10,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from "@angular
 export class LedgerService {
 
     httpOptions: any;
+    private basicLedgerUrl: string = "http://localhost:8080/ledgers";
 
     constructor(private http: HttpClient) {
         this.httpOptions = {
@@ -20,30 +21,23 @@ export class LedgerService {
         };
     }
 
-    saveLedger(ledger: Ledger): Observable<Ledger> {
-       return this.http.post<Ledger>("http://localhost:8080/ledgers", ledger, {headers: this.httpOptions, observe: 'body', responseType: 'json'});
+    saveLedger(ledger: Ledger): Observable<number> {
+       return this.http.post<number>(this.basicLedgerUrl, ledger, {headers: this.httpOptions, observe: 'body', responseType: 'json'});
     }
 
-    deleteLedger(id: number): void{
-        this.http.delete("http://localhost:8080/ledgers/" + id, {headers: this.httpOptions, responseType: 'text'})
-        .subscribe(response => {
-            console.log(response);
-        });
+    updateLedger(ledger: Ledger): Observable<boolean> {
+        return this.http.put<boolean>(this.basicLedgerUrl, ledger, {headers: this.httpOptions, observe: 'body', responseType: 'json'});
+    }
+
+    deleteLedger(id: number): Observable<boolean> {
+        return this.http.delete<boolean>(this.basicLedgerUrl + "/" + id, {headers: this.httpOptions, responseType: 'json'});
     }
 
     getAllLedgers(): Observable<Ledger[]> {
-        return this.http.get<Ledger[]>('http://localhost:8080/ledgers');
+        return this.http.get<Ledger[]>(this.basicLedgerUrl);
     }
 
-    private handleError(error: HttpErrorResponse) {
-        if(error.error instanceof ErrorEvent) {
-            console.error('An error occured: ', error.error.message);
-        } else {
-            console.error(
-                'Returned code ${error.status}, ' +
-                'body was: ${error.error}'
-            );
-        }
-        return throwError('Ein Fehler ist aufgetreten.');
+    getLedgers(subLedgers: boolean): Observable<Ledger[]> {
+        return this.http.get<Ledger[]>(this.basicLedgerUrl + "/" + subLedgers);
     }
 }

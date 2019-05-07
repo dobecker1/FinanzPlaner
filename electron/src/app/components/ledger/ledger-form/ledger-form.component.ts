@@ -24,7 +24,8 @@ export class LedgerFormComponent {
         newLedger.description = this.ledger.description;
         newLedger.value = 0;
         this.ledgerService.saveLedger(newLedger).subscribe(responseLedger => {
-            this.ledgerCreated.emit(responseLedger);
+            newLedger.id = responseLedger;
+            this.ledgerCreated.emit(newLedger);
             ledgerForm.resetForm();
         });        
     }

@@ -4,6 +4,7 @@ import daoLayer.services.BookingPatternItemService;
 import daoLayer.services.BookingPatternPayloadService;
 import daoLayer.services.BookingPatternService;
 import daoLayer.services.BookingService;
+import factory.ServiceFactory;
 import models.patternBooking.interfaces.BookingPattern;
 import models.patternBooking.interfaces.BookingPatternItem;
 import models.patternBooking.metaData.BookingPatternMetadata;
@@ -24,8 +25,11 @@ public class BookingPatternWebController {
     @Autowired
     BookingPatternPayloadService patternPayloadService;
 
-    @Autowired
     BookingService bookingService;
+
+    public BookingPatternWebController() {
+        this.bookingService = ServiceFactory.getBookingService();
+    }
 
     @PostMapping("/bookingPatterns")
     public String saveBookingPattern(@RequestBody BookingPattern pattern) {

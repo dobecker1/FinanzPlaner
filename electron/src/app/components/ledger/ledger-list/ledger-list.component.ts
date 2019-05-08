@@ -1,7 +1,8 @@
 import { Component, ViewChild, OnInit } from "@angular/core";
 import { LedgerService } from "src/app/components/ledger/services/ledger.service";
-import { MatTableDataSource, MatSort } from "@angular/material";
+import { MatTableDataSource, MatSort, MatDialog } from "@angular/material";
 import { Ledger } from "src/app/models/ledger";
+import { LedgerDialog } from "../ledger-dialog/ledger-dialog.component";
 
 @Component({
     selector: 'ledger-list',
@@ -15,7 +16,7 @@ export class LedgerListComponent implements OnInit {
 
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private ledgerService: LedgerService) {
+    constructor(private ledgerService: LedgerService, public dialog: MatDialog) {
         this.displayedLedgerColumns = ['ledgerNumber', 'name', 'description', 'value', 'actions']
     }
 
@@ -39,6 +40,29 @@ export class LedgerListComponent implements OnInit {
         this.ledgerTableSource.filter = filterValue.trim().toLowerCase();
     }
 
+    editLedger(ledger: Ledger) {
+        let editLedger: Ledger = new Ledger();
+        editLedger.description = ledger.description;
+        editLedger.ledgerNumber = ledger.ledgerNumber;
+        editLedger.name = ledger.name;
+        const ledgerDialog = this.dialog.open(LedgerDialog, {
+            data: editLedger
+        });
+        ledgerDialog.afterClosed().subscribe(editedLedger => {
+            if(editedLedger != undefined) {
+                console.log(editedLedger);
+                ledger.description = editedLedger.description;
+                ledger.ledgerNumber = editedLedger.ledgerNumber;
+                ledger.name = editedLedger.name;
+                this.ledgerService.updateLedger(ledger).subscribe(response => {
+                    if(response) {
+                        console.log("Ledger successfully updated");
+                    }
+                });
+            }
+        });
+    }
+
     deleteLedger(ledger: Ledger) {
         this.ledgerService.deleteLedger(ledger.id)
         .subscribe(response => {
@@ -48,5 +72,9 @@ export class LedgerListComponent implements OnInit {
                 console.log("Error deleting ledger");
             }
         });
+    }
+
+    updateLedger() {
+
     }
 }

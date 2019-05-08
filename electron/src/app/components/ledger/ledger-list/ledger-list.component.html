@@ -15,7 +15,10 @@
 
     <ng-container  matColumnDef="description">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Beschreibung</th>
-        <td mat-cell *matCellDef="let ledger">{{ledger.description}}</td>
+        <td mat-cell *matCellDef="let ledger">
+            <!--{{ledger.description}}-->
+            <input id="ledger_description_{{ledger.id}}" matInput readonly="true" value="{{ledger.description}}">
+        </td>
     </ng-container>
 
     <ng-container  matColumnDef="value">
@@ -28,6 +31,9 @@
         <td mat-cell *matCellDef="let ledger">
             <button mat-icon-button>
                 <mat-icon aria-label="Lösche Konto" (click)="deleteLedger(ledger)">delete_outline</mat-icon>
+            </button>
+            <button mat-icon-button>
+                <mat-icon id="ledger_button_edit_{{ledger.id}}" aria-label="Bearbeite Konto" (click)="editLedger(ledger)">create</mat-icon>
             </button>
         </td>
     </ng-container>

@@ -13,10 +13,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSortModule } from '@angular/material/sort';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { LedgerFormComponent } from './ledger-form/ledger-form.component';
 import { LedgerListComponent } from './ledger-list/ledger-list.component';
 import { LedgerComponent } from './ledgerPage/ledger.component';
+import { LedgerDialog } from './ledger-dialog/ledger-dialog.component';
 
 @NgModule({
     imports: [
@@ -32,16 +34,22 @@ import { LedgerComponent } from './ledgerPage/ledger.component';
         MatCardModule,
         MatTableModule,
         MatSidenavModule,
-        MatSortModule
+        MatSortModule,
+        MatDialogModule
+    ],
+    entryComponents: [
+        LedgerDialog
     ],
     declarations: [
         LedgerFormComponent,
         LedgerListComponent,
+        LedgerDialog,
         LedgerComponent
     ],
     exports: [
         LedgerFormComponent,
         LedgerListComponent,
+        LedgerDialog,
         LedgerComponent
     ]
 })

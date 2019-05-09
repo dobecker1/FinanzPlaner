@@ -1,13 +1,33 @@
-<h1 mat-dialog-title>Bearbeite Konto {{ledger.name}}</h1>
-<div mat-dialog-content>
-    <mat-form-field>
-        <input matInput [(ngModel)] = "ledger.name">
-    </mat-form-field>
-    <mat-form-field>
-        <input matInput [(ngModel)] = "ledger.description">
-    </mat-form-field>
-</div>
-<div mat-dialog-actions>
-    <button mat-button [mat-dialog-close]="ledger">Speichern</button>
-    <button mat-button (click)="onDialogClose()">Abbrechen</button>
+<div style="width: 250px;">
+    <h1 mat-dialog-title>Konto bearbeiten</h1>
+
+    <form #ledgerForm="ngForm" (ngSubmit)="ledgerForm.form.valid && onLedgerSubmit()">
+        <div mat-dialog-content>
+            <div class="form-group">
+                <mat-form-field>
+                    <input matInput type="text" placeholder="Name" id="name" required
+                    [(ngModel)]="ledger.name" name="name" #name="ngModel">
+                    <mat-error *ngIf="name.invalid && name.errors.required">Name darf nicht leer sein.</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="form-group">
+                <mat-form-field>
+                    <input matInput type="number" placeholder="Kontonummer"  id="ledgerNumber" required
+                    [(ngModel)]="ledger.ledgerNumber" name="ledgerNumber" #ledgerNumber="ngModel"> 
+                    <mat-error *ngIf="ledgerNumber.invalid && ledgerNumber.errors.required">Kontonummer darf nicht leer sein.</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="form-group">
+                <mat-form-field>
+                    <textarea matInput placeholder="Beschreibung" [(ngModel)]="ledger.description" name="description"></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+        <div mat-dialog-actions>
+            <button mat-stroked-button color="primary" type="submit">Speichern</button>
+            <button mat-stroked-button color="primary" (click)="onDialogClose()">Abbrechen</button>
+        </div>   
+    </form>
+
+
 </div>

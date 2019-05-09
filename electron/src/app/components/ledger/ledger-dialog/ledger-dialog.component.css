@@ -1,0 +1,9 @@
+#ledgerNumber::-webkit-outer-spin-button, 
+#ledgerNumber::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+mat-form-field {
+    width: 100%;
+}

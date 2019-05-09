@@ -13,7 +13,13 @@ export class LedgerDialog {
 
     }
 
+
+    onLedgerSubmit() {
+        this.ledgerDialogRef.close(this.ledger);
+    }
+
     onDialogClose() {
         this.ledgerDialogRef.close();
     }
+
 }

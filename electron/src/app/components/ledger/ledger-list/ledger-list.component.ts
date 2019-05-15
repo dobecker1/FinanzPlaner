@@ -43,23 +43,26 @@ export class LedgerListComponent implements OnInit {
 
     editLedger(ledger: Ledger) {
         let editLedger: Ledger = new Ledger();
+        editLedger.id = ledger.id;
         editLedger.description = ledger.description;
         editLedger.ledgerNumber = ledger.ledgerNumber;
         editLedger.name = ledger.name;
+        editLedger.value = ledger.value;
         const ledgerDialog = this.dialog.open(LedgerDialog, {
             data: editLedger
         });
         ledgerDialog.afterClosed().subscribe(editedLedger => {
             if(editedLedger != undefined) {
-                console.log(editedLedger);
-                ledger.description = editedLedger.description;
-                ledger.ledgerNumber = editedLedger.ledgerNumber;
-                ledger.name = editedLedger.name;
-                this.ledgerService.updateLedger(ledger).subscribe(response => {
+                this.ledgerService.updateLedger(editLedger).subscribe(response => {
                     if(response) {
+                        ledger.ledgerNumber = editLedger.ledgerNumber;
+                        ledger.name = editLedger.name;
+                        ledger.description = editLedger.description;
                         this.notifier.showSuccess("Konto " + ledger.ledgerNumber + " erfolgreich gespeichert");
-                        //TODO reset Ledger after update failed
                     }
+                },
+                error => {
+                    throw new Error(error.error.message);
                 });
             }
         });

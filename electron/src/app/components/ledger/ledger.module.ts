@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule, ErrorHandler } from "@angular/core";
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -15,10 +15,14 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
 
+import { ToastModule } from 'primeng/toast';
+
 import { LedgerFormComponent } from './ledger-form/ledger-form.component';
 import { LedgerListComponent } from './ledger-list/ledger-list.component';
 import { LedgerComponent } from './ledgerPage/ledger.component';
 import { LedgerDialog } from './ledger-dialog/ledger-dialog.component';
+import { LedgerErrorHandler } from "./ledger-error-handler";
+import { MessageService } from "primeng/api";
 
 @NgModule({
     imports: [
@@ -35,7 +39,8 @@ import { LedgerDialog } from './ledger-dialog/ledger-dialog.component';
         MatTableModule,
         MatSidenavModule,
         MatSortModule,
-        MatDialogModule
+        MatDialogModule,
+        ToastModule
     ],
     entryComponents: [
         LedgerDialog
@@ -51,6 +56,10 @@ import { LedgerDialog } from './ledger-dialog/ledger-dialog.component';
         LedgerListComponent,
         LedgerDialog,
         LedgerComponent
+    ],
+    providers: [
+        {provide: ErrorHandler, useClass: LedgerErrorHandler},
+        MessageService
     ]
 })
 export class LedgerModule {}

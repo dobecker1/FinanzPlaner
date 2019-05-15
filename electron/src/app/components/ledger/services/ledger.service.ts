@@ -40,4 +40,13 @@ export class LedgerService {
     getLedgers(subLedgers: boolean): Observable<Ledger[]> {
         return this.http.get<Ledger[]>(this.basicLedgerUrl + "/" + subLedgers);
     }
+
+    handleError(error) {
+        console.log(error);
+        let errorMessage: string = '';
+        errorMessage = 'Error Code: ' + error.status + "\nMessage: "
+        + error.error.message;
+        window.alert(errorMessage);
+        return throwError(errorMessage);
+    }
 }

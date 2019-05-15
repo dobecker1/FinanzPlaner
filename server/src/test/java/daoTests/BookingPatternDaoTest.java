@@ -1,6 +1,7 @@
 package daoTests;
 
 import daoLayer.services.daoServices.*;
+import daoLayer.services.exceptions.LedgerServiceException;
 import daoLayer.sqlDao.*;
 import factory.ModelFactory;
 import models.booking.Booking;
@@ -42,7 +43,7 @@ public class BookingPatternDaoTest extends BasicDao {
 
 
     @BeforeEach
-    void createBookingPatternObjects() {
+    void createBookingPatternObjects() throws LedgerServiceException {
         this.category = ModelFactory.getCategory();
         this.category.setName("Test Kategorie");
 

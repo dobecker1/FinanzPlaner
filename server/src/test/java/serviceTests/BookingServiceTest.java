@@ -2,6 +2,7 @@ package serviceTests;
 
 import daoLayer.services.BookingService;
 import daoLayer.services.LedgerService;
+import daoLayer.services.exceptions.LedgerServiceException;
 import factory.ModelFactory;
 import factory.ServiceFactory;
 import models.booking.Booking;
@@ -22,7 +23,7 @@ public class BookingServiceTest {
     private Ledger ledgerHave;
 
     @BeforeEach
-    void createLedgersAndBooking() {
+    void createLedgersAndBooking() throws LedgerServiceException {
         this.ledgerShould = ModelFactory.getLedger();
         this.ledgerHave = ModelFactory.getLedger();
 
@@ -57,7 +58,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void bookTest() {
+    void bookTest() throws LedgerServiceException {
         this.booking.setId(this.bookingService.book(this.booking));
         Ledger savedShould = this.ledgerService.getLedgerById(this.ledgerShould.getId());
         Ledger savedHave = this.ledgerService.getLedgerById(this.ledgerHave.getId());
@@ -67,7 +68,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    void updateBookingTest() {
+    void updateBookingTest() throws LedgerServiceException {
         this.booking.setId(this.bookingService.book(this.booking));
         Ledger shouldLedgerNew = ModelFactory.getLedger();
         shouldLedgerNew.setLedgerNumber(444);

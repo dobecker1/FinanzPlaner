@@ -4,6 +4,7 @@ import daoLayer.services.BookingPatternItemService;
 import daoLayer.services.BookingPatternPayloadService;
 import daoLayer.services.BookingPatternService;
 import daoLayer.services.BookingService;
+import daoLayer.services.exceptions.LedgerServiceException;
 import factory.ServiceFactory;
 import models.patternBooking.interfaces.BookingPattern;
 import models.patternBooking.interfaces.BookingPatternItem;
@@ -48,7 +49,7 @@ public class BookingPatternWebController {
     }
 
     @PostMapping("bookingPatterns/{patternId}")
-    public String saveBookingPatternItem(@PathVariable int patternId, @RequestBody BookingPatternItem patternItem) {
+    public String saveBookingPatternItem(@PathVariable int patternId, @RequestBody BookingPatternItem patternItem) throws LedgerServiceException {
         patternItem.getBooking().setId(this.bookingService.book(patternItem.getBooking()));
         if(patternItem.getPayload() != null && this.bookingPatternService.findBookingMetadataById(patternId).isPattern()) {
             patternItem.getPayload().setId(this.patternPayloadService.savePatternPayload(patternItem.getPayload()));

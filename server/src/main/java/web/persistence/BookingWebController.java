@@ -2,6 +2,7 @@ package web.persistence;
 
 import daoLayer.services.BookingService;
 import daoLayer.services.LedgerService;
+import daoLayer.services.exceptions.LedgerServiceException;
 import factory.ServiceFactory;
 import models.booking.Booking;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +23,13 @@ public class BookingWebController {
     }
 
     @PostMapping("/bookings")
-    public String saveBooking(@RequestBody Booking booking) {
+    public String saveBooking(@RequestBody Booking booking) throws LedgerServiceException {
         this.bookingService.book(booking);
         return "OK";
     }
 
     @PutMapping("/bookings")
-    public boolean updateBooking(@RequestBody Booking booking) {
+    public boolean updateBooking(@RequestBody Booking booking) throws LedgerServiceException {
         return this.bookingService.updateBooking(booking);
     }
 

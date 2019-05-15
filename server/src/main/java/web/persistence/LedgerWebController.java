@@ -1,6 +1,7 @@
 package web.persistence;
 
 import daoLayer.services.LedgerService;
+import daoLayer.services.exceptions.LedgerServiceException;
 import factory.ServiceFactory;
 import models.ledger.Ledger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,12 @@ public class LedgerWebController {
     }
 
     @PostMapping("/ledgers")
-    public int saveLedger(@RequestBody Ledger ledger) {
+    public int saveLedger(@RequestBody Ledger ledger) throws LedgerServiceException {
         return this.ledgerService.saveLedger(ledger);
     }
 
     @PutMapping("/ledgers")
-    public boolean updateLedger(@RequestBody Ledger ledger) {
+    public boolean updateLedger(@RequestBody Ledger ledger) throws LedgerServiceException {
         return this.ledgerService.updateLedger(ledger);
     }
 

@@ -2,6 +2,7 @@ package booking;
 
 import daoLayer.services.BookingService;
 import daoLayer.services.LedgerService;
+import daoLayer.services.exceptions.LedgerServiceException;
 import factory.ServiceFactory;
 import models.booking.Booking;
 
@@ -15,13 +16,13 @@ public class BookingHelper {
         this.ledgerService = ServiceFactory.getLedgerService();
     }
 
-    public int book(Booking booking) {
+    public int book(Booking booking) throws LedgerServiceException {
         this.ledgerService.changeLedgerValue(booking.getLedgerShould(), booking.getValue());
         this.ledgerService.changeLedgerValue(booking.getLedgerHave(), -booking.getValue());
         return this.bookingService.saveBooking(booking);
     }
 
-    public boolean updateLedgers(Booking booking) {
+    public boolean updateLedgers(Booking booking) throws LedgerServiceException {
         Booking oldBooking = this.bookingService.getBookingById(booking.getId());
 
         //undo changes on ledgers

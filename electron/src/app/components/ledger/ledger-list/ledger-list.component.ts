@@ -3,6 +3,7 @@ import { LedgerService } from "src/app/components/ledger/services/ledger.service
 import { MatTableDataSource, MatSort, MatDialog } from "@angular/material";
 import { Ledger } from "src/app/models/ledger";
 import { LedgerDialog } from "../ledger-dialog/ledger-dialog.component";
+import { NotificationService } from "../services/notification.service";
 
 @Component({
     selector: 'ledger-list',
@@ -16,7 +17,7 @@ export class LedgerListComponent implements OnInit {
 
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private ledgerService: LedgerService, public dialog: MatDialog) {
+    constructor(private ledgerService: LedgerService, private notifier: NotificationService, public dialog: MatDialog) {
         this.displayedLedgerColumns = ['ledgerNumber', 'name', 'description', 'value', 'actions']
     }
 
@@ -56,7 +57,8 @@ export class LedgerListComponent implements OnInit {
                 ledger.name = editedLedger.name;
                 this.ledgerService.updateLedger(ledger).subscribe(response => {
                     if(response) {
-                        console.log("Ledger successfully updated");
+                        this.notifier.showSuccess("Konto " + ledger.ledgerNumber + " erfolgreich gespeichert");
+                        //TODO reset Ledger after update failed
                     }
                 });
             }

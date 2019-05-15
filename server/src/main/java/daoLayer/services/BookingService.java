@@ -2,6 +2,7 @@ package daoLayer.services;
 
 import booking.BookingHelper;
 import daoLayer.services.daoServices.BookingDaoService;
+import daoLayer.services.exceptions.LedgerServiceException;
 import factory.ServiceFactory;
 import models.booking.Booking;
 
@@ -22,7 +23,7 @@ public class BookingService {
         return this.bookingDaoService.saveBooking(booking);
     }
 
-    public boolean updateBooking(Booking booking) {
+    public boolean updateBooking(Booking booking) throws LedgerServiceException {
 
         if(bookingHelper.updateLedgers(booking)) {
             return this.bookingDaoService.updateBooking(booking);
@@ -31,7 +32,7 @@ public class BookingService {
         }
     }
 
-    public int book(Booking booking) {
+    public int book(Booking booking) throws LedgerServiceException {
         return this.bookingHelper.book(booking);
     }
 

@@ -4,6 +4,7 @@ import daoLayer.services.daoServices.BookingDaoService;
 import daoLayer.services.daoServices.BookingPatternPayloadDaoService;
 import daoLayer.services.daoServices.CategoryDaoService;
 import daoLayer.services.daoServices.LedgerDaoService;
+import daoLayer.services.exceptions.LedgerServiceException;
 import daoLayer.sqlDao.BookingPatternItemDao;
 import factory.DaoFactory;
 import factory.ModelFactory;
@@ -41,7 +42,7 @@ public class BookingPatternItemDaoTest {
 
 
     @BeforeEach
-    void createBookingPatternItemObjects() {
+    void createBookingPatternItemObjects() throws LedgerServiceException {
     this.category = ModelFactory.getCategory();
     this.category.setName("Test Kategorie");
 

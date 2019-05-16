@@ -14,6 +14,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 import { ToastModule } from 'primeng/toast';
 
@@ -40,6 +41,7 @@ import { MessageService } from "primeng/api";
         MatSidenavModule,
         MatSortModule,
         MatDialogModule,
+        MatGridListModule,
         ToastModule
     ],
     entryComponents: [

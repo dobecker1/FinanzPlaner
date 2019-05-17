@@ -68,6 +68,20 @@ public class BookingServiceTest {
     }
 
     @Test
+    void bookSubLedgerTest() throws LedgerServiceException {
+        Ledger subLedgerShould = this.createSubLedger(901, 0);
+        subLedgerShould.setId(this.ledgerService.saveLedger(subLedgerShould));
+        this.booking.setSubLedgerShould(subLedgerShould);
+        this.booking.setId(this.bookingService.book(this.booking));
+        Ledger savedSubLedger = this.ledgerService.getLedgerById(subLedgerShould.getId());
+        assertEquals(75, savedSubLedger.getValue());
+        this.bookingService.deleteBooking(this.booking);
+        savedSubLedger = this.ledgerService.getLedgerById(subLedgerShould.getId());
+        assertEquals(0, savedSubLedger.getValue());
+        this.ledgerService.deleteLedger(subLedgerShould);
+    }
+
+    @Test
     void updateBookingTest() throws LedgerServiceException {
         this.booking.setId(this.bookingService.book(this.booking));
         Ledger shouldLedgerNew = ModelFactory.getLedger();
@@ -88,6 +102,42 @@ public class BookingServiceTest {
         assertEquals(175, savedNew.getValue());
         this.bookingService.deleteBooking(this.booking);
         this.ledgerService.deleteLedger(shouldLedgerNew);
+    }
+
+    @Test
+    void updateBookingWithSubLedgerTest() throws LedgerServiceException {
+        Ledger subLedgerShould = this.createSubLedger(901, 0);
+        subLedgerShould.setId(this.ledgerService.saveLedger(subLedgerShould));
+        this.booking.setSubLedgerShould(subLedgerShould);
+        this.booking.setId(this.bookingService.book(this.booking));
+
+        Ledger newSubLedger = this.createSubLedger(902, 100);
+        newSubLedger.setName("New SubLedger Should");
+        newSubLedger.setId(this.ledgerService.saveLedger(newSubLedger));
+        this.booking.setSubLedgerShould(newSubLedger);
+        this.bookingService.updateBooking(this.booking);
+        Ledger savedSubShould = this.ledgerService.getLedgerById(subLedgerShould.getId());
+        Ledger savedShould = this.ledgerService.getLedgerById(this.booking.getLedgerShould().getId());
+        Ledger savedHave = this.ledgerService.getLedgerById(this.booking.getLedgerHave().getId());
+        Ledger savedNewSubShould = this.ledgerService.getLedgerById(this.booking.getSubLedgerShould().getId());
+        assertEquals(0, savedSubShould.getValue());
+        assertEquals(175, savedNewSubShould.getValue());
+        assertEquals(this.booking.getLedgerShould().getValue(), savedShould.getValue());
+        assertEquals(this.booking.getLedgerHave().getValue(), savedHave.getValue());
+        this.bookingService.deleteBooking(this.booking);
+        assertEquals(100, this.ledgerService.getLedgerById(savedNewSubShould.getId()).getValue());
+        this.ledgerService.deleteLedger(newSubLedger);
+        this.ledgerService.deleteLedger(subLedgerShould);
+    }
+
+    private Ledger createSubLedger(int ledgerNumber, double value) {
+        Ledger subLedger = ModelFactory.getLedger();
+        subLedger.setSubLedger(true);
+        subLedger.setName("SubLedger Should");
+        subLedger.setDescription("Subledger Description");
+        subLedger.setLedgerNumber(ledgerNumber);
+        subLedger.setValue(value);
+        return subLedger;
     }
 
 }

@@ -34,7 +34,7 @@ public class BookingWebController {
     }
 
     @DeleteMapping("/bookings/{id}")
-    public boolean deleteBooking(@PathVariable int id) {
+    public boolean deleteBooking(@PathVariable int id) throws LedgerServiceException {
         return this.bookingService.deleteBooking(id);
     }
 

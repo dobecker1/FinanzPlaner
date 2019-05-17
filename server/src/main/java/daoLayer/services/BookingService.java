@@ -36,11 +36,13 @@ public class BookingService {
         return this.bookingHelper.book(booking);
     }
 
-    public void deleteBooking(Booking booking) {
+    public void deleteBooking(Booking booking) throws LedgerServiceException {
+        this.bookingHelper.resetBookingLedgers(booking);
         this.bookingDaoService.deleteBooking(booking);
     }
 
-    public boolean deleteBooking(int id) {
+    public boolean deleteBooking(int id) throws LedgerServiceException {
+        this.bookingHelper.resetBookingLedgers(this.bookingDaoService.findBookingById(id));
         return this.bookingDaoService.deleteBooking(id);
     }
 

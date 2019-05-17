@@ -19,6 +19,12 @@ public class BookingHelper {
     public int book(Booking booking) throws LedgerServiceException {
         this.ledgerService.changeLedgerValue(booking.getLedgerShould(), booking.getValue());
         this.ledgerService.changeLedgerValue(booking.getLedgerHave(), -booking.getValue());
+        if(booking.getSubLedgerShould() != null) {
+            this.ledgerService.changeLedgerValue(booking.getSubLedgerShould(), booking.getValue());
+        }
+        if(booking.getSubLedgerHave() != null) {
+            this.ledgerService.changeLedgerValue(booking.getSubLedgerHave(), -booking.getValue());
+        }
         return this.bookingService.saveBooking(booking);
     }
 
@@ -26,18 +32,36 @@ public class BookingHelper {
         Booking oldBooking = this.bookingService.getBookingById(booking.getId());
 
         //undo changes on ledgers
-        this.ledgerService.changeLedgerValue(oldBooking.getLedgerShould(), -oldBooking.getValue());
-        this.ledgerService.changeLedgerValue(oldBooking.getLedgerHave(), oldBooking.getValue());
-        //TODO change subledger values
+        //this.ledgerService.changeLedgerValue(oldBooking.getLedgerShould(), -oldBooking.getValue());
+        //this.ledgerService.changeLedgerValue(oldBooking.getLedgerHave(), oldBooking.getValue());
+        resetBookingLedgers(oldBooking);
 
-
-        //refresh ledgers of new Booking
+        //refresh ledgers of new Booking and change value of subLedgers
         booking.setLedgerShould(this.ledgerService.getLedgerById(booking.getLedgerShould().getId()));
         booking.setLedgerHave(this.ledgerService.getLedgerById(booking.getLedgerHave().getId()));
+        if(booking.getSubLedgerShould() != null) {
+            booking.setSubLedgerShould(this.ledgerService.getLedgerById(booking.getSubLedgerShould().getId()));
+            this.ledgerService.changeLedgerValue(booking.getSubLedgerShould(), booking.getValue());
+        }
+        if(booking.getSubLedgerHave() != null) {
+            booking.setSubLedgerHave(this.ledgerService.getLedgerById(booking.getSubLedgerHave().getId()));
+            this.ledgerService.changeLedgerValue(booking.getSubLedgerHave(), booking.getValue());
+        }
 
         //change Values of ledgers
         this.ledgerService.changeLedgerValue(booking.getLedgerShould(), booking.getValue());
         this.ledgerService.changeLedgerValue(booking.getLedgerHave(), -booking.getValue());
         return true;
+    }
+
+    public void resetBookingLedgers(Booking booking) throws LedgerServiceException {
+        this.ledgerService.changeLedgerValue(booking.getLedgerShould(), -booking.getValue());
+        this.ledgerService.changeLedgerValue(booking.getLedgerHave(), booking.getValue());
+        if(booking.getSubLedgerShould() != null) {
+            this.ledgerService.changeLedgerValue(booking.getSubLedgerShould(), -booking.getValue());
+        }
+        if(booking.getSubLedgerHave() != null) {
+            this.ledgerService.changeLedgerValue(booking.getSubLedgerHave(), booking.getValue());
+        }
     }
 }

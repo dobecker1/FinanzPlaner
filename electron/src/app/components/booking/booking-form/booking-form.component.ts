@@ -67,6 +67,10 @@ export class BookingFormComponent implements OnInit {
     }
   }
 
+  onSubmit() {
+    
+  }
+
 
   onSaveBookingClick() {
     console.log(this.ledgers);

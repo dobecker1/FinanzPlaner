@@ -7,7 +7,7 @@ import models.patternBooking.interfaces.BookingInformation;
 import models.patternBooking.interfaces.BookingPattern;
 import models.patternBooking.interfaces.BookingPatternItem;
 import models.patternBooking.interfaces.InputField;
-import models.patternBooking.metaData.BookingPatternMetadata;
+import models.patternBooking.metadata.BookingPatternMetadata;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -3,11 +3,13 @@ import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { Booking } from "src/app/models/booking";
 import { HttpHeaders, HttpClient } from "@angular/common/http";
+import { BookingMetadata } from "src/app/models/bookingMetadata";
 
 @Injectable()
 export class BookingService {
 
     httpOptions: any;
+    private basicBookingUrl: string = "http://localhost:8080/bookings";
     constructor(private http: HttpClient) {
         this.httpOptions = {
             headers: new HttpHeaders({
@@ -16,11 +18,23 @@ export class BookingService {
         };
     }
 
-    saveBooking(booking: Booking): void {
-        this.http.post<Booking>("http://localhost:8080/saveBooking", booking, this.httpOptions);
+    saveBooking(booking: Booking): Observable<number> {
+        return this.http.post<number>(this.basicBookingUrl, booking, {headers: this.httpOptions, observe: 'body', responseType: 'json'});
+    }
+
+    deleteBooking(id: number): Observable<boolean> {
+        return this.http.delete<boolean>(this.basicBookingUrl + "/" + id, {headers: this.httpOptions, responseType: 'json'});
+    }
+
+    getBookingsByStartEndDate(start: Date, end: Date): Observable<Booking[]> {
+        return this.http.get<Booking[]>(this.basicBookingUrl + "/" + start + "/" + end);
     }
 
     getAllBookings(): Observable<Booking[]> {
-       return this.http.get<Booking[]>('http://localhost:8080/getAllBookings');
+       return this.http.get<Booking[]>(this.basicBookingUrl);
+    }
+
+    getAllBookingMetadata(): Observable<BookingMetadata[]> {
+        return this.http.get<BookingMetadata[]>(this.basicBookingUrl + "/metadata");
     }
 }

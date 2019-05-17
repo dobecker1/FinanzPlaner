@@ -5,6 +5,7 @@ import daoLayer.services.exceptions.LedgerServiceException;
 import daoLayer.sqlDao.BookingDao;
 import factory.ModelFactory;
 import models.booking.Booking;
+import models.booking.metadata.BookingMetadata;
 import models.ledger.Ledger;
 import org.apache.tomcat.jni.Local;
 import org.junit.jupiter.api.AfterEach;
@@ -121,6 +122,24 @@ public class BookingDaoTest {
         assertEquals(999, updatedBooking.getLedgerShould().getLedgerNumber());
         this.bookingDao.delete(this.booking);
         this.ledgerDaoService.deleteLedger(shouldLedgerNew);
+    }
+
+    @Test
+    void findAllBookingMetadataTest() {
+        this.booking.setLedgerShould(this.ledgerShould);
+        this.booking.setLedgerHave(this.ledgerHave);
+        this.booking.setId(this.bookingDao.write(this.booking));
+
+        for(Booking book : this.createBookingList()) {
+            this.bookingDao.write(book);
+        }
+        List<BookingMetadata> bookings = this.bookingDao.findAllBookingMetadata();
+        assertEquals(3, bookings.size());
+        for(BookingMetadata meta : bookings) {
+            assertEquals(this.ledgerShould.getId(), meta.getLedgerShould());
+            assertEquals(this.ledgerHave.getId(), meta.getLedgerHave());
+            this.bookingDao.delete(meta.getId());
+        }
     }
 
     private List<Booking> createBookingList() {

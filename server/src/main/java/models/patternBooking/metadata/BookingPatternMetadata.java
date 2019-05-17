@@ -1,4 +1,4 @@
-package models.patternBooking.metaData;
+package models.patternBooking.metadata;
 
 import java.util.Date;
 

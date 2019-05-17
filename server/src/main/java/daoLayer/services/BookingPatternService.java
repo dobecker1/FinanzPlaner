@@ -2,7 +2,7 @@ package daoLayer.services;
 
 import daoLayer.services.daoServices.BookingPatternDaoService;
 import models.patternBooking.interfaces.BookingPattern;
-import models.patternBooking.metaData.BookingPatternMetadata;
+import models.patternBooking.metadata.BookingPatternMetadata;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

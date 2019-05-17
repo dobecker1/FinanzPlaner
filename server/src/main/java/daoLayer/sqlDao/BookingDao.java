@@ -2,6 +2,7 @@ package daoLayer.sqlDao;
 
 import factory.ModelFactory;
 import models.booking.Booking;
+import models.booking.metadata.BookingMetadata;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
@@ -120,6 +121,32 @@ public class BookingDao extends BasicDao{
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("Fehler");
+        }
+        return bookings;
+    }
+
+    public List<BookingMetadata> findAllBookingMetadata() {
+        List<BookingMetadata> bookings = new ArrayList<>();
+        try {
+            PreparedStatement statement = super.controller.connection
+                    .prepareStatement("select * from BOOKING");
+            ResultSet result = statement.executeQuery();
+            while(result.next()) {
+                BookingMetadata booking = ModelFactory.getBookingMetadata();
+                booking.setId(result.getInt("id"));
+                booking.setReferenceNumber(result.getString("referenceNumber"));
+                booking.setBookingDescription(result.getString("bookingDescription"));
+                booking.setDate(result.getDate("date").toLocalDate());
+                booking.setValue(result.getDouble("value"));
+                booking.setFinancialYear(result.getString("financialYear"));
+                booking.setLedgerShould(result.getInt("ledgerShould"));
+                booking.setSubLedgerShould(result.getInt("subLedgerShould"));
+                booking.setLedgerHave(result.getInt("ledgerHave"));
+                booking.setSubLedgerHave(result.getInt("subLedgerHave"));
+                bookings.add(booking);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return bookings;
     }

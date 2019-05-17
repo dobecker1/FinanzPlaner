@@ -8,7 +8,7 @@ import daoLayer.services.exceptions.LedgerServiceException;
 import factory.ServiceFactory;
 import models.patternBooking.interfaces.BookingPattern;
 import models.patternBooking.interfaces.BookingPatternItem;
-import models.patternBooking.metaData.BookingPatternMetadata;
+import models.patternBooking.metadata.BookingPatternMetadata;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

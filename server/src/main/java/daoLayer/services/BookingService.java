@@ -5,6 +5,7 @@ import daoLayer.services.daoServices.BookingDaoService;
 import daoLayer.services.exceptions.LedgerServiceException;
 import factory.ServiceFactory;
 import models.booking.Booking;
+import models.booking.metadata.BookingMetadata;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -52,6 +53,14 @@ public class BookingService {
 
     public List<Booking> findBookingsByStartEndDate(LocalDate start, LocalDate end) {
         return this.bookingDaoService.findBookingsByStartEndDate(start, end);
+    }
+
+    public List<Booking> findAllBookings() {
+        return this.bookingDaoService.findAllBookings();
+    }
+
+    public List<BookingMetadata> findAllBookingMetadata() {
+        return this.bookingDaoService.findAllBookingMetadata();
     }
 
 

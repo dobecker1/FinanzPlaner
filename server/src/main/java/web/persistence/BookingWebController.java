@@ -5,6 +5,7 @@ import daoLayer.services.LedgerService;
 import daoLayer.services.exceptions.LedgerServiceException;
 import factory.ServiceFactory;
 import models.booking.Booking;
+import models.booking.metadata.BookingMetadata;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -43,8 +44,13 @@ public class BookingWebController {
         return new ArrayList<>();
     }
 
-    @GetMapping("/getBookingsByStartEndDate/{start}/{end}")
+    @GetMapping("/bookings/{start}/{end}")
     public List<Booking> getBookingsByStartEndDate(@PathVariable LocalDate start, @PathVariable LocalDate end) {
         return this.bookingService.findBookingsByStartEndDate(start, end);
+    }
+
+    @GetMapping("/bookings/metadata")
+    public List<BookingMetadata> getAllBookingMetadata() {
+        return this.bookingService.findAllBookingMetadata();
     }
 }

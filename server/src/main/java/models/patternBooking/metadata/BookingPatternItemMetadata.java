@@ -1,4 +1,4 @@
-package models.patternBooking.metaData;
+package models.patternBooking.metadata;
 
 public class BookingPatternItemMetadata {
 

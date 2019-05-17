@@ -3,6 +3,7 @@ package daoLayer.services.daoServices;
 import daoLayer.sqlDao.BookingDao;
 import factory.DaoFactory;
 import models.booking.Booking;
+import models.booking.metadata.BookingMetadata;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -38,5 +39,13 @@ public class BookingDaoService {
 
     public List<Booking> findBookingsByStartEndDate(LocalDate start, LocalDate end) {
         return  this.bookingDao.findBookingsByStartEndDate(start, end);
+    }
+
+    public List<Booking> findAllBookings() {
+        return this.bookingDao.findAllBookings();
+    }
+
+    public List<BookingMetadata> findAllBookingMetadata() {
+        return this.bookingDao.findAllBookingMetadata();
     }
 }

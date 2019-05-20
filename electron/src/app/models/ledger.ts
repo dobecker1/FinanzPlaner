@@ -5,6 +5,7 @@ export class Ledger {
     ledgerNumber: number;
     description: string;
     value: number;
+    subLedger: boolean;
 
     constructor() {}
 

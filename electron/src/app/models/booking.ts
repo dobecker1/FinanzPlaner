@@ -12,6 +12,7 @@ export class Booking {
     subLedgerHave: Ledger;
     value: number;
     referencePath: string;
+    financialYear: string;
 
     constructor() {}
 

@@ -10,6 +10,7 @@ export class BookingMetadata {
     subLedgerHave: number;
     value: number;
     referencePath: string;
+    financialYear: string;
 
     constructor() {}
 

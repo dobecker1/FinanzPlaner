@@ -15,6 +15,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { ToastModule } from 'primeng/toast';
 
@@ -42,6 +43,7 @@ import { MessageService } from "primeng/api";
         MatSortModule,
         MatDialogModule,
         MatGridListModule,
+        MatCheckboxModule,
         ToastModule
     ],
     entryComponents: [

@@ -1,11 +1,13 @@
 import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { LedgerService } from 'src/app/components/ledger/services/ledger.service';
 import { Observable } from 'rxjs';
-import { FormControl } from '@angular/forms';
+import { FormControl, NgForm } from '@angular/forms';
 import {map, startWith, switchMap} from 'rxjs/operators';
 import { Ledger } from 'src/app/models/ledger';
 import { Booking } from 'src/app/models/booking';
 import { BookingService } from '../services/booking.service';
+import { NotificationService } from '../../ledger/services/notification.service';
+import { BookingMetadata } from 'src/app/models/bookingMetadata';
 
 @Component({
   selector: 'booking-form',
@@ -16,8 +18,16 @@ export class BookingFormComponent implements OnInit {
 
   ledgerShouldCtrl = new FormControl();
   ledgerHaveCtrl = new FormControl();
+  subLedgerShouldCtrl = new FormControl();
+  subLedgerHaveCtrl = new FormControl();
   ledgers: Ledger[];
-  filteredLedgers: Observable<Ledger[]>;
+  subLedgers: Ledger[];
+  filteredLedgersShould: Observable<Ledger[]>;
+  filteredLedgersHave: Observable<Ledger[]>;
+  filteredSubLedgersShould: Observable<Ledger[]>;
+  filteredSubLedgersHave: Observable<Ledger[]>;
+
+  booking: Booking = new Booking();
 
   date: Date;
   referenceNumber: string;
@@ -34,63 +44,47 @@ export class BookingFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.ledgerService.getAllLedgers()
+    this.ledgerService.getLedgers(false)
     .subscribe(ledgers => {
       this.ledgers = ledgers;
-      this.filteredLedgers = this.ledgerShouldCtrl.valueChanges
-    .pipe(
-      startWith(''),
-      map(ledger => 
-        ledger ? this.filterLedgers(ledger) : this.ledgers.slice()
-      )
-    );
-    // this.filteredLedgers = this.ledgerHaveCtrl.valueChanges
-    // .pipe(
-    //   startWith(''),
-    //   map(ledger => ledger ? this.filterLedgers(ledger) : this.ledgers.slice())
-    // );
+      this.filteredLedgersShould = this.setUpFilterLedgerOnChange(this.ledgers, false, this.ledgerShouldCtrl);
+      this.filteredLedgersHave = this.setUpFilterLedgerOnChange(this.ledgers, false, this.ledgerHaveCtrl);      
+    });
+    this.ledgerService.getLedgers(true)
+    .subscribe(ledgers => {
+      this.subLedgers = ledgers;
+      this.filteredSubLedgersShould = this.setUpFilterLedgerOnChange(this.subLedgers, true, this.subLedgerShouldCtrl);
+      this.filteredSubLedgersHave = this.setUpFilterLedgerOnChange(this.subLedgers, true, this.subLedgerHaveCtrl);
     });
   }
 
-  private filterLedgers(value: string): Ledger[] {
+  private setUpFilterLedgerOnChange(ledgers: Ledger[], subLedger: boolean, ledgerCtrl: FormControl): Observable<Ledger[]> {
+    return ledgerCtrl.valueChanges
+    .pipe(
+      startWith(''),
+      map(ledger => ledger ? this.filterLedgers(ledgers, ledger, subLedger) : ledgers.slice())
+    );
+  }
+
+  private filterLedgers(ledgers: Ledger[], value: string, subLedger: boolean): Ledger[] {
     const filterValue = value.toString().toLowerCase();
-    return this.ledgers.filter(ledger => ledger.name.toLowerCase().includes(filterValue) || ledger.ledgerNumber.toString().startsWith(value));
+    return ledgers.filter(ledger => (ledger.subLedger == subLedger) && (ledger.name.toLowerCase().includes(filterValue) || ledger.ledgerNumber.toString().startsWith(value)));
   }
 
-  private searchForLedger(ledgerNumber: number) : Ledger{
-    for(let i: number = 0; i < this.ledgers.length; i++) {
-      if(this.ledgers[i].ledgerNumber === ledgerNumber) {
-        return this.ledgers[i];
-      } else if(i === this.ledgers.length -1) {
-        return null;
-      }      
-    }
-  }
+  onSubmit(bookingForm: NgForm) {
+    let newBooking: BookingMetadata = new BookingMetadata();
+    newBooking.bookingDescription = this.booking.bookingDescription;
+    newBooking.date = this.booking.date;
+    newBooking.referenceNumber = this.booking.referenceNumber;
+    newBooking.ledgerShould = this.booking.ledgerShould.id;
+    newBooking.ledgerHave = this.booking.ledgerHave.id;
+    newBooking.subLedgerShould = this.booking.subLedgerShould.id;
+    newBooking.subLedgerShould = this.booking.subLedgerHave.id;
+    newBooking.referencePath = this.booking.referencePath;
+    newBooking.financialYear = this.booking.financialYear;
+    newBooking.value = this.booking.value;
 
-  onSubmit() {
-    
-  }
-
-
-  onSaveBookingClick() {
-    console.log(this.ledgers);
-    // let booking: Booking = new Booking();
-    // booking.date = this.date;
-    // booking.referenceNumber = this.referenceNumber;
-    // booking.bookingDescription = this.bookingDescription;
-    // let ledgerShould = this.ledgerShouldCtrl.value;
-    // if(this.ledgerShouldCtrl.value != null) {
-    //   typeof ledgerShould === 'object' ? booking.ledgerShould = ledgerShould : 
-    //   booking.ledgerShould = this.searchForLedger(parseInt(ledgerShould));
-    // }
-    // let ledgerHave = this.ledgerHaveCtrl.value;
-    // if(ledgerHave != null) {
-    //   typeof ledgerHave === 'object' ? booking.ledgerHave = ledgerHave : 
-    //   booking.ledgerHave = this.searchForLedger(parseInt(ledgerHave));
-    // }
-    // booking.value = this.value;
-    // this.bookingService.saveBooking(booking);
-    // this.booked.emit(booking);
+    console.log(newBooking);
   }
 
   displayLedger(ledger) {

@@ -3,3 +3,8 @@
     -webkit-appearance: none;
     margin: 0;
 }
+
+.form-checkbox {
+    margin-top: 5px;
+    margin-bottom: 15px;
+}

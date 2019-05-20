@@ -18,7 +18,11 @@ export class LedgerFormComponent {
     @Output() ledgerCreated: EventEmitter<Ledger> = new EventEmitter<Ledger>();
 
 
-    constructor(private ledgerService: LedgerService, private notifier: NotificationService) {}
+    constructor(private ledgerService: LedgerService, private notifier: NotificationService) {
+        console.log("navigated to Ledger Form")
+        this.ledger.subLedger = false;
+        console.log(this.ledger);
+    }
 
     onSubmit(ledgerForm: NgForm) {
         let newLedger: Ledger = new Ledger();
@@ -26,6 +30,7 @@ export class LedgerFormComponent {
         newLedger.ledgerNumber = this.ledger.ledgerNumber;
         newLedger.description = this.ledger.description;
         newLedger.value = 0;
+        newLedger.subLedger = this.ledger.subLedger;
         // let newId: Observable<number> = this.ledgerService.saveLedger(newLedger).pipe(take(1),
         // catchError(this.handleError));
         // newId.subscribe(id => {

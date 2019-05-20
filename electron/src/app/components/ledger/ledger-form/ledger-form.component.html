@@ -24,7 +24,9 @@
                         <textarea matInput placeholder="Beschreibung" [(ngModel)]="ledger.description" name="description"></textarea>
                     </mat-form-field>
                 </div>
-
+                <div class="form-group form-checkbox">
+                    <mat-checkbox [(ngModel)]="ledger.subLedger" name="subLedger">Nebenkonto</mat-checkbox>
+                </div>
                 <button mat-stroked-button color="primary" type="submit">Speichern</button>
             </form>
         </mat-card-content>

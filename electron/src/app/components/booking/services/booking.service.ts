@@ -22,6 +22,10 @@ export class BookingService {
         return this.http.post<number>(this.basicBookingUrl, booking, {headers: this.httpOptions, observe: 'body', responseType: 'json'});
     }
 
+    saveBookingMetadata(booking: BookingMetadata): Observable<number> {
+        return this.http.post<number>(this.basicBookingUrl + "/metadata", booking, {headers: this.httpOptions, observe: 'body', responseType: 'json'});
+    }
+
     deleteBooking(id: number): Observable<boolean> {
         return this.http.delete<boolean>(this.basicBookingUrl + "/" + id, {headers: this.httpOptions, responseType: 'json'});
     }

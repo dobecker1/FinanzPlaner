@@ -3,8 +3,10 @@ package booking;
 import daoLayer.services.BookingService;
 import daoLayer.services.LedgerService;
 import daoLayer.services.exceptions.LedgerServiceException;
+import factory.ModelFactory;
 import factory.ServiceFactory;
 import models.booking.Booking;
+import models.booking.metadata.BookingMetadata;
 
 public class BookingHelper {
 
@@ -63,5 +65,25 @@ public class BookingHelper {
         if(booking.getSubLedgerHave() != null) {
             this.ledgerService.changeLedgerValue(booking.getSubLedgerHave(), booking.getValue());
         }
+    }
+
+    public Booking convertMetadataToBooking(BookingMetadata bookingMetadata) {
+        Booking booking = ModelFactory.getBooking();
+        booking.setId(bookingMetadata.getId());
+        booking.setReferencePath(bookingMetadata.getReferencePath());
+        booking.setFinancialYear(bookingMetadata.getFinancialYear());
+        booking.setValue(bookingMetadata.getValue());
+        booking.setReferenceNumber(bookingMetadata.getReferenceNumber());
+        booking.setBookingDescription(bookingMetadata.getBookingDescription());
+        booking.setDate(bookingMetadata.getDate());
+        booking.setLedgerShould(this.ledgerService.getLedgerById(bookingMetadata.getLedgerShould()));
+        booking.setLedgerHave(this.ledgerService.getLedgerById(bookingMetadata.getLedgerHave()));
+        if(bookingMetadata.getSubLedgerShould() > 0) {
+            booking.setSubLedgerShould(this.ledgerService.getLedgerById(bookingMetadata.getSubLedgerShould()));
+        }
+        if(bookingMetadata.getSubLedgerHave() > 0) {
+            booking.setSubLedgerHave(this.ledgerService.getLedgerById(bookingMetadata.getSubLedgerHave()));
+        }
+        return booking;
     }
 }

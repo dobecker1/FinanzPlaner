@@ -24,9 +24,13 @@ public class BookingWebController {
     }
 
     @PostMapping("/bookings")
-    public String saveBooking(@RequestBody Booking booking) throws LedgerServiceException {
-        this.bookingService.book(booking);
-        return "OK";
+    public int saveBooking(@RequestBody Booking booking) throws LedgerServiceException {
+        return this.bookingService.book(booking);
+    }
+
+    @PostMapping("/bookings/metadata")
+    public int saveBookingMetadata(@RequestBody BookingMetadata bookingMetadata) throws LedgerServiceException {
+        return this.bookingService.bookMetadata(bookingMetadata);
     }
 
     @PutMapping("/bookings")

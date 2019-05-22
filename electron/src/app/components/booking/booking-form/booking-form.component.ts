@@ -78,13 +78,24 @@ export class BookingFormComponent implements OnInit {
     newBooking.referenceNumber = this.booking.referenceNumber;
     newBooking.ledgerShould = this.booking.ledgerShould.id;
     newBooking.ledgerHave = this.booking.ledgerHave.id;
-    newBooking.subLedgerShould = this.booking.subLedgerShould.id;
-    newBooking.subLedgerShould = this.booking.subLedgerHave.id;
+    if(this.booking.subLedgerShould != undefined) {
+      newBooking.subLedgerShould = this.booking.subLedgerShould.id;
+    } else {
+      newBooking.subLedgerShould = -1;
+    }
+    if(this.booking.subLedgerHave != undefined) {
+      newBooking.subLedgerHave = this.booking.subLedgerHave.id;
+    } else {
+      newBooking.subLedgerHave = -1;
+    }
     newBooking.referencePath = this.booking.referencePath;
     newBooking.financialYear = this.booking.financialYear;
     newBooking.value = this.booking.value;
 
     console.log(newBooking);
+    this.bookingService.saveBookingMetadata(newBooking).subscribe(bookingId => {
+      console.log("BookingId: " + bookingId);
+    });
   }
 
   displayLedger(ledger) {

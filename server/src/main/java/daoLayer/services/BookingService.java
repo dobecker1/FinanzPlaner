@@ -3,6 +3,7 @@ package daoLayer.services;
 import booking.BookingHelper;
 import daoLayer.services.daoServices.BookingDaoService;
 import daoLayer.services.exceptions.LedgerServiceException;
+import factory.ModelFactory;
 import factory.ServiceFactory;
 import models.booking.Booking;
 import models.booking.metadata.BookingMetadata;
@@ -36,6 +37,12 @@ public class BookingService {
     public int book(Booking booking) throws LedgerServiceException {
         return this.bookingHelper.book(booking);
     }
+
+    public int bookMetadata(BookingMetadata bookingMetadata) throws LedgerServiceException {
+        return this.bookingHelper.book(this.bookingHelper.convertMetadataToBooking(bookingMetadata));
+    }
+
+
 
     public void deleteBooking(Booking booking) throws LedgerServiceException {
         this.bookingHelper.resetBookingLedgers(booking);

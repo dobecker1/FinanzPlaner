@@ -38,7 +38,7 @@ export class BookingFormComponent implements OnInit {
   subLedgerHave: Ledger;
   value: number;
 
-  @Output() booked: EventEmitter<Booking> = new EventEmitter<Booking>();
+  @Output() booked: EventEmitter<BookingMetadata> = new EventEmitter<BookingMetadata>();
 
   constructor(private ledgerService: LedgerService, private bookingService: BookingService) {
   }
@@ -95,6 +95,7 @@ export class BookingFormComponent implements OnInit {
     console.log(newBooking);
     this.bookingService.saveBookingMetadata(newBooking).subscribe(bookingId => {
       console.log("BookingId: " + bookingId);
+      this.booked.emit();
     });
   }
 

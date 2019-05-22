@@ -45,7 +45,7 @@ public class BookingWebController {
 
     @GetMapping("/bookings")
     public List<Booking> getAllBookings() {
-        return new ArrayList<>();
+        return this.bookingService.findAllBookings();
     }
 
     @GetMapping("/bookings/{start}/{end}")

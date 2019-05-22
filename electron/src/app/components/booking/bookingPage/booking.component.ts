@@ -1,6 +1,7 @@
 import { Component, ViewChild } from "@angular/core";
 import { BookingListComponent } from "../booking-list/booking-list.component";
 import { Booking } from "src/app/models/booking";
+import { BookingMetadata } from "src/app/models/bookingMetadata";
 
 @Component({
     selector: 'booking',
@@ -43,7 +44,8 @@ export class BookingComponent {
   @ViewChild(BookingListComponent)
   private bookingList: BookingListComponent;
 
-  onBooked(booking: Booking) {
+  onBooked() {
+    //this.bookingList.addBookingToTable(booking);
     this.bookingList.loadBookings();
   }
 }

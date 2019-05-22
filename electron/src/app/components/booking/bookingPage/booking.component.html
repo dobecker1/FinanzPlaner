@@ -8,12 +8,14 @@
       </div>
     </mat-sidenav-content>
 </mat-sidenav-container>  -->
-<div  style="display: flex;">
-    <booking-form (booked)="onBooked($event)"></booking-form>
-    <!-- <div class="bookingList">
-        <booking-list></booking-list>
-    </div> -->
-    <div class="marginDiv">
+<div class="bookingContent">
+  <div class="bookingForm">
+      <booking-form (booked)="onBooked($event)"></booking-form>
+  </div>    
+  <div class="bookingList">
+      <booking-list></booking-list>
+  </div>
+    <!-- <div class="marginDiv"> -->
       <!-- <mat-card>
         <mat-card-header>
           <mat-card-title>Musterbuchungen März 2019</mat-card-title>
@@ -26,7 +28,7 @@
         </mat-card-content>
       </mat-card>      -->
 
-      <mat-card>
+      <!-- <mat-card>
         <mat-card-header>
           <mat-card-title>Offene Monatliche Musterbuchungen März 19</mat-card-title>
         </mat-card-header>
@@ -47,6 +49,6 @@
         <mat-card-content>
           <p-chart type="bar" [data]="barData"></p-chart>
         </mat-card-content>
-      </mat-card>
-    </div>
+      </mat-card> -->
+    <!-- </div> -->
 </div>

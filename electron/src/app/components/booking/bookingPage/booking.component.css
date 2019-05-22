@@ -1,5 +1,17 @@
 .bookingList {
-    margin-left: 50px;
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 70%;
+}
+
+.bookingForm {
+    margin-left: 20px;
+    width: 30%;
+}
+
+.bookingContent {
+    display: flex;
+    margin-top: 20px;
 }
 
 .marginDiv {

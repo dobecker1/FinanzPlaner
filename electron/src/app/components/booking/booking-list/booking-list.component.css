@@ -1,3 +1,23 @@
 .mat-table {
     width: 100%;
 }
+
+.ledgerColumn {
+    width: 70px;
+}
+
+.subLedgerHaveColumn {
+    width: 100px;
+}
+
+.refNoColumn {
+    width: 70px;
+}
+
+.dateColumn {
+    width: 125px;
+}
+
+.descriptionColumn {
+    width: 300px;
+}

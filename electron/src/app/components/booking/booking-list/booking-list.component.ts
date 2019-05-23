@@ -24,13 +24,9 @@ export class BookingListComponent implements OnInit{
   }
 
   ngOnInit() {
-    //this.bookings = this.bookingService.getAllBookings();
     this.loadBookings();
-    
-    // this.bookings.subscribe( bookings => {
-    //   this.bookingDataSource = new MatTableDataSource(bookings);
-    // })
-    this.displayedBookingColumns = ['date', 'referenceNo', 'bookingDescription', 'shouldLedger', 'subShouldLedger', 'haveLedger', 'subHaveLedger', 'value'];
+    this.displayedBookingColumns = ['date', 'referenceNo', 'bookingDescription', 'shouldLedger', 'subShouldLedger', 'haveLedger', 'subHaveLedger',
+     'value', 'actions'];
   }
 
   loadBookings() {
@@ -40,5 +36,16 @@ export class BookingListComponent implements OnInit{
 
   addBookingToTable(booking: Booking) {
     this.bookingDataSource.data.push(booking);
+  }
+
+  deleteBooking(booking: Booking) {
+    this.bookingService.deleteBooking(booking.id)
+    .subscribe(response => {
+      if(response) {
+        this.loadBookings(); 
+      } else {
+        console.log("Error deleting Booking");
+      }
+    });
   }
 }

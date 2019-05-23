@@ -18,6 +18,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
 
 //PrimeNG
 import { ChartModule } from 'primeng/chart';
@@ -54,6 +55,7 @@ import { LedgerElementNullPipe } from '../ledger/pipes/ledger-element-null.pipe'
         MatProgressSpinnerModule,
         MatProgressBarModule,
         MatListModule,
+        MatIconModule,
         ChartModule,
         ProgressBarModule
         

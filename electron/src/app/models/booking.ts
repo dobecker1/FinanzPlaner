@@ -2,7 +2,7 @@ import { Ledger } from "./ledger";
 
 export class Booking {
 
-    private id: number;
+    id: number;
     date: Date;
     referenceNumber: string;
     bookingDescription: string;

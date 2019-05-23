@@ -44,6 +44,11 @@ export class BookingFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.initLedgers();
+    this.initFormFields();
+  }
+
+  private initLedgers() {
     this.ledgerService.getLedgers(false)
     .subscribe(ledgers => {
       this.ledgers = ledgers;
@@ -56,6 +61,10 @@ export class BookingFormComponent implements OnInit {
       this.filteredSubLedgersShould = this.setUpFilterLedgerOnChange(this.subLedgers, true, this.subLedgerShouldCtrl);
       this.filteredSubLedgersHave = this.setUpFilterLedgerOnChange(this.subLedgers, true, this.subLedgerHaveCtrl);
     });
+  }
+
+  private initFormFields() {
+    this.booking.financialYear = new Date().getFullYear().toString();
   }
 
   private setUpFilterLedgerOnChange(ledgers: Ledger[], subLedger: boolean, ledgerCtrl: FormControl): Observable<Ledger[]> {
@@ -96,7 +105,22 @@ export class BookingFormComponent implements OnInit {
     this.bookingService.saveBookingMetadata(newBooking).subscribe(bookingId => {
       console.log("BookingId: " + bookingId);
       this.booked.emit();
+      this.resetCommonFields(bookingForm);
+      this.resetLedgers();      
     });
+  }
+
+  resetCommonFields(bookingForm: NgForm) {
+    bookingForm.controls.bookingDescription.reset();
+    bookingForm.controls.referencePath.reset();
+    bookingForm.controls.value.reset();
+  }
+
+  resetLedgers() {
+    this.subLedgerHaveCtrl.reset();
+    this.subLedgerShouldCtrl.reset();
+    this.ledgerHaveCtrl.reset();
+    this.ledgerShouldCtrl.reset();
   }
 
   displayLedger(ledger) {

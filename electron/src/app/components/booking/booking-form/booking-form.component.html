@@ -4,28 +4,31 @@
     </mat-card-header>
     <mat-card-content>
         <!--Neue Booking Form-->
-        <form #bookingForm="ngForm" (ngSubmit)="onSubmit(bookingForm)">
+        <form #bookingForm="ngForm" (ngSubmit)="bookingForm.form.valid && onSubmit(bookingForm)">
             <div class="form-group">
                 <mat-form-field>
                     <input matInput [matDatepicker]="datePicker" placeholder="Datum auswählen" id="date"
-                    name="date" [(ngModel)]="booking.date">
+                    name="date" #date="ngModel" [(ngModel)]="booking.date" required>                    
                     <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
                     <mat-datepicker #datePicker></mat-datepicker>
+                    <mat-error *ngIf="date.invalid && date.errors.required">gültiges Datum auswählen</mat-error>
                 </mat-form-field>
                 <mat-form-field class="leftMargin" >
                     <input matInput type="text" placeholder='Belegnummer' id="referenceNumber" 
-                    name="referenceNumber" [(ngModel)]="booking.referenceNumber">
+                    name="referenceNumber" #referenceNumber="ngModel" [(ngModel)]="booking.referenceNumber" required>
+                    <mat-error *ngIf="referenceNumber.invalid && referenceNumber.errors.required">gültige Belegnummer eingeben</mat-error>
                 </mat-form-field>
             </div>
             <div class="form-group">
                 <mat-form-field>
-                    <textarea matInput type="text" id="bookingDescription" name="bookingDescription" placeholder="Beschreibung" [(ngModel)]="booking.bookingDescription"></textarea>
+                    <textarea matInput type="text" id="bookingDescription" name="bookingDescription" #bookingDescription="ngModel" placeholder="Beschreibung" [(ngModel)]="booking.bookingDescription" required></textarea>
+                    <mat-error *ngIf="bookingDescription.invalid && bookingDescription.errors.required">gültige Beschreibung eingeben</mat-error>
                 </mat-form-field>
             </div>
             <div class="form-group">
                 <mat-form-field>
                     <input matInput placeholder='Konto Soll' aria-label="Konto" [matAutocomplete]="autoShould" 
-                    [formControl]="ledgerShouldCtrl" [(ngModel)]="booking.ledgerShould">
+                    [formControl]="ledgerShouldCtrl" [(ngModel)]="booking.ledgerShould" required>
                     <mat-autocomplete #autoShould="matAutocomplete" [displayWith]="displayLedger">
                         <mat-option *ngFor="let ledger of filteredLedgersShould | async" [value]="ledger">
                             <span>{{ledger.ledgerNumber}}</span>
@@ -47,7 +50,7 @@
             <div class="form-group">
                 <mat-form-field>
                     <input matInput placeholder='Konto Haben' [matAutocomplete]="autoHave" 
-                    [formControl]="ledgerHaveCtrl" [(ngModel)]="booking.ledgerHave">
+                    [formControl]="ledgerHaveCtrl" [(ngModel)]="booking.ledgerHave" required>
                     <mat-autocomplete #autoHave="matAutocomplete" [displayWith]="displayLedger">
                         <mat-option *ngFor="let ledger of filteredLedgersHave | async" [value]="ledger">
                             <span>{{ledger.ledgerNumber}}</span>
@@ -73,79 +76,18 @@
                 </mat-form-field>
                 <mat-form-field class="leftMargin" >
                     <input matInput type="text" placeholder='Haushaltsjahr' id="financialYear" 
-                    name="financialYear" [(ngModel)]="booking.financialYear">
+                    name="financialYear" #financialYear="ngModel" [(ngModel)]="booking.financialYear" required>
+                    <mat-error *ngIf="financialYear.invalid && financialYear.errors.required">gültiges Haushaltsjahr eingeben</mat-error>
                 </mat-form-field>
             </div>
             <div class="form-group">
                 <mat-form-field>
                     <input matInput type="number" placeholder='Betrag' id="value"
-                    name="value" [(ngModel)]="booking.value">
+                    name="value" #value="ngModel" [(ngModel)]="booking.value" required>
+                    <mat-error *ngIf="value.invalid && value.errors.required">gültigen Betrag eingeben</mat-error>
                 </mat-form-field>
             </div>
             <button mat-raised-button color="primary" class="btn-booking-form" type="submit">Buchen</button>
-            <!-- <button mat-raised-button color="primary" class="btn-booking-form" type="button">Abbrechen</button>         -->
         </form>
     </mat-card-content>
 </mat-card>
-        <!--Alte Booking Form-->
-        <!-- <div class="booking-form-container">
-            <div class="block-form-container">
-                <mat-form-field>
-                    <input matInput [matDatepicker]="datePicker" placeholder="Datum auswählen" [(ngModel)]="date">
-                    <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
-                    <mat-datepicker #datePicker></mat-datepicker>
-                </mat-form-field>
-                <mat-form-field class="leftMargin" >
-                    <input matInput placeholder='Belegnummer' [(ngModel)]="referenceNumber">
-                </mat-form-field>
-            </div>
-            <div class="block-form-container">
-                <mat-form-field>
-                    <textarea matInput placeholder="Textarea" [(ngModel)]="bookingDescription"></textarea>
-                </mat-form-field>
-            </div>
-            <div class="block-form-container">
-                <mat-form-field>
-                    <input matInput placeholder='Konto Soll' aria-label="Konto" [matAutocomplete]="auto" [formControl]="ledgerShouldCtrl">
-                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayLedger">
-                        <mat-option *ngFor="let ledger of filteredLedgers | async" [value]="ledger">
-                            <span>{{ledger.ledgerNumber}}</span>
-                            <small class="leftMargin">{{ledger.name}}</small>
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-                <mat-form-field class="leftMargin">
-                    <input matInput placeholder='NBKonto Soll' [matAutocomplete]="autoNBSoll">
-                    <mat-autocomplete #autoNBSoll="matAutocomplete">
-                        <mat-option *ngFor="let ledger of filteredLedgers | async" [value]="ledger.ledgerNumber">
-                            <span>{{ledger.ledgerNumber}}</span>
-                            <small class="leftMargin">{{ledger.name}}</small>
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
-            <div class="block-form-container">
-                <mat-form-field>
-                    <input matInput placeholder='Konto Haben' [matAutocomplete]="autoShould" [formControl]="ledgerHaveCtrl">
-                    <mat-autocomplete #autoShould="matAutocomplete" [displayWith]="displayLedger">
-                        <mat-option *ngFor="let ledger of filteredLedgers | async" [value]="ledger">
-                            <span>{{ledger.ledgerNumber}}</span>
-                            <small class="leftMargin">{{ledger.name}}</small>
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-                <mat-form-field class="leftMargin">
-                    <input matInput placeholder='NBKonto Haben' [(ngModel)]="subLedgerHave">
-                </mat-form-field>
-            </div>
-            <div class="block-form-container">
-                <mat-form-field>
-                    <input matInput placeholder='Betrag' [(ngModel)]="value">
-                </mat-form-field>
-            </div>
-        </div>
-    </mat-card-content>
-    <mat-card-actions class="booking-form-actions">
-        <button mat-raised-button color="primary" class="btn-booking-form" (click)="onSaveBookingClick()">Buchen</button>
-        <button mat-raised-button color="primary" class="btn-booking-form">Abbrechen</button>        
-    </mat-card-actions> -->

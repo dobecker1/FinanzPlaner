@@ -3,7 +3,7 @@ import { LedgerService } from "src/app/components/ledger/services/ledger.service
 import { MatTableDataSource, MatSort, MatDialog } from "@angular/material";
 import { Ledger } from "src/app/models/ledger";
 import { LedgerDialog } from "../ledger-dialog/ledger-dialog.component";
-import { NotificationService } from "../services/notification.service";
+import { NotificationService } from "../../../services/notification.service";
 
 @Component({
     selector: 'ledger-list',

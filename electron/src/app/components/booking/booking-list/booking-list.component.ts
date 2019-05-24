@@ -6,6 +6,7 @@ import { LedgerElementNullPipe } from "../../ledger/pipes/ledger-element-null.pi
 import { Observable } from "rxjs";
 import { BookingMetadata } from "src/app/models/bookingMetadata";
 import { BookingEditDialog } from "../booking-edit-dialog/booking-edit-dialog.component";
+import { NotificationService } from "src/app/services/notification.service";
 
 @Component({
   selector: 'booking-list',
@@ -21,7 +22,7 @@ export class BookingListComponent implements OnInit{
   bookings: Observable<Booking[]>;
 
   constructor(private bookingService: BookingService, private ledgerElementNullPipe: LedgerElementNullPipe,
-    public dialog: MatDialog, private ngZone: NgZone) {
+    public dialog: MatDialog, private notifier: NotificationService) {
     
   }
 
@@ -61,6 +62,7 @@ export class BookingListComponent implements OnInit{
           this.bookingService.updateBookingMetadata(editedBooking).subscribe(response => {
             if(response) {
               console.log("Booking updated");
+              this.notifier.showSuccess("Buchungssatz wurde erfolgreich aktualisiert");
             }
           });
         }

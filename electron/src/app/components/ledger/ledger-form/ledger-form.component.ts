@@ -4,7 +4,7 @@ import { LedgerService } from "src/app/components/ledger/services/ledger.service
 import { NgForm } from "@angular/forms";
 import { take, catchError } from 'rxjs/operators';
 import { Observable } from "rxjs";
-import { NotificationService } from "../services/notification.service";
+import { NotificationService } from "../../../services/notification.service";
 
 @Component({
     selector: 'ledger-form',

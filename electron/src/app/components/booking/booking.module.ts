@@ -24,6 +24,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 //PrimeNG
 import { ChartModule } from 'primeng/chart';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { ToastModule } from 'primeng/toast';
 
 import { BookingFormComponent } from './booking-form/booking-form.component';
 import { BookingListComponent } from './booking-list/booking-list.component';
@@ -60,7 +61,8 @@ import { BookingEditDialog } from "./booking-edit-dialog/booking-edit-dialog.com
         MatIconModule,
         MatDialogModule,
         ChartModule,
-        ProgressBarModule
+        ProgressBarModule,
+        ToastModule
         
     ],
     entryComponents: [

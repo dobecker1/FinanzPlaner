@@ -3,6 +3,7 @@ import { BookingListComponent } from "../booking-list/booking-list.component";
 import { Booking } from "src/app/models/booking";
 import { BookingMetadata } from "src/app/models/bookingMetadata";
 import { BookingService } from "../services/booking.service";
+import { NotificationService } from "src/app/services/notification.service";
 
 @Component({
     selector: 'booking',
@@ -11,7 +12,7 @@ import { BookingService } from "../services/booking.service";
 })
 export class BookingComponent {
 
-  constructor(private bookingService: BookingService) {}
+  constructor(private bookingService: BookingService, private notifier: NotificationService) {}
 
   chartData: any = {
     labels: ['Erledigt', 'Ausstehend'],
@@ -50,6 +51,7 @@ export class BookingComponent {
   onBooked(booking: BookingMetadata) {
     this.bookingService.saveBookingMetadata(booking).subscribe(bookingId => {
       this.bookingList.loadBookings();
+      this.notifier.showSuccess("Buchungssatz wurde erfolgreich gespeichert");
     });    
   }
 }

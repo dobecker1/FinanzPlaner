@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 
 import { AccordionModule } from "primeng/accordion";
 import { FileUploadModule } from "primeng/fileupload";
+import { MessageService } from "primeng/api";
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -42,6 +43,7 @@ const appRoutes: Routes = [
     MatButtonModule
   ],
   providers: [
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

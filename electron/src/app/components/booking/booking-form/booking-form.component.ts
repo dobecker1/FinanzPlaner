@@ -6,7 +6,6 @@ import {map, startWith, switchMap} from 'rxjs/operators';
 import { Ledger } from 'src/app/models/ledger';
 import { Booking } from 'src/app/models/booking';
 import { BookingService } from '../services/booking.service';
-import { NotificationService } from '../../ledger/services/notification.service';
 import { BookingMetadata } from 'src/app/models/bookingMetadata';
 
 @Component({

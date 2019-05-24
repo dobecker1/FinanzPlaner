@@ -1,3 +1,6 @@
+<mat-form-field>
+    <input matInput (keyup)="filterBookings($event.target.value)" placeholder="Suche...">
+</mat-form-field>
 <table mat-table [dataSource]="bookingDataSource" class="mat-elevation-z8">
     <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef class="dateColumn">Datum</th>

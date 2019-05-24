@@ -68,4 +68,8 @@ export class BookingListComponent implements OnInit{
         }
       })
   }
+
+  filterBookings(filterString: string) {
+    this.bookingDataSource.filter = filterString.trim().toLowerCase();
+  }
 }

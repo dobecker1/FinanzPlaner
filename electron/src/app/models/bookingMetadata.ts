@@ -1,6 +1,6 @@
 export class BookingMetadata {
 
-    private id: number;
+    id: number;
     date: Date;
     referenceNumber: string;
     bookingDescription: string;

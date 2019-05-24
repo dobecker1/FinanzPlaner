@@ -19,6 +19,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
 
 //PrimeNG
 import { ChartModule } from 'primeng/chart';
@@ -32,6 +33,7 @@ import { LedgerService } from '../ledger/services/ledger.service';
 import { BookingService } from './services/booking.service';
 
 import { LedgerElementNullPipe } from '../ledger/pipes/ledger-element-null.pipe';
+import { BookingEditDialog } from "./booking-edit-dialog/booking-edit-dialog.component";
 
 
 
@@ -56,14 +58,19 @@ import { LedgerElementNullPipe } from '../ledger/pipes/ledger-element-null.pipe'
         MatProgressBarModule,
         MatListModule,
         MatIconModule,
+        MatDialogModule,
         ChartModule,
         ProgressBarModule
         
+    ],
+    entryComponents: [
+        BookingEditDialog
     ],
     declarations: [
         BookingFormComponent,
         BookingListComponent,
         BookingComponent,
+        BookingEditDialog,
         LedgerElementNullPipe
     ],
     providers: [
@@ -75,6 +82,7 @@ import { LedgerElementNullPipe } from '../ledger/pipes/ledger-element-null.pipe'
         BookingFormComponent,
         BookingListComponent,
         BookingComponent,
+        BookingEditDialog,
         LedgerElementNullPipe
     ]
 })

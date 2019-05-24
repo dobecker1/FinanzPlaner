@@ -1,93 +1,86 @@
-<mat-card class="booking-form-card">
-    <mat-card-header>
-        <mat-card-title>Buchungssatz</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-        <!--Neue Booking Form-->
-        <form #bookingForm="ngForm" (ngSubmit)="bookingForm.form.valid && onSubmit(bookingForm)">
-            <div class="form-group">
-                <mat-form-field>
-                    <input matInput [matDatepicker]="datePicker" placeholder="Datum auswählen" id="date"
-                    name="date" #date="ngModel" [(ngModel)]="booking.date" required>                    
-                    <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
-                    <mat-datepicker #datePicker></mat-datepicker>
-                    <mat-error *ngIf="date.invalid && date.errors.required">gültiges Datum auswählen</mat-error>
-                </mat-form-field>
-                <mat-form-field class="leftMargin" >
-                    <input matInput type="text" placeholder='Belegnummer' id="referenceNumber" 
-                    name="referenceNumber" #referenceNumber="ngModel" [(ngModel)]="booking.referenceNumber" required>
-                    <mat-error *ngIf="referenceNumber.invalid && referenceNumber.errors.required">gültige Belegnummer eingeben</mat-error>
-                </mat-form-field>
-            </div>
-            <div class="form-group">
-                <mat-form-field>
-                    <textarea matInput type="text" id="bookingDescription" name="bookingDescription" #bookingDescription="ngModel" placeholder="Beschreibung" [(ngModel)]="booking.bookingDescription" required></textarea>
-                    <mat-error *ngIf="bookingDescription.invalid && bookingDescription.errors.required">gültige Beschreibung eingeben</mat-error>
-                </mat-form-field>
-            </div>
-            <div class="form-group">
-                <mat-form-field>
-                    <input matInput placeholder='Konto Soll' aria-label="Konto" [matAutocomplete]="autoShould" 
-                    [formControl]="ledgerShouldCtrl" [(ngModel)]="booking.ledgerShould" required>
-                    <mat-autocomplete #autoShould="matAutocomplete" [displayWith]="displayLedger">
-                        <mat-option *ngFor="let ledger of filteredLedgersShould | async" [value]="ledger">
-                            <span>{{ledger.ledgerNumber}}</span>
-                            <small class="leftMargin">{{ledger.name}}</small>
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-                <mat-form-field class="leftMargin">
-                    <input matInput placeholder='NBKonto Soll' [matAutocomplete]="autoSubShould"
-                    [formControl]="subLedgerShouldCtrl" [(ngModel)]="booking.subLedgerShould">
-                    <mat-autocomplete #autoSubShould="matAutocomplete" [displayWith]="displayLedger">
-                        <mat-option *ngFor="let ledger of filteredSubLedgersShould | async" [value]="ledger">
-                            <span>{{ledger.ledgerNumber}}</span>
-                            <small class="leftMargin">{{ledger.name}}</small>
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
-            <div class="form-group">
-                <mat-form-field>
-                    <input matInput placeholder='Konto Haben' [matAutocomplete]="autoHave" 
-                    [formControl]="ledgerHaveCtrl" [(ngModel)]="booking.ledgerHave" required>
-                    <mat-autocomplete #autoHave="matAutocomplete" [displayWith]="displayLedger">
-                        <mat-option *ngFor="let ledger of filteredLedgersHave | async" [value]="ledger">
-                            <span>{{ledger.ledgerNumber}}</span>
-                            <small class="leftMargin">{{ledger.name}}</small>
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-                <mat-form-field class="leftMargin">
-                    <input matInput placeholder='NBKonto Haben' [matAutocomplete]="autoSubHave"
-                    [formControl]="subLedgerHaveCtrl" [(ngModel)]="booking.subLedgerHave">
-                    <mat-autocomplete #autoSubHave="matAutocomplete" [displayWith]="displayLedger">
-                        <mat-option *ngFor="let ledger of filteredSubLedgersHave | async" [value]="ledger">
-                            <span>{{ledger.ledgerNumber}}</span>
-                            <small class="leftMargin">{{ledger.name}}</small>
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
-            <div class="form-group">
-                <mat-form-field>
-                    <input matInput type="text" placeholder='ReferenzPfad' id="referencePath" 
-                    name="referencePath" [(ngModel)]="booking.referencePath">
-                </mat-form-field>
-                <mat-form-field class="leftMargin" >
-                    <input matInput type="text" placeholder='Haushaltsjahr' id="financialYear" 
-                    name="financialYear" #financialYear="ngModel" [(ngModel)]="booking.financialYear" required>
-                    <mat-error *ngIf="financialYear.invalid && financialYear.errors.required">gültiges Haushaltsjahr eingeben</mat-error>
-                </mat-form-field>
-            </div>
-            <div class="form-group">
-                <mat-form-field>
-                    <input matInput type="number" placeholder='Betrag' id="value"
-                    name="value" #value="ngModel" [(ngModel)]="booking.value" required>
-                    <mat-error *ngIf="value.invalid && value.errors.required">gültigen Betrag eingeben</mat-error>
-                </mat-form-field>
-            </div>
-            <button mat-raised-button color="primary" class="btn-booking-form" type="submit">Buchen</button>
-        </form>
-    </mat-card-content>
-</mat-card>
+<form #bookingForm="ngForm" (ngSubmit)="bookingForm.form.valid && onSubmit(bookingForm)">
+    <div class="form-group">
+        <mat-form-field>
+            <input matInput [matDatepicker]="datePicker" placeholder="Datum auswählen" id="date"
+            name="date" #date="ngModel" [(ngModel)]="booking.date" required>                    
+            <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+            <mat-datepicker #datePicker></mat-datepicker>
+            <mat-error *ngIf="date.invalid && date.errors.required">gültiges Datum auswählen</mat-error>
+        </mat-form-field>
+        <mat-form-field class="leftMargin" >
+            <input matInput type="text" placeholder='Belegnummer' id="referenceNumber" 
+            name="referenceNumber" #referenceNumber="ngModel" [(ngModel)]="booking.referenceNumber" required>
+            <mat-error *ngIf="referenceNumber.invalid && referenceNumber.errors.required">gültige Belegnummer eingeben</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="form-group">
+        <mat-form-field>
+            <textarea matInput type="text" id="bookingDescription" name="bookingDescription" #bookingDescription="ngModel" placeholder="Beschreibung" [(ngModel)]="booking.bookingDescription" required></textarea>
+            <mat-error *ngIf="bookingDescription.invalid && bookingDescription.errors.required">gültige Beschreibung eingeben</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="form-group">
+        <mat-form-field>
+            <input matInput placeholder='Konto Soll' aria-label="Konto" [matAutocomplete]="autoShould" 
+            [formControl]="ledgerShouldCtrl" [(ngModel)]="booking.ledgerShould" required>
+            <mat-autocomplete #autoShould="matAutocomplete" [displayWith]="displayLedger">
+                <mat-option *ngFor="let ledger of filteredLedgersShould | async" [value]="ledger">
+                    <span>{{ledger.ledgerNumber}}</span>
+                    <small class="leftMargin">{{ledger.name}}</small>
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field class="leftMargin">
+            <input matInput placeholder='NBKonto Soll' [matAutocomplete]="autoSubShould"
+            [formControl]="subLedgerShouldCtrl" [(ngModel)]="booking.subLedgerShould">
+            <mat-autocomplete #autoSubShould="matAutocomplete" [displayWith]="displayLedger">
+                <mat-option *ngFor="let ledger of filteredSubLedgersShould | async" [value]="ledger">
+                    <span>{{ledger.ledgerNumber}}</span>
+                    <small class="leftMargin">{{ledger.name}}</small>
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+    <div class="form-group">
+        <mat-form-field>
+            <input matInput placeholder='Konto Haben' [matAutocomplete]="autoHave" 
+            [formControl]="ledgerHaveCtrl" [(ngModel)]="booking.ledgerHave" required>
+            <mat-autocomplete #autoHave="matAutocomplete" [displayWith]="displayLedger">
+                <mat-option *ngFor="let ledger of filteredLedgersHave | async" [value]="ledger">
+                    <span>{{ledger.ledgerNumber}}</span>
+                    <small class="leftMargin">{{ledger.name}}</small>
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field class="leftMargin">
+            <input matInput placeholder='NBKonto Haben' [matAutocomplete]="autoSubHave"
+            [formControl]="subLedgerHaveCtrl" [(ngModel)]="booking.subLedgerHave">
+            <mat-autocomplete #autoSubHave="matAutocomplete" [displayWith]="displayLedger">
+                <mat-option *ngFor="let ledger of filteredSubLedgersHave | async" [value]="ledger">
+                    <span>{{ledger.ledgerNumber}}</span>
+                    <small class="leftMargin">{{ledger.name}}</small>
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+    <div class="form-group">
+        <mat-form-field>
+            <input matInput type="text" placeholder='ReferenzPfad' id="referencePath" 
+            name="referencePath" [(ngModel)]="booking.referencePath">
+        </mat-form-field>
+        <mat-form-field class="leftMargin" >
+            <input matInput type="text" placeholder='Haushaltsjahr' id="financialYear" 
+            name="financialYear" #financialYear="ngModel" [(ngModel)]="booking.financialYear" required>
+            <mat-error *ngIf="financialYear.invalid && financialYear.errors.required">gültiges Haushaltsjahr eingeben</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="form-group">
+        <mat-form-field>
+            <input matInput type="number" placeholder='Betrag' id="value"
+            name="value" #value="ngModel" [(ngModel)]="booking.value" required>
+            <mat-error *ngIf="value.invalid && value.errors.required">gültigen Betrag eingeben</mat-error>
+        </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary" class="btn-booking-form" type="submit"
+    *ngIf="this.showBookingBtn">Buchen</button>
+</form>

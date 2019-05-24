@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, Input } from '@angular/core';
 import { LedgerService } from 'src/app/components/ledger/services/ledger.service';
 import { Observable } from 'rxjs';
 import { FormControl, NgForm } from '@angular/forms';
@@ -28,16 +28,8 @@ export class BookingFormComponent implements OnInit {
   filteredSubLedgersHave: Observable<Ledger[]>;
 
   booking: Booking = new Booking();
-
-  date: Date;
-  referenceNumber: string;
-  bookingDescription: string;
-  ledgerShould: Ledger;
-  subLedgerShould: Ledger;
-  ledgerHave: Ledger;
-  subLedgerHave: Ledger;
-  value: number;
-
+  @Input() editBooking: Booking;
+  @Input() showBookingBtn: boolean = true;
   @Output() booked: EventEmitter<BookingMetadata> = new EventEmitter<BookingMetadata>();
 
   constructor(private ledgerService: LedgerService, private bookingService: BookingService) {
@@ -46,6 +38,9 @@ export class BookingFormComponent implements OnInit {
   ngOnInit() {
     this.initLedgers();
     this.initFormFields();
+    if(this.editBooking != undefined) {
+      this.booking = this.editBooking; 
+    }
   }
 
   private initLedgers() {
@@ -101,13 +96,15 @@ export class BookingFormComponent implements OnInit {
     newBooking.financialYear = this.booking.financialYear;
     newBooking.value = this.booking.value;
 
-    console.log(newBooking);
-    this.bookingService.saveBookingMetadata(newBooking).subscribe(bookingId => {
-      console.log("BookingId: " + bookingId);
-      this.booked.emit();
-      this.resetCommonFields(bookingForm);
-      this.resetLedgers();      
-    });
+    this.booked.emit(newBooking);
+    // this.bookingService.saveBookingMetadata(newBooking).subscribe(bookingId => {
+    //   console.log("BookingId: " + bookingId);
+    //   this.booked.emit();
+    //   this.resetCommonFields(bookingForm);
+    //   this.resetLedgers();      
+    // });
+    this.resetCommonFields(bookingForm);
+    this.resetLedgers();
   }
 
   resetCommonFields(bookingForm: NgForm) {
@@ -127,6 +124,28 @@ export class BookingFormComponent implements OnInit {
     return ledger ? ledger.ledgerNumber : "";
   }
 
-
+  getBookingMetadata(): BookingMetadata {
+    let newBooking: BookingMetadata = new BookingMetadata();
+    newBooking.id = this.booking.id;
+    newBooking.bookingDescription = this.booking.bookingDescription;
+    newBooking.date = this.booking.date;
+    newBooking.referenceNumber = this.booking.referenceNumber;
+    newBooking.ledgerShould = this.booking.ledgerShould.id;
+    newBooking.ledgerHave = this.booking.ledgerHave.id;
+    if(this.booking.subLedgerShould != undefined) {
+      newBooking.subLedgerShould = this.booking.subLedgerShould.id;
+    } else {
+      newBooking.subLedgerShould = -1;
+    }
+    if(this.booking.subLedgerHave != undefined) {
+      newBooking.subLedgerHave = this.booking.subLedgerHave.id;
+    } else {
+      newBooking.subLedgerHave = -1;
+    }
+    newBooking.referencePath = this.booking.referencePath;
+    newBooking.financialYear = this.booking.financialYear;
+    newBooking.value = this.booking.value;
+    return newBooking;
+  }
 
 }

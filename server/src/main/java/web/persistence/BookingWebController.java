@@ -38,6 +38,11 @@ public class BookingWebController {
         return this.bookingService.updateBooking(booking);
     }
 
+    @PutMapping("/bookings/metadata")
+    public boolean updateBookingMetadata(@RequestBody BookingMetadata bookingMetadata) throws LedgerServiceException {
+        return this.bookingService.updateMetadata(bookingMetadata);
+    }
+
     @DeleteMapping("/bookings/{id}")
     public boolean deleteBooking(@PathVariable int id) throws LedgerServiceException {
         return this.bookingService.deleteBooking(id);

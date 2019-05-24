@@ -2,6 +2,7 @@ import { Component, ViewChild } from "@angular/core";
 import { BookingListComponent } from "../booking-list/booking-list.component";
 import { Booking } from "src/app/models/booking";
 import { BookingMetadata } from "src/app/models/bookingMetadata";
+import { BookingService } from "../services/booking.service";
 
 @Component({
     selector: 'booking',
@@ -9,6 +10,8 @@ import { BookingMetadata } from "src/app/models/bookingMetadata";
     styleUrls: ['./booking.component.css']
 })
 export class BookingComponent {
+
+  constructor(private bookingService: BookingService) {}
 
   chartData: any = {
     labels: ['Erledigt', 'Ausstehend'],
@@ -44,8 +47,9 @@ export class BookingComponent {
   @ViewChild(BookingListComponent)
   private bookingList: BookingListComponent;
 
-  onBooked() {
-    //this.bookingList.addBookingToTable(booking);
-    this.bookingList.loadBookings();
+  onBooked(booking: BookingMetadata) {
+    this.bookingService.saveBookingMetadata(booking).subscribe(bookingId => {
+      this.bookingList.loadBookings();
+    });    
   }
 }

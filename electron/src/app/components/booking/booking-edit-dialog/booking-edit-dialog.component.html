@@ -1,0 +1,7 @@
+<div>
+    <h1 mat-dialog-title>Buchung bearbeiten</h1>
+    <div mat-dialog-content>
+        <booking-form [editBooking]="booking" [showBookingBtn]="false" (booked)="onBooked($event)"></booking-form>
+    </div>
+    <button mat-stroked-button color="primary" (click)="submitBooking($event)">OK</button>
+</div>

@@ -42,6 +42,9 @@ public class BookingService {
         return this.bookingHelper.book(this.bookingHelper.convertMetadataToBooking(bookingMetadata));
     }
 
+    public boolean updateMetadata(BookingMetadata bookingMetadata) throws LedgerServiceException {
+        return this.updateBooking(this.bookingHelper.convertMetadataToBooking(bookingMetadata));
+    }
 
 
     public void deleteBooking(Booking booking) throws LedgerServiceException {

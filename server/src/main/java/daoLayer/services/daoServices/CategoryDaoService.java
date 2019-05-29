@@ -20,12 +20,16 @@ public class CategoryDaoService {
         return this.categoryDao.write(category);
     }
 
+    public boolean updateCategory(Category category) {
+        return this.categoryDao.updateCategory(category);
+    }
+
     public void deleteCategory(Category category) {
         this.categoryDao.delete(category);
     }
 
-    public void deleteCategory(int id) {
-        this.categoryDao.delete(id);
+    public boolean deleteCategory(int id) {
+        return this.categoryDao.delete(id);
     }
 
     public Category findCategoryById(int id) {
@@ -35,4 +39,5 @@ public class CategoryDaoService {
     public List<Category> findAllCategories() {
         return this.categoryDao.findAllCategories();
     }
+
 }

@@ -12,4 +12,8 @@ public interface Category extends BasicModel {
 
     public void setName(String name);
 
+    public String getIcon();
+
+    public void setIcon(String icon);
+
 }

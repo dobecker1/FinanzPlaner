@@ -17,12 +17,16 @@ public class CategoryService {
         return this.categoryDaoService.saveCategory(category);
     }
 
+    public boolean updateCategory(Category category) {
+        return this.categoryDaoService.updateCategory(category);
+    }
+
     public void deleteCategory(Category category) {
         this.categoryDaoService.deleteCategory(category);
     }
 
-    public void deleteCategory(int id) {
-        this.categoryDaoService.deleteCategory(id);
+    public boolean deleteCategory(int id) {
+        return this.categoryDaoService.deleteCategory(id);
     }
 
     public List<Category> findAllCategories() {

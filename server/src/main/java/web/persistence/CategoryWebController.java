@@ -14,15 +14,18 @@ public class CategoryWebController {
     private CategoryService categoryService;
 
     @PostMapping("/categories")
-    public String saveCategory(@RequestBody Category category) {
-        this.categoryService.saveCategory(category);
-        return "OK";
+    public int saveCategory(@RequestBody Category category) {
+        return this.categoryService.saveCategory(category);
+    }
+
+    @PutMapping("/categories")
+    public boolean updateCategory(@RequestBody Category category) {
+        return this.categoryService.updateCategory(category);
     }
 
     @DeleteMapping("/categories/{id}")
-    public String deleteCategory(@PathVariable int id) {
-        this.categoryService.deleteCategory(id);
-        return "OK";
+    public boolean deleteCategory(@PathVariable int id) {
+        return this.categoryService.deleteCategory(id);
     }
 
     @GetMapping("/categories")

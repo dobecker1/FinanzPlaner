@@ -19,6 +19,7 @@ import { NgxElectronModule } from 'ngx-electron';
 
 import { BookingModule } from './components/booking/booking.module';
 import { LedgerModule } from './components/ledger/ledger.module';
+import { CategoryModule } from './components/category/category.module';
 import { AppRoutingModule } from './components/navigation/app-routing.module';
 
 const appRoutes: Routes = [
@@ -39,6 +40,7 @@ const appRoutes: Routes = [
     MatToolbarModule,
     BookingModule,
     LedgerModule,
+    CategoryModule,
     AppRoutingModule,
     MatButtonModule
   ],

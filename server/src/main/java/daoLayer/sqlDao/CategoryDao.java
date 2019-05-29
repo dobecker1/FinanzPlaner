@@ -58,8 +58,8 @@ public class CategoryDao extends BasicDao {
         super.delete(category, CATEGORY_TABLE);
     }
 
-    public void delete(int id) {
-        super.delete(id, CATEGORY_TABLE);
+    public boolean delete(int id) {
+        return super.delete(id, CATEGORY_TABLE);
     }
 
     public List<Category> findAllCategories() {
@@ -79,5 +79,19 @@ public class CategoryDao extends BasicDao {
             e.printStackTrace();
             throw new RuntimeException("Fehler");
         }
+    }
+
+    public boolean updateCategory(Category category) {
+        try {
+            PreparedStatement statement = super.controller.connection
+                    .prepareStatement("UPDATE CATEGORY SET NAME = ? WHERE ID = ?");
+            statement.setString(1, category.getName());
+            statement.setInt(2, category.getId());
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
